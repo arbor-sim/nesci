@@ -45,29 +45,14 @@ add_subdirectory(consumer)
 add_subdirectory(producer)
 add_subdirectory(layout)
 
-get_property(ALL_CONSUMER_SOURCES GLOBAL PROPERTY RWTHVR_ALL_CONSUMER_SOURCES)
-get_property(ALL_PRODUCER_SOURCES GLOBAL PROPERTY RWTHVR_ALL_PRODUCER_SOURCES)
-get_property(ALL_LAYOUT_SOURCES GLOBAL PROPERTY RWTHVR_ALL_LAYOUT_SOURCES)
-get_property(ALL_CONSUMER_HEADERS GLOBAL PROPERTY RWTHVR_ALL_CONSUMER_HEADERS)
-get_property(ALL_PRODUCER_HEADERS GLOBAL PROPERTY RWTHVR_ALL_PRODUCER_HEADERS)
-get_property(ALL_LAYOUT_HEADERS GLOBAL PROPERTY RWTHVR_ALL_LAYOUT_HEADERS)
+get_property(ALL_SOURCES GLOBAL PROPERTY RWTHVR_ALL_SOURCES)
+get_property(ALL_HEADERS GLOBAL PROPERTY RWTHVR_ALL_HEADERS)
 
-add_test_cppcheck(NAME "consumer-tests--cppcheck"
-    ${ALL_CONSUMER_SOURCES}
+add_test_cppcheck(NAME "nesci-tests--cppcheck"
+    ${ALL_SOURCES}
   )
-add_test_cppcheck(NAME "producer-tests--cppcheck"
-    ${ALL_PRODUCER_SOURCES}
+  
+add_test_cpplint(NAME "nesci-tests--cpplint"
+    ${ALL_SOURCES} ${ALL_HEADERS}
   )
-add_test_cppcheck(NAME "layout-tests--cppcheck"
-    ${ALL_LAYOUT_SOURCES}
-  )
-
-add_test_cpplint(NAME "consumer-tests--cpplint"
-    ${ALL_CONSUMER_SOURCES} ${ALL_CONSUMER_HEADERS}
-  )
-add_test_cpplint(NAME "producer-tests--cpplint"
-    ${ALL_PRODUCER_SOURCES} ${ALL_PRODUCER_HEADERS}
-  )
-add_test_cpplint(NAME "layout-tests--cpplint"
-    ${ALL_LAYOUT_SOURCES} ${ALL_LAYOUT_HEADERS}
-  )
+  
