@@ -39,7 +39,7 @@ class NestMultimeter final : public Device {
                  conduit::Node* node);
   NestMultimeter(const NestMultimeter&) = default;
   NestMultimeter(NestMultimeter&&) = default;
-  virtual ~NestMultimeter() = default;
+  ~NestMultimeter() override = default;
 
   void Record(std::size_t id, const std::vector<double>& values) override;
 

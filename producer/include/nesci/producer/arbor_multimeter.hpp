@@ -24,10 +24,12 @@
 
 #include <string>
 
+#include "nesci/producer/device.hpp"
+
 namespace nesci {
 namespace producer {
 
-class ArborMultimeter final {
+class ArborMultimeter final : public Device {
  public:
   struct Datum {
     double time;
@@ -39,7 +41,7 @@ class ArborMultimeter final {
   explicit ArborMultimeter(const std::string& name);
   ArborMultimeter(const ArborMultimeter&) = default;
   ArborMultimeter(ArborMultimeter&&) = default;
-  ~ArborMultimeter() = default;
+  ~ArborMultimeter() override = default;
 
   ArborMultimeter& operator=(const ArborMultimeter&) = default;
   ArborMultimeter& operator=(ArborMultimeter&&) = default;
