@@ -19,7 +19,7 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "consumer/consumer.hpp"
+#include "nesci/consumer/consumer.hpp"
 
 #include <iostream>
 
