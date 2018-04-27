@@ -25,7 +25,7 @@ file(GLOB PRODUCER_HEADERS include/nesci/producer/*.hpp)
 rwthvr_add_library(NAME producer
   SOURCES ${PRODUCER_SOURCES}
   HEADERS ${PRODUCER_HEADERS}
-  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/producer/suppress_warnings.hpp"
+  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/producer/suppress_warnings.hpp"
   )
 generate_export_header(producer
   EXPORT_FILE_NAME

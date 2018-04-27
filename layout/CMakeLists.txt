@@ -25,7 +25,7 @@ file(GLOB LAYOUT_HEADERS include/nesci/layout/*.hpp)
 rwthvr_add_library(NAME layout
   SOURCES ${LAYOUT_SOURCES}
   HEADERS ${LAYOUT_HEADERS}
-  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/layout/suppress_warnings.hpp"
+  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/layout/suppress_warnings.hpp"
   )
 generate_export_header(layout
   EXPORT_FILE_NAME

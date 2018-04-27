@@ -25,7 +25,7 @@ file(GLOB CONSUMER_HEADERS include/nesci/consumer/*.hpp)
 rwthvr_add_library(NAME consumer
   SOURCES ${CONSUMER_SOURCES}
   HEADERS ${CONSUMER_HEADERS}
-  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/consumer/suppress_warnings.hpp"
+  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/consumer/suppress_warnings.hpp"
   )
 generate_export_header(consumer
   EXPORT_FILE_NAME
