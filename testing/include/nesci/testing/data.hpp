@@ -38,7 +38,7 @@ class Data;
 
 #if defined __GNUC__
 #pragma GCC diagnostic push
-#pragma GCC diagnostic warning "-Wunused-variable"
+#pragma GCC diagnostic ignore "-Wunused-variable"
 #endif
 
 static const char* ANY_DEVICE_NAME{"multimeter A"};
