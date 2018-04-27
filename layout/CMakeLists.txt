@@ -29,7 +29,7 @@ rwthvr_add_library(NAME layout
   )
 generate_export_header(layout
   EXPORT_FILE_NAME
-  "${CMAKE_CURRENT_BINARY_DIR}/include/layout/export.hpp"
+  "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/layout/export.hpp"
   )
   
 target_include_directories(layout

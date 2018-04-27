@@ -29,7 +29,7 @@ rwthvr_add_library(NAME producer
   )
 generate_export_header(producer
   EXPORT_FILE_NAME
-  "${CMAKE_CURRENT_BINARY_DIR}/include/producer/export.hpp"
+  "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/producer/export.hpp"
   )
   
 target_include_directories(producer
