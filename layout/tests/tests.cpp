@@ -22,5 +22,5 @@
 #include "layout_tests/suppress_warnings.hpp"
 SUPPRESS_WARNINGS_BEGIN
 #define CATCH_CONFIG_MAIN
-#include "layout/layout.hpp"
+#include "catch/catch.hpp"
 SUPPRESS_WARNINGS_END
