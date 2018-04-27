@@ -29,36 +29,36 @@
 
 #include "nesci/producer/device.hpp"
 
-namespace nesci {
-namespace producer {
+// namespace nesci {
+// namespace producer {
 
-class NestMultimeter final : public Device {
- public:
-  NestMultimeter(const std::string& name,
-                 const std::vector<std::string>& value_names,
-                 conduit::Node* node);
-  NestMultimeter(const NestMultimeter&) = default;
-  NestMultimeter(NestMultimeter&&) = default;
-  ~NestMultimeter() override = default;
+// class NestMultimeter final : public Device {
+//  public:
+//   NestMultimeter(const std::string& name,
+//                  const std::vector<std::string>& value_names,
+//                  conduit::Node* node);
+//   NestMultimeter(const NestMultimeter&) = default;
+//   NestMultimeter(NestMultimeter&&) = default;
+//   ~NestMultimeter() override = default;
 
-  void Record(std::size_t id, const std::vector<double>& values) override;
+//   void Record(std::size_t id, const std::vector<double>& values) override;
 
-  NestMultimeter& operator=(const NestMultimeter&) = default;
-  NestMultimeter& operator=(NestMultimeter&&) = default;
+//   NestMultimeter& operator=(const NestMultimeter&) = default;
+//   NestMultimeter& operator=(NestMultimeter&&) = default;
 
-  static std::unique_ptr<NestMultimeter> New(
-      const std::string& name, const std::vector<std::string>& value_names,
-      conduit::Node* node);
+//   static std::unique_ptr<NestMultimeter> New(
+//       const std::string& name, const std::vector<std::string>& value_names,
+//       conduit::Node* node);
 
- private:
-  void RecordValue(std::string id_string, const std::vector<double> values,
-                   std::size_t value_index);
-  std::string IdString(std::size_t id) const;
+//  private:
+//   void RecordValue(std::string id_string, const std::vector<double> values,
+//                    std::size_t value_index);
+//   std::string IdString(std::size_t id) const;
 
-  std::vector<std::string> value_names_;
-};
+//   std::vector<std::string> value_names_;
+// };
 
-}  // namespace producer
-}  // namespace nesci
+// }  // namespace producer
+// }  // namespace nesci
 
 #endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_NEST_MULTIMETER_HPP_
