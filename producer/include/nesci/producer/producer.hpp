@@ -19,12 +19,12 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef PRODUCER_INCLUDE_PRODUCER_PRODUCER_HPP_
-#define PRODUCER_INCLUDE_PRODUCER_PRODUCER_HPP_
+#ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_PRODUCER_HPP_
+#define PRODUCER_INCLUDE_NESCI_PRODUCER_PRODUCER_HPP_
 
 namespace producer {
 
 void Greet();
 }
 
-#endif  // PRODUCER_INCLUDE_PRODUCER_PRODUCER_HPP_
+#endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_PRODUCER_HPP_

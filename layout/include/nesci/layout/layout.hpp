@@ -19,12 +19,12 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef LAYOUT_INCLUDE_LAYOUT_LAYOUT_HPP_
-#define LAYOUT_INCLUDE_LAYOUT_LAYOUT_HPP_
+#ifndef LAYOUT_INCLUDE_NESCI_LAYOUT_LAYOUT_HPP_
+#define LAYOUT_INCLUDE_NESCI_LAYOUT_LAYOUT_HPP_
 
 namespace layout {
 
 void Greet();
 }
 
-#endif  // LAYOUT_INCLUDE_LAYOUT_LAYOUT_HPP_
+#endif  // LAYOUT_INCLUDE_NESCI_LAYOUT_LAYOUT_HPP_

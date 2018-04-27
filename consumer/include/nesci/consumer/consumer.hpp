@@ -19,12 +19,12 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef CONSUMER_INCLUDE_CONSUMER_CONSUMER_HPP_
-#define CONSUMER_INCLUDE_CONSUMER_CONSUMER_HPP_
+#ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_CONSUMER_HPP_
+#define CONSUMER_INCLUDE_NESCI_CONSUMER_CONSUMER_HPP_
 
 namespace consumer {
 
 void Greet();
 }
 
-#endif  // CONSUMER_INCLUDE_CONSUMER_CONSUMER_HPP_
+#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_CONSUMER_HPP_

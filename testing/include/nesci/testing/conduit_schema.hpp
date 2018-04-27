@@ -19,8 +19,8 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef NESCI_TESTING_INCLUDE_NESCI_TESTING_CONDUIT_SCHEMA_HPP_
-#define NESCI_TESTING_INCLUDE_NESCI_TESTING_CONDUIT_SCHEMA_HPP_
+#ifndef TESTING_INCLUDE_NESCI_TESTING_CONDUIT_SCHEMA_HPP_
+#define TESTING_INCLUDE_NESCI_TESTING_CONDUIT_SCHEMA_HPP_
 
 #include <sstream>
 #include <string>
@@ -60,4 +60,4 @@ inline void RemoveNextIndicator(std::stringstream* s) {
 }  // namespace testing
 }  // namespace nesci
 
-#endif  // NESCI_TESTING_INCLUDE_NESCI_TESTING_CONDUIT_SCHEMA_HPP_
+#endif  // TESTING_INCLUDE_NESCI_TESTING_CONDUIT_SCHEMA_HPP_

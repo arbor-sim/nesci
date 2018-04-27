@@ -19,8 +19,8 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef PRODUCER_INCLUDE_PRODUCER_DEVICE_HPP_
-#define PRODUCER_INCLUDE_PRODUCER_DEVICE_HPP_
+#ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_DEVICE_HPP_
+#define PRODUCER_INCLUDE_NESCI_PRODUCER_DEVICE_HPP_
 
 #include <string>
 #include <vector>
@@ -71,4 +71,4 @@ class Device {
 }  // namespace producer
 }  // namespace nesci
 
-#endif  // PRODUCER_INCLUDE_PRODUCER_DEVICE_HPP_
+#endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_DEVICE_HPP_

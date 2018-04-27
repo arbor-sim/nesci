@@ -19,8 +19,8 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef PRODUCER_INCLUDE_PRODUCER_ARBOR_MULTIMETER_HPP_
-#define PRODUCER_INCLUDE_PRODUCER_ARBOR_MULTIMETER_HPP_
+#ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_ARBOR_MULTIMETER_HPP_
+#define PRODUCER_INCLUDE_NESCI_PRODUCER_ARBOR_MULTIMETER_HPP_
 
 #include <string>
 
@@ -56,4 +56,4 @@ class ArborMultimeter final {
 }  // namespace producer
 }  // namespace nesci
 
-#endif  // PRODUCER_INCLUDE_PRODUCER_ARBOR_MULTIMETER_HPP_
+#endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_ARBOR_MULTIMETER_HPP_
