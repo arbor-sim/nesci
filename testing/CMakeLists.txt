@@ -25,11 +25,11 @@ file(GLOB TESTING_HEADERS include/nesci/testing/*.hpp)
 rwthvr_add_library(NAME testing
   SOURCES ${TESTING_SOURCES}
   HEADERS ${TESTING_HEADERS}
-  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/testing/suppress_warnings.hpp"
+  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/testing/suppress_warnings.hpp"
   )
 generate_export_header(testing
   EXPORT_FILE_NAME
-  "${CMAKE_CURRENT_BINARY_DIR}/include/testing/export.hpp"
+  "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/testing/export.hpp"
   )
   
 target_include_directories(testing

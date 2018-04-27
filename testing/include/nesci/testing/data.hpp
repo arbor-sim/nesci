@@ -30,6 +30,7 @@
 
 #include "conduit/conduit_node.hpp"
 #include "nesci/testing/conduit_schema.hpp"
+#include "nesci/testing/suppress_warnings.hpp"
 
 namespace nesci {
 namespace testing {
@@ -37,9 +38,7 @@ namespace testing {
 class Data;
 
 #if defined __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#pragma GCC diagnostic ignored "-Werror"
+SUPPRESS_WARNINGS_BEGIN
 #endif
 
 static const char* ANY_DEVICE_NAME{"multimeter A"};
@@ -162,7 +161,7 @@ static conduit::Node ANY_NEST_DATA{
     AnyNestDataSchema(), const_cast<double*>(ANY_DATA_VALUES.data()), false};
 
 #if defined __GNUC__
-#pragma GCC diagnostic pop
+SUPPRESS_WARNINGS_END
 #endif
 
 }  // namespace testing
