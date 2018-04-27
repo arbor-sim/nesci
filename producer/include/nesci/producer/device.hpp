@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 
+#include "nesci/producer/suppress_warnings.hpp"
 SUPPRESS_WARNINGS_BEGIN
 #include "conduit/conduit_node.hpp"
 SUPPRESS_WARNINGS_END
