@@ -20,7 +20,7 @@
 #-------------------------------------------------------------------------------
 
 file(GLOB CONSUMER_SOURCES src/*.cpp)
-file(GLOB CONSUMER_HEADERS include/consumer/*.hpp)
+file(GLOB CONSUMER_HEADERS include/nesci/consumer/*.hpp)
 
 rwthvr_add_library(NAME consumer
   SOURCES ${CONSUMER_SOURCES}

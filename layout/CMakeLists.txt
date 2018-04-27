@@ -20,7 +20,7 @@
 #-------------------------------------------------------------------------------
 
 file(GLOB LAYOUT_SOURCES src/*.cpp)
-file(GLOB LAYOUT_HEADERS include/layout/*.hpp)
+file(GLOB LAYOUT_HEADERS include/nesci/layout/*.hpp)
 
 rwthvr_add_library(NAME layout
   SOURCES ${LAYOUT_SOURCES}

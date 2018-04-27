@@ -20,7 +20,7 @@
 #-------------------------------------------------------------------------------
 
 file(GLOB PRODUCER_SOURCES src/*.cpp)
-file(GLOB PRODUCER_HEADERS include/producer/*.hpp)
+file(GLOB PRODUCER_HEADERS include/nesci/producer/*.hpp)
 
 rwthvr_add_library(NAME producer
   SOURCES ${PRODUCER_SOURCES}
