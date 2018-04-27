@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------
 // nesci -- neural simulator conan interface
 //
-// Copyright (c) 2017-2018 RWTH Aachen University, Germany,
-// Virtual Reality & Immersive Visualisation Group.
+// Copyright (c) 2018 RWTH Aachen University, Germany,
+// Virtual Reality & Immersive Visualization Group.
 //------------------------------------------------------------------------------
-//                                 License
+//                                  License
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
