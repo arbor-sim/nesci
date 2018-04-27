@@ -19,42 +19,24 @@
 # limitations under the License.
 #-------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.8.2)
+file(GLOB TESTING_SOURCES src/*.cpp)
+file(GLOB TESTING_HEADERS include/nesci/testing/*.hpp)
 
-project(nesci)
-
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set(CMAKE_CXX_STANDARD 17)
-
-include(ConanHelpers)
-include(CTest)
-include(GenerateExportHeader)
-include(rwthvr)
-
-enable_testing()
-
-conan_or_find_package(catch REQUIRED)
-conan_or_find_package(conduit REQUIRED)
-
-conan_or_find_package(cpplint REQUIRED)
-include(cpplint)
-
-conan_or_find_package(cppcheck REQUIRED)
-include(cppcheck)
-
-add_subdirectory(testing)
-add_subdirectory(consumer)
-add_subdirectory(producer)
-add_subdirectory(layout)
-
-get_property(ALL_SOURCES GLOBAL PROPERTY RWTHVR_ALL_SOURCES)
-get_property(ALL_HEADERS GLOBAL PROPERTY RWTHVR_ALL_HEADERS)
-
-add_test_cppcheck(NAME "nesci-tests--cppcheck"
-    ${ALL_SOURCES}
+rwthvr_add_library(NAME testing
+  SOURCES ${TESTING_SOURCES}
+  HEADERS ${TESTING_HEADERS}
+  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/testing/suppress_warnings.hpp"
+  )
+generate_export_header(testing
+  EXPORT_FILE_NAME
+  "${CMAKE_CURRENT_BINARY_DIR}/include/testing/export.hpp"
   )
   
-add_test_cpplint(NAME "nesci-tests--cpplint"
-    ${ALL_SOURCES} ${ALL_HEADERS}
+target_include_directories(testing
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+  PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
   )
-  
+
+target_link_libraries(testing
+  PUBLIC ${CONAN_OR_CMAKE_conduit}
+  )
