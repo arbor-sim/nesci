@@ -38,6 +38,7 @@ target_include_directories(producer
   )
 
 target_link_libraries(producer
+  PUBLIC layout
   PUBLIC ${CONAN_OR_CMAKE_conduit}
   )
 

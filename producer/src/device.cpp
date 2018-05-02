@@ -19,69 +19,23 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_DEVICE_HPP_
-#define PRODUCER_INCLUDE_NESCI_PRODUCER_DEVICE_HPP_
-
+#include <sstream>
 #include <string>
 #include <vector>
 
-#include "nesci/producer/suppress_warnings.hpp"
-
-SUPPRESS_WARNINGS_BEGIN
-#include "conduit/conduit_node.hpp"
-SUPPRESS_WARNINGS_END
-
 #include "nesci/layout/device.hpp"
-
-namespace conduit {
-
-template <>
-DataArray<uint64>::~DataArray();
-
-}  // namespace conduit
+#include "nesci/producer/device.hpp"
 
 namespace nesci {
 namespace producer {
 
-class Device {
- public:
-  struct Datum {
-    using Device_t = Device;
+Device::Device(const std::string& name) : name_(name) {}
 
-    double time;
-  };
-
-  Device() = delete;
-  Device(const Device&) = default;
-  Device(Device&&) = default;
-  virtual ~Device() = default;
-
-  Device& operator=(const Device&) = default;
-  Device& operator=(Device&&) = default;
-
-  template <typename Datum_t>
-  void Record(const Datum_t& datum);
-
- protected:
-  explicit Device(const std::string& name);
-
-  layout::Device ConstructPath(const Datum& datum);
-
-  const std::string& GetName() { return name_; }
-
- private:
-  std::string name_{""};
-};
-
-template <>
-inline void Device::Record(const Datum& /*datum*/) {}
-
-template <typename Datum_t>
-inline void Device::Record(const Datum_t& datum) {
-  static_cast<typename Datum_t::Device_t*>(this)->Record(datum);
+layout::Device Device::ConstructPath(const Datum& datum) {
+  layout::Device path(name_);
+  path.SetTime(datum.time);
+  return path;
 }
 
 }  // namespace producer
 }  // namespace nesci
-
-#endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_DEVICE_HPP_
