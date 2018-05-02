@@ -31,9 +31,7 @@
 #include "conduit/conduit_node.hpp"
 #include "nesci/testing/conduit_schema.hpp"
 
-#if defined __clang__
-#define NESCI_UNUSED
-#elif defined __GNUC__
+#if defined(__GNUC__) && !defined(__clang__)
 #define NESCI_UNUSED __attribute__((unused))
 #else
 #define NESCI_UNUSED
