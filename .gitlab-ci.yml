@@ -262,4 +262,4 @@ test:mac:clang9.1:
     - build:mac:clang9.1
   script:
     - cd build
-    - ctest -C Release
+    - ctest -C Release -V
