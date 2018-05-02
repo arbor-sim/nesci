@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// nesci -- neural simulator conan interface
+// nest in situ vis
 //
 // Copyright (c) 2017-2018 RWTH Aachen University, Germany,
 // Virtual Reality & Immersive Visualisation Group.
@@ -24,6 +24,8 @@
 #include <string>
 #include <vector>
 
+#include "nesci/layout/multimeter.hpp"
+
 namespace nesci {
 namespace consumer {
 
@@ -31,23 +33,17 @@ Multimeter::Multimeter(const std::string& name) : Device(name) {}
 
 std::vector<std::string> Multimeter::GetAttributes(
     const std::string& time) const {
-  return GetChildNames(Device::ConstructPath(time));
+  layout::Multimeter path(GetName());
+  path.SetTime(time);
+  return GetChildNames(path);
 }
 
 std::vector<std::string> Multimeter::GetNeuronIds(
     const std::string& time, const std::string& attribute) const {
-  return GetChildNames(ConstructPath(time, attribute));
-}
-
-std::string Multimeter::ConstructPath(const std::string& time,
-                                      const std::string& attribute) const {
-  return Device::ConstructPath(time) + '/' + attribute;
-}
-
-std::string Multimeter::ConstructPath(const std::string& time,
-                                      const std::string& attribute,
-                                      const std::string& neuron_id) const {
-  return ConstructPath(time, attribute) + "/" + neuron_id;
+  layout::Multimeter path(GetName());
+  path.SetTime(time);
+  path.SetAttribute(attribute);
+  return GetChildNames(path);
 }
 
 }  // namespace consumer

@@ -19,8 +19,8 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_MULTIMETER_HPP_
-#define CONSUMER_INCLUDE_NESCI_CONSUMER_MULTIMETER_HPP_
+#ifndef NIV_INCLUDE_NIV_CONSUMER_MULTIMETER_HPP_
+#define NIV_INCLUDE_NIV_CONSUMER_MULTIMETER_HPP_
 
 #include <string>
 #include <vector>
@@ -44,16 +44,9 @@ class Multimeter : public nesci::consumer::Device {
   std::vector<std::string> GetAttributes(const std::string& time) const;
   std::vector<std::string> GetNeuronIds(const std::string& time,
                                         const std::string& attribute) const;
-
- protected:
-  std::string ConstructPath(const std::string& time,
-                            const std::string& attribute) const;
-  std::string ConstructPath(const std::string& time,
-                            const std::string& attribute,
-                            const std::string& neuron_id) const;
 };
 
 }  // namespace consumer
 }  // namespace nesci
 
-#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_MULTIMETER_HPP_
+#endif  // NIV_INCLUDE_NIV_CONSUMER_MULTIMETER_HPP_

@@ -19,13 +19,15 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_DEVICE_HPP_
-#define CONSUMER_INCLUDE_NESCI_CONSUMER_DEVICE_HPP_
+#ifndef NIV_INCLUDE_NIV_CONSUMER_DEVICE_HPP_
+#define NIV_INCLUDE_NIV_CONSUMER_DEVICE_HPP_
 
 #include <string>
 #include <vector>
 
 #include "conduit/conduit_node.hpp"
+
+#include "nesci/layout/device.hpp"
 
 namespace nesci {
 namespace consumer {
@@ -41,20 +43,20 @@ class Device {
   Device& operator=(const Device&) = default;
   Device& operator=(Device&&) = default;
 
-  std::vector<std::string> GetTimestepsString() const;
-  const std::vector<double> GetTimesteps() const;
+  std::vector<std::string> GetTimesteps() const;
 
   void SetNode(const conduit::Node* node) { node_ = node; }
 
  protected:
-  std::vector<std::string> GetChildNames(const std::string& path) const;
+  std::string GetName() const;
 
-  const conduit::Node* GetNode(const std::string& path) const;
+  std::vector<std::string> GetChildNames(const layout::Device& path) const;
 
-  std::string ConstructPath() const;
-  std::string ConstructPath(const std::string& time) const;
+  double GetValue(const layout::Device& path) const;
 
  private:
+  const conduit::Node* GetNode(const layout::Device& path) const;
+
   const conduit::Node* node_{nullptr};
   std::string name_{""};
 };
@@ -62,4 +64,4 @@ class Device {
 }  // namespace consumer
 }  // namespace nesci
 
-#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_DEVICE_HPP_
+#endif  // NIV_INCLUDE_NIV_CONSUMER_DEVICE_HPP_

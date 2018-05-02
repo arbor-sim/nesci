@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// nesci -- neural simulator conan interface
+// nest in situ vis
 //
 // Copyright (c) 2017-2018 RWTH Aachen University, Germany,
 // Virtual Reality & Immersive Visualisation Group.
@@ -26,9 +26,7 @@
 #include <string>
 #include <vector>
 
-#include "conduit/conduit_node.hpp"
-
-#include "nesci/testing/data.hpp"
+#include "nesci/layout/multimeter.hpp"
 
 namespace nesci {
 namespace consumer {
@@ -39,8 +37,15 @@ std::vector<double> ArborMultimeter::GetTimestepData(
     const std::string& time, const std::string& attribute) const {
   std::vector<double> retval;
   const auto neuron_ids{GetNeuronIds(time, attribute)};
+  retval.reserve(neuron_ids.size());
+
+  layout::Multimeter path(GetName());
+  path.SetTime(time);
+  path.SetAttribute(attribute);
+
   for (auto curr_neuron_id : neuron_ids) {
-    retval.push_back(GetDatum(time, attribute, curr_neuron_id));
+    path.SetNeuronId(curr_neuron_id);
+    retval.push_back(GetValue(path));
   }
   return retval;
 }
@@ -48,10 +53,15 @@ std::vector<double> ArborMultimeter::GetTimestepData(
 std::vector<double> ArborMultimeter::GetTimeSeriesData(
     const std::string& attribute, const std::string& neuron_id) const {
   std::vector<double> retval;
-  const auto timesteps = GetTimestepsString();
+  const auto timesteps = GetTimesteps();
   retval.reserve(timesteps.size());
+
+  layout::Multimeter path(GetName());
+  path.SetAttribute(attribute);
+  path.SetNeuronId(neuron_id);
   for (auto time : timesteps) {
-    retval.push_back(GetDatum(time, attribute, neuron_id));
+    path.SetTime(time);
+    retval.push_back(GetValue(path));
   }
   return retval;
 }
@@ -59,12 +69,11 @@ std::vector<double> ArborMultimeter::GetTimeSeriesData(
 double ArborMultimeter::GetDatum(const std::string& time,
                                  const std::string& attribute,
                                  const std::string& neuron_id) const {
-  return GetValue(ConstructPath(time, attribute, neuron_id));
-}
-
-double ArborMultimeter::GetValue(const std::string& path) const {
-  const conduit::Node* node{GetNode(path)};
-  return (node != nullptr) ? node->as_double() : std::nan("");
+  layout::Multimeter path(GetName());
+  path.SetTime(time);
+  path.SetAttribute(attribute);
+  path.SetNeuronId(neuron_id);
+  return GetValue(path);
 }
 
 }  // namespace consumer

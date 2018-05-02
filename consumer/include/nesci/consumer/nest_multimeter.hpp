@@ -19,8 +19,8 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_NEST_MULTIMETER_HPP_
-#define CONSUMER_INCLUDE_NESCI_CONSUMER_NEST_MULTIMETER_HPP_
+#ifndef NIV_INCLUDE_NIV_CONSUMER_NEST_MULTIMETER_HPP_
+#define NIV_INCLUDE_NIV_CONSUMER_NEST_MULTIMETER_HPP_
 
 #include <string>
 #include <vector>
@@ -28,6 +28,7 @@
 #include "conduit/conduit_node.hpp"
 
 #include "nesci/consumer/multimeter.hpp"
+#include "nesci/layout/multimeter.hpp"
 
 namespace nesci {
 namespace consumer {
@@ -51,12 +52,9 @@ class NestMultimeter : public consumer::Multimeter {
 
   double GetDatum(const std::string& time, const std::string& attribute,
                   const std::string& neuron_id) const;
-
- private:
-  double GetValue(const std::string& path) const;
 };
 
 }  // namespace consumer
 }  // namespace nesci
 
-#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_NEST_MULTIMETER_HPP_
+#endif  // NIV_INCLUDE_NIV_CONSUMER_NEST_MULTIMETER_HPP_

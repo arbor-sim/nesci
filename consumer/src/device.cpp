@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// nesci -- neural simulator conan interface
+// nest in situ vis
 //
 // Copyright (c) 2017-2018 RWTH Aachen University, Germany,
 // Virtual Reality & Immersive Visualisation Group.
@@ -29,43 +29,38 @@
 #include <string>
 #include <vector>
 
+#include "nesci/layout/device.hpp"
+
 namespace nesci {
 namespace consumer {
 
 Device::Device(const std::string& name) : name_{name} {}
 
-std::vector<std::string> Device::GetTimestepsString() const {
-  return GetChildNames(ConstructPath());
+std::vector<std::string> Device::GetTimesteps() const {
+  layout::Device path(name_);
+  return GetChildNames(path);
 }
 
-const std::vector<double> Device::GetTimesteps() const {
-  const auto timestep_strings{GetTimestepsString()};
-  std::vector<double> timesteps_double(timestep_strings.size(), std::nan(""));
-  std::transform(timestep_strings.begin(), timestep_strings.end(),
-                 timesteps_double.begin(), [](const std::string& t) {
-                   return std::strtof(t.c_str(), nullptr);
-                 });
-  return timesteps_double;
-}
+std::string Device::GetName() const { return name_; }
 
-std::vector<std::string> Device::GetChildNames(const std::string& path) const {
+std::vector<std::string> Device::GetChildNames(
+    const layout::Device& path) const {
   const conduit::Node* node{GetNode(path)};
   return (node != nullptr) ? node->child_names() : std::vector<std::string>();
 }
 
-const conduit::Node* Device::GetNode(const std::string& path) const {
+double Device::GetValue(const layout::Device& path) const {
+  const conduit::Node* node{GetNode(path)};
+  return (node != nullptr) ? node->as_double() : std::nan("");
+}
+
+const conduit::Node* Device::GetNode(const layout::Device& path) const {
   const conduit::Node* node{nullptr};
   try {
-    node = &(node_->fetch_child(path));
+    node = &(node_->fetch_child(path.GetPath()));
   } catch (...) {
   }
   return node;
-}
-
-std::string Device::ConstructPath() const { return name_; }
-
-std::string Device::ConstructPath(const std::string& time) const {
-  return Device::ConstructPath() + '/' + time;
 }
 
 }  // namespace consumer

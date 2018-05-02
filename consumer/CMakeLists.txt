@@ -37,4 +37,9 @@ target_include_directories(consumer
   PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
   )
 
+target_link_libraries(consumer
+  PUBLIC layout
+  PUBLIC ${CONAN_OR_CMAKE_conduit}
+  )
+
 add_subdirectory(tests)
