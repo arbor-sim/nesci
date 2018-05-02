@@ -28,7 +28,7 @@
 #include "nesci/testing/data.hpp"
 
 SCENARIO("consumer::Device lists the timesteps",
-         "[niv][nesci::consumer][nesci::consumer::Device]") {
+         "[nesci][nesci::consumer][nesci::consumer::Device]") {
   GIVEN("a device providing access to some data") {
     nesci::consumer::Device device(nesci::testing::ANY_DEVICE_NAME);
     device.SetNode(&nesci::testing::ANY_NEST_DATA);

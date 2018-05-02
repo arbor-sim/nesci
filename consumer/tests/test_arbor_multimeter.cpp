@@ -30,7 +30,7 @@
 #include "utilities/vector_all_nan_or_empty.hpp"
 
 SCENARIO("ArborMultimeter retrieves datum for time, attribute, neuron",
-         "[niv][nesci::consumer][nesci::consumer::ArborMultimeter]") {
+         "[nesci][nesci::consumer][nesci::consumer::ArborMultimeter]") {
   GIVEN("a multimeter providing access to some data") {
     nesci::consumer::ArborMultimeter multimeter(
         nesci::testing::ANY_MULTIMETER_NAME);
@@ -94,7 +94,7 @@ SCENARIO("ArborMultimeter retrieves datum for time, attribute, neuron",
 }
 
 SCENARIO("ArborMultimeter provides time series data",
-         "[niv][nesci::consumer][nesci::consumer::ArborMultimeter]") {
+         "[nesci][nesci::consumer][nesci::consumer::ArborMultimeter]") {
   std::vector<double> expected;
   for (auto time_offset : nesci::testing::ANY_TIME_OFFSETS) {
     const auto DATUM_INDEX{time_offset +
@@ -157,7 +157,7 @@ SCENARIO("ArborMultimeter provides time series data",
 }
 
 SCENARIO("ArborMultimeter provides timestep data for all neurons",
-         "[niv][nesci::consumer][nesci::consumer::ArborMultimeter]") {
+         "[nesci][nesci::consumer][nesci::consumer::ArborMultimeter]") {
   std::vector<double> expected;
   for (std::size_t i = 0; i < nesci::testing::ANY_IDS.size(); ++i) {
     const auto ID_OFFSET{i * nesci::testing::ID_STRIDE};

@@ -25,7 +25,7 @@
 #include "nesci/testing/data.hpp"
 
 SCENARIO("consumer::Multimeter lists attributes for a timestep",
-         "[niv][nesci::consumer][nesci::consumer::Multimeter]") {
+         "[nesci][nesci::consumer][nesci::consumer::Multimeter]") {
   GIVEN("a multimeter providing access to some data") {
     nesci::consumer::Multimeter multimeter(nesci::testing::ANY_MULTIMETER_NAME);
     multimeter.SetNode(&nesci::testing::ANY_NEST_DATA);
@@ -64,7 +64,7 @@ SCENARIO("consumer::Multimeter lists attributes for a timestep",
 SCENARIO(
     "Multimeter lists the neuron ids stored for an attribute in a "
     "timestep",
-    "[niv][nesci::consumer][nesci::consumer::Multimeter]") {
+    "[nesci][nesci::consumer][nesci::consumer::Multimeter]") {
   GIVEN("a multimeter providing access to some data") {
     nesci::consumer::Multimeter multimeter(nesci::testing::ANY_MULTIMETER_NAME);
     multimeter.SetNode(&nesci::testing::ANY_NEST_DATA);
