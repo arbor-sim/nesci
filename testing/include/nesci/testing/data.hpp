@@ -31,7 +31,9 @@
 #include "conduit/conduit_node.hpp"
 #include "nesci/testing/conduit_schema.hpp"
 
-#if defined __GNUC__
+#if defined __clang__
+#define NESCI_UNUSED __attribute__((maybe_unused))
+#elif defined __GNUC__
 #define NESCI_UNUSED __attribute__((unused))
 #else
 #define NESCI_UNUSED
@@ -54,18 +56,20 @@ NESCI_UNUSED static const char* NOT_A_SPIKE_DETECTOR_NAME{
 
 #define NESCI_TESTING_TRIPLET(type, name, value0, value1, value2, invalid) \
   NESCI_UNUSED static const type ANY_##name{value0};                       \
-  NESCI_UNUSED static const type ANOTHER_##name{value1};                                \
-  NESCI_UNUSED static const type THIRD_##name{value2};                                  \
+  NESCI_UNUSED static const type ANOTHER_##name{value1};                   \
+  NESCI_UNUSED static const type THIRD_##name{value2};                     \
   NESCI_UNUSED static const type NO_##name { invalid }
-#define NESCI_TESTING_TRIPLET_VECTOR(type, name, value0, value1, value2, \
-                                     invalid)                            \
-  NESCI_UNUSED static const std::vector<type> ANY_##name##S{value0, value1, value2};  \
+#define NESCI_TESTING_TRIPLET_VECTOR(type, name, value0, value1, value2,    \
+                                     invalid)                               \
+  NESCI_UNUSED static const std::vector<type> ANY_##name##S{value0, value1, \
+                                                            value2};        \
   NESCI_TESTING_TRIPLET(type, name, value0, value1, value2, invalid)
-#define NESCI_TESTING_TRIPLET_VECTOR_STRING(name, value0, value1, value2)      \
-  NESCI_UNUSED static const std::vector<std::string> ANY_##name##S{value0, value1, value2}; \
+#define NESCI_TESTING_TRIPLET_VECTOR_STRING(name, value0, value1, value2) \
+  NESCI_UNUSED static const std::vector<std::string> ANY_##name##S{       \
+      value0, value1, value2};                                            \
   NESCI_TESTING_TRIPLET(char*, name, value0, value1, value2, "NO ##name")
 #define NESCI_TESTING_TRIPLET_VECTOR_STRINGIFIED(name)                         \
-  NESCI_UNUSED static const std::vector<std::string> ANY_##name##S_STRING{                  \
+  NESCI_UNUSED static const std::vector<std::string> ANY_##name##S_STRING{     \
       std::to_string(ANY_##name), std::to_string(ANOTHER_##name),              \
       std::to_string(THIRD_##name)};                                           \
   NESCI_TESTING_TRIPLET(char*, name##_STRING, ANY_##name##S_STRING[0].c_str(), \
