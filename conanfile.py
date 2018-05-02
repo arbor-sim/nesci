@@ -36,3 +36,22 @@ class nesci(ConanFile):
     def configure(self):
         if (self.settings.os == "Windows"):
             self.options["conduit"].shared = False
+
+    def imports(self):
+       self.copy("*.dll", dst="consumer/tests/Debug", src="bin")
+       self.copy("*.dll", dst="consumer/tests/Release", src="bin")
+       self.copy("*.dll", dst="consumer/tests", src="bin")
+       self.copy("*.so", dst="consumer/tests", src="lib")
+       self.copy("*.dylib", dst="consumer/tests", src="lib")
+
+       self.copy("*.dll", dst="layout/tests/Debug", src="bin")
+       self.copy("*.dll", dst="layout/tests/Release", src="bin")
+       self.copy("*.dll", dst="layout/tests", src="bin")
+       self.copy("*.so", dst="layout/tests", src="lib")
+       self.copy("*.dylib", dst="layout/tests", src="lib")
+
+       self.copy("*.dll", dst="producer/tests/Debug", src="bin")
+       self.copy("*.dll", dst="producer/tests/Release", src="bin")
+       self.copy("*.dll", dst="producer/tests", src="bin")
+       self.copy("*.so", dst="producer/tests", src="lib")
+       self.copy("*.dylib", dst="producer/tests", src="lib")
