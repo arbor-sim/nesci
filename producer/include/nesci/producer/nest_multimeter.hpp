@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------
 // nesci -- neural simulator conan interface
 //
-// Copyright (c) 2018 RWTH Aachen University, Germany,
-// Virtual Reality & Immersive Visualization Group.
+// Copyright (c) 2017-2018 RWTH Aachen University, Germany,
+// Virtual Reality & Immersive Visualisation Group.
 //------------------------------------------------------------------------------
-//                                  License
+//                                 License
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,46 +19,57 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_NEST_MULTIMETER_HPP_
-#define PRODUCER_INCLUDE_NESCI_PRODUCER_NEST_MULTIMETER_HPP_
+#ifndef PRODUCER_INCLUDE_NESCI_NEST_MULTIMETER_HPP_
+#define PRODUCER_INCLUDE_NESCI_NEST_MULTIMETER_HPP_
 
 #include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
 
+#include "nesci/layout/multimeter.hpp"
 #include "nesci/producer/device.hpp"
 
-// namespace nesci {
-// namespace producer {
+namespace nesci {
+namespace producer {
 
-// class NestMultimeter final : public Device {
-//  public:
-//   NestMultimeter(const std::string& name,
-//                  const std::vector<std::string>& value_names,
-//                  conduit::Node* node);
-//   NestMultimeter(const NestMultimeter&) = default;
-//   NestMultimeter(NestMultimeter&&) = default;
-//   ~NestMultimeter() override = default;
+class NestMultimeter final : public Device {
+ public:
+  struct Datum : public Device::Datum {
+    using Device_t = NestMultimeter;
 
-//   void Record(std::size_t id, const std::vector<double>& values) override;
+    Datum(double time, std::string neuron_id, const std::vector<double>& values)
+        : Device::Datum{time}, neuron_id{neuron_id}, values{values} {}
+    Datum(double time, std::size_t neuron_id, const std::vector<double>& values)
+        : Datum{time, NestMultimeter::IdString(neuron_id), values} {}
+    std::string neuron_id;
+    std::vector<double> values;
+  };
 
-//   NestMultimeter& operator=(const NestMultimeter&) = default;
-//   NestMultimeter& operator=(NestMultimeter&&) = default;
+  NestMultimeter() = delete;
+  NestMultimeter(const std::string& name,
+                 const std::vector<std::string>& value_names,
+                 conduit::Node* node);
+  NestMultimeter(const NestMultimeter&) = default;
+  NestMultimeter(NestMultimeter&&) = default;
+  ~NestMultimeter() override = default;
 
-//   static std::unique_ptr<NestMultimeter> New(
-//       const std::string& name, const std::vector<std::string>& value_names,
-//       conduit::Node* node);
+  NestMultimeter& operator=(const NestMultimeter&) = default;
+  NestMultimeter& operator=(NestMultimeter&&) = default;
 
-//  private:
-//   void RecordValue(std::string id_string, const std::vector<double> values,
-//                    std::size_t value_index);
-//   std::string IdString(std::size_t id) const;
+  void Record(const Datum& datum);
 
-//   std::vector<std::string> value_names_;
-// };
+ private:
+  static std::string IdString(std::size_t id);
 
-// }  // namespace producer
-// }  // namespace nesci
+  layout::Multimeter ConstructPath(const Datum& datum,
+                                   std::size_t attribute_index);
 
-#endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_NEST_MULTIMETER_HPP_
+  conduit::Node* node_;
+  std::vector<std::string> value_names_;
+};  // namespace producer
+
+}  // namespace producer
+}  // namespace nesci
+
+#endif  // PRODUCER_INCLUDE_NESCI_NEST_MULTIMETER_HPP_

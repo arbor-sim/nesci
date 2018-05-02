@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------
 // nesci -- neural simulator conan interface
 //
-// Copyright (c) 2018 RWTH Aachen University, Germany,
-// Virtual Reality & Immersive Visualization Group.
+// Copyright (c) 2017-2018 RWTH Aachen University, Germany,
+// Virtual Reality & Immersive Visualisation Group.
 //------------------------------------------------------------------------------
-//                                  License
+//                                 License
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,45 +28,51 @@
 #include "conduit/conduit_node.hpp"
 
 #include "nesci/producer/nest_multimeter.hpp"
+#include "nesci/testing/data.hpp"
 
-// SCENARIO("A unique multimeter ptr can be constructed via its factory",
-//          "[nesci][nesci::Multimeter]") {
-//   WHEN("a new multimeter is constructed") {
-//     std::unique_ptr<nesci::producer::NestMultimeter> multimeter{
-//         nesci::producer::NestMultimeter::New("name",
-//         std::vector<std::string>(),
-//                                              nullptr)};
-//     THEN("a pointer was obtained") { REQUIRE(multimeter.get() != nullptr); }
-//   }
-// }
+SCENARIO("A multimeter records to a conduit node",
+         "[nesci][nesci::NestMultimeter]") {
+  GIVEN("A conduit node and a multimeter") {
+    conduit::Node node;
+    nesci::producer::NestMultimeter multimeter{
+        nesci::testing::ANY_MULTIMETER_NAME, nesci::testing::ANY_ATTRIBUTES,
+        &node};
+    WHEN("recording data") {
+      nesci::producer::NestMultimeter::Datum datum{
+          nesci::testing::ANY_TIME, nesci::testing::ANY_ID,
+          nesci::testing::ANY_DATA_VALUES_FOR_ATTRIBUTES};
+      multimeter.Record(datum);
+      THEN("data is properly recorded") {
+        REQUIRE(
+            node[nesci::testing::PathFor(nesci::testing::ANY_MULTIMETER_NAME,
+                                         nesci::testing::ANY_TIME_STRING,
+                                         nesci::testing::ANY_ATTRIBUTE,
+                                         nesci::testing::ANY_ID_STRING)]
+                .as_double() ==
+            Approx(nesci::testing::ValueAt(nesci::testing::ANY_TIME_INDEX,
+                                           nesci::testing::ANY_ATTRIBUTE_INDEX,
+                                           nesci::testing::ANY_ID_INDEX)));
 
-// SCENARIO("A multimeter records to a conduit node",
-//          "[nesci][nesci::Multimeter]") {
-//   const std::string any_name{"multimeter1"};
-//   constexpr double any_time{1.5};
-//   const std::string any_time_string{"1.5"};
-//   constexpr std::size_t any_id{3};
-//   const std::string any_id_string{"3"};
-//   const std::vector<std::string> any_value_names{"A", "B", "C"};
-//   const std::vector<double> any_values{3.1415, 4.123, 42.0};
+        REQUIRE(
+            node[nesci::testing::PathFor(nesci::testing::ANY_MULTIMETER_NAME,
+                                         nesci::testing::ANY_TIME_STRING,
+                                         nesci::testing::ANOTHER_ATTRIBUTE,
+                                         nesci::testing::ANY_ID_STRING)]
+                .as_double() == Approx(nesci::testing::ValueAt(
+                                    nesci::testing::ANY_TIME_INDEX,
+                                    nesci::testing::ANOTHER_ATTRIBUTE_INDEX,
+                                    nesci::testing::ANY_ID_INDEX)));
 
-//   GIVEN("a conduit node and a multimeter") {
-//     conduit::Node node;
-//     nesci::producer::NestMultimeter multimeter(any_name, any_value_names,
-//                                                &node);
-
-//     WHEN("setting the recording time") {
-//       multimeter.SetRecordingTime(any_time);
-//       WHEN("recording") {
-//         multimeter.Record(any_id, any_values);
-//         THEN("data is recorded in the node") {
-//           for (std::size_t i = 0; i < any_value_names.size(); ++i) {
-//             REQUIRE(node[any_name][any_time_string][any_value_names[i]]
-//                         [any_id_string]
-//                             .to_double() == Approx(any_values[i]));
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
+        REQUIRE(
+            node[nesci::testing::PathFor(nesci::testing::ANY_MULTIMETER_NAME,
+                                         nesci::testing::ANY_TIME_STRING,
+                                         nesci::testing::THIRD_ATTRIBUTE,
+                                         nesci::testing::ANY_ID_STRING)]
+                .as_double() == Approx(nesci::testing::ValueAt(
+                                    nesci::testing::ANY_TIME_INDEX,
+                                    nesci::testing::THIRD_ATTRIBUTE_INDEX,
+                                    nesci::testing::ANY_ID_INDEX)));
+      }
+    }
+  }
+}
