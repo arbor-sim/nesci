@@ -19,8 +19,8 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef NIV_INCLUDE_NIV_CONSUMER_MULTIMETER_HPP_
-#define NIV_INCLUDE_NIV_CONSUMER_MULTIMETER_HPP_
+#ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_MULTIMETER_HPP_
+#define CONSUMER_INCLUDE_NESCI_CONSUMER_MULTIMETER_HPP_
 
 #include <string>
 #include <vector>
@@ -49,4 +49,4 @@ class Multimeter : public nesci::consumer::Device {
 }  // namespace consumer
 }  // namespace nesci
 
-#endif  // NIV_INCLUDE_NIV_CONSUMER_MULTIMETER_HPP_
+#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_MULTIMETER_HPP_

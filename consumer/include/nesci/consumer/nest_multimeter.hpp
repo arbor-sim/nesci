@@ -19,8 +19,8 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef NIV_INCLUDE_NIV_CONSUMER_NEST_MULTIMETER_HPP_
-#define NIV_INCLUDE_NIV_CONSUMER_NEST_MULTIMETER_HPP_
+#ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_NEST_MULTIMETER_HPP_
+#define CONSUMER_INCLUDE_NESCI_CONSUMER_NEST_MULTIMETER_HPP_
 
 #include <string>
 #include <vector>
@@ -57,4 +57,4 @@ class NestMultimeter : public consumer::Multimeter {
 }  // namespace consumer
 }  // namespace nesci
 
-#endif  // NIV_INCLUDE_NIV_CONSUMER_NEST_MULTIMETER_HPP_
+#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_NEST_MULTIMETER_HPP_
