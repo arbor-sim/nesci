@@ -19,8 +19,8 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef PRODUCER_INCLUDE_NESCI_NEST_MULTIMETER_HPP_
-#define PRODUCER_INCLUDE_NESCI_NEST_MULTIMETER_HPP_
+#ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_NEST_MULTIMETER_HPP_
+#define PRODUCER_INCLUDE_NESCI_PRODUCER_NEST_MULTIMETER_HPP_
 
 #include <memory>
 #include <sstream>
@@ -72,4 +72,4 @@ class NestMultimeter final : public Device {
 }  // namespace producer
 }  // namespace nesci
 
-#endif  // PRODUCER_INCLUDE_NESCI_NEST_MULTIMETER_HPP_
+#endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_NEST_MULTIMETER_HPP_
