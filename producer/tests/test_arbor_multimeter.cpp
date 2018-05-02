@@ -29,7 +29,7 @@
 #include "conduit/conduit.hpp"
 
 #include "nesci/producer/arbor_multimeter.hpp"
-#include "nesci/testing/data.hpp"
+// #include "nesci/testing/data.hpp"
 
 // SCENARIO("A multimeter records to a conduit node",
 //          "[nesci][nesci::ArborMultimeter]") {
