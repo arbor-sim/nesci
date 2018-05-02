@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 
-#include "catch/Catch.hpp"
+#include "catch/catch.hpp"
 
 #include "nesci/consumer/arbor_multimeter.hpp"
 #include "nesci/testing/data.hpp"
