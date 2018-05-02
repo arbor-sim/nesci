@@ -32,7 +32,7 @@
 #include "nesci/testing/conduit_schema.hpp"
 
 #if defined __clang__
-#define NESCI_UNUSED __attribute__((maybe_unused))
+#define NESCI_UNUSED
 #elif defined __GNUC__
 #define NESCI_UNUSED __attribute__((unused))
 #else
