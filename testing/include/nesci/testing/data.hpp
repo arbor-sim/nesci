@@ -25,6 +25,7 @@
 #include <cmath>
 
 #include <limits>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -52,6 +53,14 @@ NESCI_UNUSED static const char* ANY_SPIKE_DETECTOR_NAME{"spikes A"};
 NESCI_UNUSED static const char* NOT_A_SPIKE_DETECTOR_NAME{
     "NOT_A_SPIKE_DETECTOR_NAME"};
 
+template <typename T>
+std::string Stringify(T&& value) {
+  std::stringstream ss;
+  ss.precision(5);
+  ss << value;
+  return ss.str();
+}
+
 #define NESCI_TESTING_TRIPLET(type, name, value0, value1, value2, invalid) \
   NESCI_UNUSED static const type ANY_##name{value0};                       \
   NESCI_UNUSED static const type ANOTHER_##name{value1};                   \
@@ -68,8 +77,8 @@ NESCI_UNUSED static const char* NOT_A_SPIKE_DETECTOR_NAME{
   NESCI_TESTING_TRIPLET(char*, name, value0, value1, value2, "NO ##name")
 #define NESCI_TESTING_TRIPLET_VECTOR_STRINGIFIED(name)                         \
   NESCI_UNUSED static const std::vector<std::string> ANY_##name##S_STRING{     \
-      std::to_string(ANY_##name), std::to_string(ANOTHER_##name),              \
-      std::to_string(THIRD_##name)};                                           \
+      Stringify(ANY_##name), Stringify(ANOTHER_##name),                        \
+      Stringify(THIRD_##name)};                                                \
   NESCI_TESTING_TRIPLET(char*, name##_STRING, ANY_##name##S_STRING[0].c_str(), \
                         ANY_##name##S_STRING[1].c_str(),                       \
                         ANY_##name##S_STRING[2].c_str(), "NO ##name STRING")
