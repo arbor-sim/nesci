@@ -40,7 +40,7 @@ void Device::SetTime(const std::string& time) { time_ = time; }
 void Device::SetTime(double time) {
   std::stringstream str;
   str.precision(5);
-  str << time;
+  str << std::fixed << time;
   SetTime(str.str());
 }
 

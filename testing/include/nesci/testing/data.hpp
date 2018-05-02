@@ -57,7 +57,7 @@ template <typename T>
 std::string Stringify(T&& value) {
   std::stringstream ss;
   ss.precision(5);
-  ss << value;
+  ss << std::fixed << value;
   return ss.str();
 }
 
