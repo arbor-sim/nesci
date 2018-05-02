@@ -24,38 +24,46 @@
 
 #include <string>
 
+#include "nesci/layout/multimeter.hpp"
 #include "nesci/producer/device.hpp"
 
-// namespace nesci {
-// namespace producer {
+namespace nesci {
+namespace producer {
 
-// class ArborMultimeter final : public Device {
-//  public:
-//   struct Datum {
-//     double time;
-//     std::string attribute;
-//     std::string id;
-//     double value;
-//   };
+class ArborMultimeter final : public Device {
+ public:
+  struct Datum : public Device::Datum {
+    Datum(double time, std::string attribute, std::string id, double value)
+        : Device::Datum{ConstructTimestep(time)},
+          exact_time{time},
+          attribute{attribute},
+          id{id},
+          value{value} {}
+    double exact_time;
+    std::string attribute;
+    std::string id;
+    double value;
 
-//   explicit ArborMultimeter(const std::string& name);
-//   ArborMultimeter(const ArborMultimeter&) = default;
-//   ArborMultimeter(ArborMultimeter&&) = default;
-//   ~ArborMultimeter() override = default;
+    static double ConstructTimestep(double time) {
+      return std::round(10.0 * time) / 10.0;
+    }
+  };
 
-//   ArborMultimeter& operator=(const ArborMultimeter&) = default;
-//   ArborMultimeter& operator=(ArborMultimeter&&) = default;
+  explicit ArborMultimeter(const std::string& name);
+  ArborMultimeter(const ArborMultimeter&) = default;
+  ArborMultimeter(ArborMultimeter&&) = default;
+  ~ArborMultimeter() = default;
 
-//   void Record(const Datum& datum, conduit::Node* node);
+  ArborMultimeter& operator=(const ArborMultimeter&) = default;
+  ArborMultimeter& operator=(ArborMultimeter&&) = default;
 
-//  private:
-//   std::string ConstructPath(const Datum& datum);
-//   double ConstructTimestep(const Datum& datum);
+  void Record(const Datum& datum, conduit::Node* node);
 
-//   std::string name_;
-// };
+ private:
+  layout::Multimeter ConstructPath(const Datum& datum);
+};
 
-// }  // namespace producer
-// }  // namespace nesci
+}  // namespace producer
+}  // namespace nesci
 
 #endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_ARBOR_MULTIMETER_HPP_

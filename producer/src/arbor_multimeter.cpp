@@ -19,38 +19,36 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
+#include <cmath>
+
 #include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "conduit/conduit_node.hpp"
 
-#include "conduit/conduit.hpp"
-
+#include "nesci/layout/multimeter.hpp"
 #include "nesci/producer/arbor_multimeter.hpp"
-#include "nesci/testing/data.hpp"
 
-SCENARIO("A multimeter records to a conduit node",
-         "[nesci][nesci::ArborMultimeter]") {
-  GIVEN("A conduit node and a multimeter") {
-    conduit::Node node;
-    nesci::producer::ArborMultimeter multimeter{
-        nesci::testing::ANY_MULTIMETER_NAME};
-    WHEN("recording data") {
-      nesci::producer::ArborMultimeter::Datum datum{
-          nesci::testing::ANY_TIME + nesci::testing::ANY_TIME_OFFSET,
-          nesci::testing::ANOTHER_ATTRIBUTE, nesci::testing::THIRD_ID_STRING,
-          nesci::testing::ANY_DATA_VALUE};
-      multimeter.Record(datum, &node);
-      THEN("the data is properly recorded") {
-        REQUIRE(
-            node[nesci::testing::PathFor(nesci::testing::ANY_MULTIMETER_NAME,
-                                         nesci::testing::ANY_TIME_STRING,
-                                         nesci::testing::ANOTHER_ATTRIBUTE,
-                                         nesci::testing::THIRD_ID_STRING)]
-                .as_double() == Approx(nesci::testing::ANY_DATA_VALUE));
-      }
-    }
-  }
+namespace nesci {
+namespace producer {
+
+ArborMultimeter::ArborMultimeter(const std::string& name) : Device{name} {}
+
+void ArborMultimeter::Record(const ArborMultimeter::Datum& datum,
+                             conduit::Node* node) {
+  const layout::Multimeter path{ConstructPath(datum)};
+  node->fetch(path.GetPath()) = datum.value;
 }
+
+layout::Multimeter ArborMultimeter::ConstructPath(
+    const ArborMultimeter::Datum& datum) {
+  layout::Multimeter path{Device::ConstructPath(datum)};
+  path.SetAttribute(datum.attribute);
+  path.SetNeuronId(datum.id);
+  return path;
+}
+
+}  // namespace producer
+}  // namespace nesci
