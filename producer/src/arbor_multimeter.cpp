@@ -36,7 +36,8 @@ namespace producer {
 
 ArborMultimeter::ArborMultimeter(const std::string& name) : Device{name} {}
 
-void ArborMultimeter::Record(const ArborMultimeter::Datum& datum) {
+void ArborMultimeter::RecordImplementation(
+    const ArborMultimeter::Datum& datum) {
   const layout::Multimeter path{ConstructPath(datum)};
   node().fetch(path.GetPath()) = datum.value;
 }

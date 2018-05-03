@@ -33,6 +33,8 @@ namespace producer {
 class ArborMultimeter final : public Device {
  public:
   struct Datum : public Device::Datum {
+    using Device_t = ArborMultimeter;
+
     Datum(double time, std::string attribute, std::string id, double value)
         : Device::Datum{ConstructTimestep(time)},
           exact_time{time},
@@ -57,7 +59,7 @@ class ArborMultimeter final : public Device {
   ArborMultimeter& operator=(const ArborMultimeter&) = default;
   ArborMultimeter& operator=(ArborMultimeter&&) = default;
 
-  void Record(const Datum& datum);
+  void RecordImplementation(const Datum& datum);
 
  private:
   layout::Multimeter ConstructPath(const Datum& datum);

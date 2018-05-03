@@ -56,7 +56,7 @@ class NestMultimeter final : public Device {
   NestMultimeter& operator=(const NestMultimeter&) = default;
   NestMultimeter& operator=(NestMultimeter&&) = default;
 
-  void Record(const Datum& datum);
+  void RecordImplementation(const Datum& datum);
 
  private:
   static std::string IdString(std::size_t id);

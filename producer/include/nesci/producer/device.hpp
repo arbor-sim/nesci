@@ -82,7 +82,7 @@ inline void Device::Record(const Datum& /*datum*/) {}
 
 template <typename Datum_t>
 inline void Device::Record(const Datum_t& datum) {
-  static_cast<typename Datum_t::Device_t*>(this)->Record(datum);
+  static_cast<typename Datum_t::Device_t*>(this)->RecordImplementation(datum);
 }
 
 }  // namespace producer

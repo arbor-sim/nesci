@@ -35,7 +35,7 @@ NestMultimeter::NestMultimeter(const std::string& name,
                                const std::vector<std::string>& value_names)
     : Device{name}, value_names_{value_names} {}
 
-void NestMultimeter::Record(const Datum& datum) {
+void NestMultimeter::RecordImplementation(const Datum& datum) {
   assert(datum.values.size() == value_names_.size());
 
   for (std::size_t i = 0u; i < datum.values.size(); ++i) {
