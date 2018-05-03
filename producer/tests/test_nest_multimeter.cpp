@@ -33,16 +33,15 @@
 SCENARIO("A nest multimeter records to a conduit node",
          "[nesci][nesci::NestMultimeter]") {
   GIVEN("A conduit node and a multimeter") {
-    conduit::Node node;
     nesci::producer::NestMultimeter multimeter{
-        nesci::testing::ANY_MULTIMETER_NAME, nesci::testing::ANY_ATTRIBUTES,
-        &node};
+        nesci::testing::ANY_MULTIMETER_NAME, nesci::testing::ANY_ATTRIBUTES};
     WHEN("recording data") {
       nesci::producer::NestMultimeter::Datum datum{
           nesci::testing::ANY_TIME, nesci::testing::ANY_ID,
           nesci::testing::ANY_DATA_VALUES_FOR_ATTRIBUTES};
       multimeter.Record(datum);
       THEN("data is properly recorded") {
+        auto node = multimeter.node();
         REQUIRE(
             node[nesci::testing::PathFor(nesci::testing::ANY_MULTIMETER_NAME,
                                          nesci::testing::ANY_TIME_STRING,

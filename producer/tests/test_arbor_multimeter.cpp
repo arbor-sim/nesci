@@ -34,7 +34,6 @@
 SCENARIO("A arbor multimeter records to a conduit node",
          "[nesci][nesci::ArborMultimeter]") {
   GIVEN("A conduit node and a multimeter") {
-    conduit::Node node;
     nesci::producer::ArborMultimeter multimeter{
         nesci::testing::ANY_MULTIMETER_NAME};
     WHEN("recording data") {
@@ -42,8 +41,9 @@ SCENARIO("A arbor multimeter records to a conduit node",
           nesci::testing::ANY_TIME + nesci::testing::ANY_TIME_OFFSET,
           nesci::testing::ANOTHER_ATTRIBUTE, nesci::testing::THIRD_ID_STRING,
           nesci::testing::ANY_DATA_VALUE};
-      multimeter.Record(datum, &node);
+      multimeter.Record(datum);
       THEN("the data is properly recorded") {
+        auto node = multimeter.node();
         REQUIRE(
             node[nesci::testing::PathFor(nesci::testing::ANY_MULTIMETER_NAME,
                                          nesci::testing::ANY_TIME_STRING,

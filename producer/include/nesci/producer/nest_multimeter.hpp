@@ -48,8 +48,7 @@ class NestMultimeter final : public Device {
 
   NestMultimeter() = delete;
   NestMultimeter(const std::string& name,
-                 const std::vector<std::string>& value_names,
-                 conduit::Node* node);
+                 const std::vector<std::string>& value_names);
   NestMultimeter(const NestMultimeter&) = default;
   NestMultimeter(NestMultimeter&&) = default;
   ~NestMultimeter() override = default;
@@ -65,7 +64,6 @@ class NestMultimeter final : public Device {
   layout::Multimeter ConstructPath(const Datum& datum,
                                    std::size_t attribute_index);
 
-  conduit::Node* node_;
   std::vector<std::string> value_names_;
 };  // namespace producer
 

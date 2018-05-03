@@ -32,16 +32,15 @@ namespace nesci {
 namespace producer {
 
 NestMultimeter::NestMultimeter(const std::string& name,
-                               const std::vector<std::string>& value_names,
-                               conduit::Node* node)
-    : Device{name}, node_{node}, value_names_{value_names} {}
+                               const std::vector<std::string>& value_names)
+    : Device{name}, value_names_{value_names} {}
 
 void NestMultimeter::Record(const Datum& datum) {
   assert(datum.values.size() == value_names_.size());
 
   for (std::size_t i = 0u; i < datum.values.size(); ++i) {
     const layout::Multimeter path{ConstructPath(datum, i)};
-    node_->fetch(path.GetPath()) = datum.values[i];
+    node().fetch(path.GetPath()) = datum.values[i];
   }
 }
 

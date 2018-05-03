@@ -62,6 +62,9 @@ class Device {
   template <typename Datum_t>
   void Record(const Datum_t& datum);
 
+  inline conduit::Node& node() { return node_; }
+  inline const conduit::Node& node() const { return node_; }
+
  protected:
   explicit Device(const std::string& name);
 
@@ -71,6 +74,7 @@ class Device {
 
  private:
   std::string name_{""};
+  conduit::Node node_;
 };
 
 template <>

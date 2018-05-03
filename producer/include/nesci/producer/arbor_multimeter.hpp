@@ -57,7 +57,7 @@ class ArborMultimeter final : public Device {
   ArborMultimeter& operator=(const ArborMultimeter&) = default;
   ArborMultimeter& operator=(ArborMultimeter&&) = default;
 
-  void Record(const Datum& datum, conduit::Node* node);
+  void Record(const Datum& datum);
 
  private:
   layout::Multimeter ConstructPath(const Datum& datum);
