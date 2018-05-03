@@ -30,7 +30,7 @@
 #include "nesci/producer/nest_multimeter.hpp"
 #include "nesci/testing/data.hpp"
 
-SCENARIO("A multimeter records to a conduit node",
+SCENARIO("A nest multimeter records to a conduit node",
          "[nesci][nesci::NestMultimeter]") {
   GIVEN("A conduit node and a multimeter") {
     conduit::Node node;

@@ -31,7 +31,7 @@
 #include "nesci/producer/arbor_multimeter.hpp"
 #include "nesci/testing/data.hpp"
 
-SCENARIO("A multimeter records to a conduit node",
+SCENARIO("A arbor multimeter records to a conduit node",
          "[nesci][nesci::ArborMultimeter]") {
   GIVEN("A conduit node and a multimeter") {
     conduit::Node node;
