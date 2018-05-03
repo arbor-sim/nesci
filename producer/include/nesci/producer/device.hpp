@@ -22,7 +22,9 @@
 #ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_DEVICE_HPP_
 #define PRODUCER_INCLUDE_NESCI_PRODUCER_DEVICE_HPP_
 
+#include <cassert>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 #include "nesci/producer/suppress_warnings.hpp"
@@ -82,6 +84,9 @@ inline void Device::Record(const Datum& /*datum*/) {}
 
 template <typename Datum_t>
 inline void Device::Record(const Datum_t& datum) {
+  static_assert(std::is_base_of<Device, typename Datum_t::Device_t>::value,
+                "The class must derive from nesci::producer::Device");
+  assert(dynamic_cast<typename Datum_t::Device_t*>(this) != nullptr);
   static_cast<typename Datum_t::Device_t*>(this)->RecordImplementation(datum);
 }
 
