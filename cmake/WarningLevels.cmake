@@ -33,6 +33,7 @@ set(WARNING_LEVELS_RWTH_CLANG
   -Wno-weak-vtables
   -Wno-exit-time-destructors
   -Wno-global-constructors
+  -Wno-shadow-field-in-constructor
 )
 
 set(WARNING_LEVELS_RWTH_GCC
