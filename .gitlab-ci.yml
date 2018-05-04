@@ -98,7 +98,7 @@ deliver:windows:msvc++14.1:
     - test:windows:msvc++14.1
   script:
     - conan export-pkg . nesci/18.05@RWTH-VR/develop -s compiler="Visual Studio" -s compiler.version=15 -s build_type=Release -s compiler.runtime=MD -f
-    # - conan test ./test_package contra/18.05@RWTH-VR/develop -s compiler="Visual Studio" -s compiler.version=15 -s build_type=Release -s compiler.runtime=MD
+    - conan test ./test_package nesci/18.05@RWTH-VR/develop -s compiler="Visual Studio" -s compiler.version=15 -s build_type=Release -s compiler.runtime=MD
     # - conan upload nesci/18.05@RWTH-VR/develop --all --force -r=rwth-vr--bintray
   artifacts:
     paths:
@@ -107,6 +107,7 @@ deliver:windows:msvc++14.1:
   only:
     - master
     - stable
+    - "feature/#6_create_conan_package_and_conan_ci_stages"
 
 #-------------------------------------------------------------------------------
 #  Linux
@@ -241,7 +242,7 @@ deliver:linux:gcc5.3.1:
     - test:linux:gcc5.3.1
   script:
     - conan export-pkg . nesci/18.05@RWTH-VR/develop -s compiler="gcc" -s compiler.version="5.3" -s compiler.libcxx="libstdc++11" -s build_type=Release -f
-    # - conan test ./test_package nesci/18.05@RWTH-VR/develop -s compiler="gcc" -s compiler.version="5.3" -s compiler.libcxx="libstdc++11" -s build_type=Release
+    - conan test ./test_package nesci/18.05@RWTH-VR/develop -s compiler="gcc" -s compiler.version="5.3" -s compiler.libcxx="libstdc++11" -s build_type=Release
     # - conan upload nesci/18.05@RWTH-VR/develop --all --force -r=rwth-vr--bintray
   artifacts:
     paths:
@@ -249,6 +250,7 @@ deliver:linux:gcc5.3.1:
     expire_in: 1 week
   only:
     - master
+    - stable
     - "feature/#6_create_conan_package_and_conan_ci_stages"
 
 deliver:linux:gcc6.3.1:
@@ -260,15 +262,16 @@ deliver:linux:gcc6.3.1:
     - test:linux:gcc6.3.1
   script:
     - conan export-pkg . nesci/18.05@RWTH-VR/develop -s compiler="gcc" -s compiler.version="6.3" -s compiler.libcxx="libstdc++11" -s build_type=Release -f
-    # - conan test ./test_package nesci/18.05@RWTH-VR/develop -s compiler="gcc" -s compiler.version="6.3" -s compiler.libcxx="libstdc++11" -s build_type=Release
+    - conan test ./test_package nesci/18.05@RWTH-VR/develop -s compiler="gcc" -s compiler.version="6.3" -s compiler.libcxx="libstdc++11" -s build_type=Release
     # - conan upload nesci/18.05@RWTH-VR/develop --all --force -r=rwth-vr--bintray
   artifacts:
     paths:
     - build
     expire_in: 1 week
   only:
-    - "feature/#6_create_conan_package_and_conan_ci_stages"
+    - master
     - stable
+    - "feature/#6_create_conan_package_and_conan_ci_stages"
 
 #-------------------------------------------------------------------------------
 #  MacOS
@@ -338,7 +341,7 @@ deliver:mac:clang9.1:
     - test:mac:clang9.1
   script:
     - conan export-pkg . nesci/18.05@RWTH-VR/develop -s build_type=Release -s os=Macos -s compiler=apple-clang -s compiler.version=9.1 -s compiler.libcxx=libc++ -f
-    # - conan test ./test_package nesci/18.05@RWTH-VR/develop -s build_type=Release -s os=Macos -s compiler=apple-clang -s compiler.version=9.1 -s compiler.libcxx=libc++
+    - conan test ./test_package nesci/18.05@RWTH-VR/develop -s build_type=Release -s os=Macos -s compiler=apple-clang -s compiler.version=9.1 -s compiler.libcxx=libc++
     # - conan upload nesci/18.05@RWTH-VR/develop --all --force -r=rwth-vr--bintray 
   artifacts:
     paths:
@@ -347,3 +350,4 @@ deliver:mac:clang9.1:
   only:
     - master
     - stable
+    - "feature/#6_create_conan_package_and_conan_ci_stages"
