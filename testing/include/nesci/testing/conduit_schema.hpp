@@ -32,7 +32,8 @@ namespace conduit_schema {
 template <typename T>
 inline std::string OpenTag(T tag) {
   std::stringstream s;
-  s << '\"' << tag << '\"' << ":{ \n";
+  s.precision(5);
+  s << std::fixed << '\"' << tag << '\"' << ":{ \n";
   return s.str();
 }
 
