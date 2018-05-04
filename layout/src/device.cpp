@@ -29,9 +29,7 @@ namespace layout {
 
 Device::Device(const std::string& name) : name_(name) {}
 
-std::string Device::GetPath() const {
-  return name_ + SuffixIfNotEmpty(time_.substr(0, 3));
-}
+std::string Device::GetPath() const { return name_ + SuffixIfNotEmpty(time_); }
 
 std::string Device::SuffixIfNotEmpty(const std::string& suffix) {
   return suffix != "" ? "/" + suffix : "";
