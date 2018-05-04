@@ -24,6 +24,7 @@ stages:
   - cmake
   - build
   - test
+  - deliver
   
 #-------------------------------------------------------------------------------
 #  Windows
@@ -38,6 +39,8 @@ conan:windows:msvc++14.1:
     - rmdir /s /q build
     - mkdir build
     - cd build
+    - conan remote update rwth-vr--bintray https://api.bintray.com/conan/rwth-vr/conan
+    - conan user -p %CONAN_PASSWORD% -r rwth-vr--bintray %CONAN_LOGIN_USERNAME%
     - conan install --build=missing -s compiler="Visual Studio" -s compiler.version=15 -s build_type=Release -s compiler.runtime=MD ..
   artifacts:
     paths:
@@ -86,6 +89,25 @@ test:windows:msvc++14.1:
     - cd build
     - ctest -C Release
 
+deliver:windows:msvc++14.1:
+  stage: deliver
+  tags:
+    - msvc++14.1
+    - opengl
+  dependencies:
+    - test:windows:msvc++14.1
+  script:
+    - conan export-pkg . nesci/18.05@RWTH-VR/develop -s compiler="Visual Studio" -s compiler.version=15 -s build_type=Release -s compiler.runtime=MD -f
+    # - conan test ./test_package contra/18.05@RWTH-VR/develop -s compiler="Visual Studio" -s compiler.version=15 -s build_type=Release -s compiler.runtime=MD
+    # - conan upload nesci/18.05@RWTH-VR/develop --all --force -r=rwth-vr--bintray
+  artifacts:
+    paths:
+    - build
+    expire_in: 1 week
+  only:
+    - master
+    - stable
+
 #-------------------------------------------------------------------------------
 #  Linux
 #-------------------------------------------------------------------------------
@@ -100,6 +122,8 @@ conan:linux:gcc5.3.1:
     - cd build
     - export CC=gcc
     - export CXX=g++
+    - conan remote update rwth-vr--bintray https://api.bintray.com/conan/rwth-vr/conan
+    - conan user -p $CONAN_PASSWORD -r rwth-vr--bintray $CONAN_LOGIN_USERNAME
     - conan install .. --build=missing -s compiler="gcc" -s compiler.version="5.3" -s compiler.libcxx="libstdc++11" -s build_type=Release
   artifacts:
     paths:
@@ -116,6 +140,8 @@ conan:linux:gcc6.3.1:
     - cd build
     - export CC=gcc
     - export CXX=g++
+    - conan remote update rwth-vr--bintray https://api.bintray.com/conan/rwth-vr/conan
+    - conan user -p $CONAN_PASSWORD -r rwth-vr--bintray $CONAN_LOGIN_USERNAME
     - conan install .. --build=missing -s compiler="gcc" -s compiler.version="6.3" -s compiler.libcxx="libstdc++11" -s build_type=Release
   artifacts:
     paths:
@@ -206,6 +232,44 @@ test:linux:gcc6.3.1:
     - cd build
     - ctest -C Release
 
+deliver:linux:gcc5.3.1:
+  stage: deliver
+  tags:
+    - gcc5.3.1
+    - opengl
+  dependencies:
+    - test:linux:gcc5.3.1
+  script:
+    - conan export-pkg . nesci/18.05@RWTH-VR/develop -s compiler="gcc" -s compiler.version="5.3" -s compiler.libcxx="libstdc++11" -s build_type=Release -f
+    # - conan test ./test_package nesci/18.05@RWTH-VR/develop -s compiler="gcc" -s compiler.version="5.3" -s compiler.libcxx="libstdc++11" -s build_type=Release
+    # - conan upload nesci/18.05@RWTH-VR/develop --all --force -r=rwth-vr--bintray
+  artifacts:
+    paths:
+    - build
+    expire_in: 1 week
+  only:
+    - master
+    - stable
+
+deliver:linux:gcc6.3.1:
+  stage: deliver
+  tags:
+    - gcc6.3.1
+    - opengl
+  dependencies:
+    - test:linux:gcc6.3.1
+  script:
+    - conan export-pkg . nesci/18.05@RWTH-VR/develop -s compiler="gcc" -s compiler.version="6.3" -s compiler.libcxx="libstdc++11" -s build_type=Release -f
+    # - conan test ./test_package nesci/18.05@RWTH-VR/develop -s compiler="gcc" -s compiler.version="6.3" -s compiler.libcxx="libstdc++11" -s build_type=Release
+    # - conan upload nesci/18.05@RWTH-VR/develop --all --force -r=rwth-vr--bintray
+  artifacts:
+    paths:
+    - build
+    expire_in: 1 week
+  only:
+    - master
+    - stable
+
 #-------------------------------------------------------------------------------
 #  MacOS
 #-------------------------------------------------------------------------------
@@ -219,6 +283,8 @@ conan:mac:clang9.1:
     - cd build
     - export CC=gcc
     - export CXX=g++
+    - conan remote update rwth-vr--bintray https://api.bintray.com/conan/rwth-vr/conan
+    - conan user -p $CONAN_PASSWORD -r rwth-vr--bintray $CONAN_LOGIN_USERNAME
     - conan install .. -s build_type=Release -s os=Macos -s compiler=apple-clang -s compiler.version=9.1 -s compiler.libcxx=libc++ --build=missing
   artifacts:
     paths:
@@ -263,3 +329,21 @@ test:mac:clang9.1:
   script:
     - cd build
     - ctest -C Release
+
+deliver:mac:clang9.1:
+  stage: deliver
+  tags:
+    - osx
+  dependencies:
+    - test:mac:clang9.1
+  script:
+    - conan export-pkg . nesci/18.05@RWTH-VR/develop -s build_type=Release -s os=Macos -s compiler=apple-clang -s compiler.version=9.1 -s compiler.libcxx=libc++ -f
+    # - conan test ./test_package nesci/18.05@RWTH-VR/develop -s build_type=Release -s os=Macos -s compiler=apple-clang -s compiler.version=9.1 -s compiler.libcxx=libc++
+    # - conan upload nesci/18.05@RWTH-VR/develop --all --force -r=rwth-vr--bintray 
+  artifacts:
+    paths:
+    - build
+    expire_in: 1 week
+  only:
+    - master
+    - stable
