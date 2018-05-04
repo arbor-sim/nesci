@@ -38,7 +38,14 @@ Device::Device(const std::string& name) : name_{name} {}
 
 std::vector<std::string> Device::GetTimesteps() const {
   layout::Device path(name_);
-  return GetChildNames(path);
+  std::vector<std::string> retvec;
+  for (auto s : GetChildNames(path)) {
+    std::stringstream ss;
+    ss.precision(5);
+    ss << std::fixed << std::stod(s);
+    retvec.push_back(ss.str());
+  }
+  return retvec;
 }
 
 std::string Device::GetName() const { return name_; }
