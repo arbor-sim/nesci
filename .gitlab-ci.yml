@@ -88,6 +88,10 @@ test:windows:msvc++14.1:
   script:
     - cd build
     - ctest -C Release
+  artifacts:
+    paths:
+    - build
+    expire_in: 1 week
 
 deliver:windows:msvc++14.1:
   stage: deliver
@@ -221,6 +225,10 @@ test:linux:gcc5.3.1:
   script:
     - cd build
     - ctest -C Release
+  artifacts:
+    paths:
+    - build
+    expire_in: 1 week
 
 test:linux:gcc6.3.1:
   stage: test
@@ -232,6 +240,10 @@ test:linux:gcc6.3.1:
   script:
     - cd build
     - ctest -C Release
+  artifacts:
+    paths:
+    - build
+    expire_in: 1 week
 
 deliver:linux:gcc5.3.1:
   stage: deliver
@@ -332,6 +344,10 @@ test:mac:clang9.1:
   script:
     - cd build
     - ctest -C Release
+  artifacts:
+    paths:
+    - build
+    expire_in: 1 week
 
 deliver:mac:clang9.1:
   stage: deliver
