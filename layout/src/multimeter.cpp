@@ -19,12 +19,31 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef PRODUCER_INCLUDE_PRODUCER_PRODUCER_HPP_
-#define PRODUCER_INCLUDE_PRODUCER_PRODUCER_HPP_
+#include "nesci/layout/multimeter.hpp"
 
-namespace producer {
+#include <string>
 
-void Greet();
+namespace nesci {
+namespace layout {
+
+Multimeter::Multimeter(const std::string& name) : Device(name) {}
+
+Multimeter::Multimeter(const Device& device) : Device(device) {}
+
+Multimeter::Multimeter(Device&& device) : Device(device) {}
+
+std::string Multimeter::GetPath() const {
+  return Device::GetPath() + SuffixIfNotEmpty(attribute_) +
+         SuffixIfNotEmpty(neuron_id_);
 }
 
-#endif  // PRODUCER_INCLUDE_PRODUCER_PRODUCER_HPP_
+void Multimeter::SetAttribute(const std::string& attribute) {
+  attribute_ = attribute;
+}
+
+void Multimeter::SetNeuronId(const std::string& neuron_id) {
+  neuron_id_ = neuron_id;
+}
+
+}  // namespace layout
+}  // namespace nesci

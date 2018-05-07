@@ -43,5 +43,6 @@ add_test(NAME consumer_tests
 
 target_link_libraries(consumer_tests
   PRIVATE consumer
+  PRIVATE testing
   PRIVATE ${CONAN_OR_CMAKE_catch}
   )

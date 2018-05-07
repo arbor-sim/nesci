@@ -19,7 +19,7 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "layout/layout.hpp"
+#include "nesci/layout/layout.hpp"
 
 #include <iostream>
 

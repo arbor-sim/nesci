@@ -19,15 +19,40 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "consumer_tests/suppress_warnings.hpp"
-SUPPRESS_WARNINGS_BEGIN
-#include "catch/catch.hpp"
-SUPPRESS_WARNINGS_END
-#include "nesci/consumer/consumer.hpp"
-#include "utilities/cout_capture.hpp"
+#ifndef LAYOUT_INCLUDE_NESCI_LAYOUT_MULTIMETER_HPP_
+#define LAYOUT_INCLUDE_NESCI_LAYOUT_MULTIMETER_HPP_
 
-SCENARIO("call Greet() and check output", "[consumer]") {
-  test_utilities::CoutCapture capture;
-  consumer::Greet();
-  REQUIRE(capture.ToString() == "\"Hello World!\"");
-}
+#include <string>
+
+#include "nesci/layout/device.hpp"
+
+namespace nesci {
+namespace layout {
+
+class Multimeter : public Device {
+ public:
+  Multimeter() = delete;
+  explicit Multimeter(const std::string& name);
+  Multimeter(const Multimeter&) = default;
+  explicit Multimeter(const Device& device);
+  Multimeter(Multimeter&&) = default;
+  explicit Multimeter(Device&& device);
+  ~Multimeter() override = default;
+
+  Multimeter& operator=(const Multimeter&) = default;
+  Multimeter& operator=(Multimeter&&) = default;
+
+  std::string GetPath() const override;
+
+  void SetAttribute(const std::string& attribute);
+  void SetNeuronId(const std::string& neuron_id);
+
+ private:
+  std::string attribute_{""};
+  std::string neuron_id_{""};
+};
+
+}  // namespace layout
+}  // namespace nesci
+
+#endif  // LAYOUT_INCLUDE_NESCI_LAYOUT_MULTIMETER_HPP_

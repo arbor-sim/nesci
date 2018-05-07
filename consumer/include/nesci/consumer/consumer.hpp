@@ -19,15 +19,12 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "consumer_tests/suppress_warnings.hpp"
-SUPPRESS_WARNINGS_BEGIN
-#include "catch/catch.hpp"
-SUPPRESS_WARNINGS_END
-#include "nesci/consumer/consumer.hpp"
-#include "utilities/cout_capture.hpp"
+#ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_CONSUMER_HPP_
+#define CONSUMER_INCLUDE_NESCI_CONSUMER_CONSUMER_HPP_
 
-SCENARIO("call Greet() and check output", "[consumer]") {
-  test_utilities::CoutCapture capture;
-  consumer::Greet();
-  REQUIRE(capture.ToString() == "\"Hello World!\"");
+namespace consumer {
+
+void Greet();
 }
+
+#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_CONSUMER_HPP_
