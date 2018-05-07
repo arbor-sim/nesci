@@ -23,8 +23,10 @@
 
 #include <iostream>
 
+namespace nesci {
 namespace producer {
 
 void Greet() { std::cout << "Hello World!"; }
 
 }  // namespace producer
+}  // namespace nesci

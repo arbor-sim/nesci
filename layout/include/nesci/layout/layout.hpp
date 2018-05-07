@@ -22,9 +22,12 @@
 #ifndef LAYOUT_INCLUDE_NESCI_LAYOUT_LAYOUT_HPP_
 #define LAYOUT_INCLUDE_NESCI_LAYOUT_LAYOUT_HPP_
 
+namespace nesci {
 namespace layout {
 
 void Greet();
-}
+
+}  // namespace layout
+}  // namespace nesci
 
 #endif  // LAYOUT_INCLUDE_NESCI_LAYOUT_LAYOUT_HPP_
