@@ -1,14 +1,14 @@
-#include "consumer/consumer.hpp"
-#include "layout/layout.hpp"
-#include "producer/producer.hpp"
+#include "nesci/consumer/consumer.hpp"
+#include "nesci/layout/layout.hpp"
+#include "nesci/producer/producer.hpp"
 
 #include <iostream>
 
 int main() {
-  layout::Greet();
+  nesci::layout::Greet();
   std::cout << std::endl;
-  producer::Greet();
+  nesci::producer::Greet();
   std::cout << std::endl;
-  consumer::Greet();
+  nesci::consumer::Greet();
   std::cout << std::endl;
 }
