@@ -20,21 +20,26 @@
 #-------------------------------------------------------------------------------
 
 file(GLOB PRODUCER_SOURCES src/*.cpp)
-file(GLOB PRODUCER_HEADERS include/producer/*.hpp)
+file(GLOB PRODUCER_HEADERS include/nesci/producer/*.hpp)
 
 rwthvr_add_library(NAME producer
   SOURCES ${PRODUCER_SOURCES}
   HEADERS ${PRODUCER_HEADERS}
-  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/producer/suppress_warnings.hpp"
+  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/producer/suppress_warnings.hpp"
   )
 generate_export_header(producer
   EXPORT_FILE_NAME
-  "${CMAKE_CURRENT_BINARY_DIR}/include/producer/export.hpp"
+  "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/producer/export.hpp"
   )
   
 target_include_directories(producer
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
   PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
+  )
+
+target_link_libraries(producer
+  PUBLIC layout
+  PUBLIC ${CONAN_OR_CMAKE_conduit}
   )
 
 add_subdirectory(tests)

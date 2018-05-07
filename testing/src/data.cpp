@@ -19,12 +19,11 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef LAYOUT_INCLUDE_LAYOUT_LAYOUT_HPP_
-#define LAYOUT_INCLUDE_LAYOUT_LAYOUT_HPP_
+#include "nesci/testing/data.hpp"
 
-namespace layout {
+#include <string>
+#include <vector>
 
-void Greet();
-}
-
-#endif  // LAYOUT_INCLUDE_LAYOUT_LAYOUT_HPP_
+namespace nesci {
+namespace testing {}  // namespace testing
+}  // namespace nesci

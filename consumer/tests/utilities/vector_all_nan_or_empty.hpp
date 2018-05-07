@@ -19,15 +19,35 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
+#ifndef CONSUMER_TESTS_UTILITIES_VECTOR_ALL_NAN_OR_EMPTY_HPP_
+#define CONSUMER_TESTS_UTILITIES_VECTOR_ALL_NAN_OR_EMPTY_HPP_
+
+#include <string>
+#include <vector>
+
 #include "consumer_tests/suppress_warnings.hpp"
 SUPPRESS_WARNINGS_BEGIN
 #include "catch/catch.hpp"
 SUPPRESS_WARNINGS_END
-#include "nesci/consumer/consumer.hpp"
-#include "utilities/cout_capture.hpp"
 
-SCENARIO("call Greet() and check output", "[consumer]") {
-  test_utilities::CoutCapture capture;
-  consumer::Greet();
-  REQUIRE(capture.ToString() == "\"Hello World!\"");
-}
+namespace Catch {
+namespace Matchers {
+
+class VectorAllNanOrEmpty : public Catch::MatcherBase<std::vector<double>> {
+ public:
+  bool match(const std::vector<double>& values) const override {
+    bool retval = true;
+    for (double v : values) {
+      retval &= std::isnan(v);
+    }
+    return retval;
+  }
+  std::string describe() const override { return ""; }
+};
+
+}  // namespace Matchers
+}  // namespace Catch
+
+using Catch::Matchers::VectorAllNanOrEmpty;
+
+#endif  // CONSUMER_TESTS_UTILITIES_VECTOR_ALL_NAN_OR_EMPTY_HPP_

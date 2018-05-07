@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------
 // nesci -- neural simulator conan interface
 //
-// Copyright (c) 2018 RWTH Aachen University, Germany,
-// Virtual Reality & Immersive Visualization Group.
+// Copyright (c) 2017-2018 RWTH Aachen University, Germany,
+// Virtual Reality & Immersive Visualisation Group.
 //------------------------------------------------------------------------------
-//                                  License
+//                                 License
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,15 +19,23 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "consumer_tests/suppress_warnings.hpp"
-SUPPRESS_WARNINGS_BEGIN
-#include "catch/catch.hpp"
-SUPPRESS_WARNINGS_END
-#include "nesci/consumer/consumer.hpp"
-#include "utilities/cout_capture.hpp"
+#include <sstream>
+#include <string>
+#include <vector>
 
-SCENARIO("call Greet() and check output", "[consumer]") {
-  test_utilities::CoutCapture capture;
-  consumer::Greet();
-  REQUIRE(capture.ToString() == "\"Hello World!\"");
+#include "nesci/layout/device.hpp"
+#include "nesci/producer/device.hpp"
+
+namespace nesci {
+namespace producer {
+
+Device::Device(const std::string& name) : name_(name) {}
+
+layout::Device Device::ConstructPath(const Datum& datum) {
+  layout::Device path(name_);
+  path.SetTime(datum.time);
+  return path;
 }
+
+}  // namespace producer
+}  // namespace nesci

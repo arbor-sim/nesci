@@ -19,15 +19,39 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "consumer_tests/suppress_warnings.hpp"
-SUPPRESS_WARNINGS_BEGIN
-#include "catch/catch.hpp"
-SUPPRESS_WARNINGS_END
-#include "nesci/consumer/consumer.hpp"
-#include "utilities/cout_capture.hpp"
+#ifndef LAYOUT_INCLUDE_NESCI_LAYOUT_DEVICE_HPP_
+#define LAYOUT_INCLUDE_NESCI_LAYOUT_DEVICE_HPP_
 
-SCENARIO("call Greet() and check output", "[consumer]") {
-  test_utilities::CoutCapture capture;
-  consumer::Greet();
-  REQUIRE(capture.ToString() == "\"Hello World!\"");
-}
+#include <string>
+
+namespace nesci {
+namespace layout {
+
+class Device {
+ public:
+  Device() = delete;
+  explicit Device(const std::string& name);
+  Device(const Device&) = default;
+  Device(Device&&) = default;
+  virtual ~Device() = default;
+
+  Device& operator=(const Device&) = default;
+  Device& operator=(Device&&) = default;
+
+  virtual std::string GetPath() const;
+
+  void SetTime(const std::string& time);
+  void SetTime(double time);
+
+ protected:
+  static std::string SuffixIfNotEmpty(const std::string& suffix);
+
+ private:
+  std::string name_{""};
+  std::string time_{""};
+};
+
+}  // namespace layout
+}  // namespace nesci
+
+#endif  // LAYOUT_INCLUDE_NESCI_LAYOUT_DEVICE_HPP_

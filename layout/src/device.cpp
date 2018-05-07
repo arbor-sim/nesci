@@ -19,12 +19,30 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef CONSUMER_INCLUDE_CONSUMER_CONSUMER_HPP_
-#define CONSUMER_INCLUDE_CONSUMER_CONSUMER_HPP_
+#include "nesci/layout/device.hpp"
 
-namespace consumer {
+#include <sstream>
+#include <string>
 
-void Greet();
+namespace nesci {
+namespace layout {
+
+Device::Device(const std::string& name) : name_(name) {}
+
+std::string Device::GetPath() const { return name_ + SuffixIfNotEmpty(time_); }
+
+std::string Device::SuffixIfNotEmpty(const std::string& suffix) {
+  return suffix != "" ? "/" + suffix : "";
 }
 
-#endif  // CONSUMER_INCLUDE_CONSUMER_CONSUMER_HPP_
+void Device::SetTime(const std::string& time) { time_ = time; }
+
+void Device::SetTime(double time) {
+  std::stringstream str;
+  str.precision(5);
+  str << std::fixed << time;
+  SetTime(str.str());
+}
+
+}  // namespace layout
+}  // namespace nesci

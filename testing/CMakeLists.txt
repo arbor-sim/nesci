@@ -19,27 +19,24 @@
 # limitations under the License.
 #-------------------------------------------------------------------------------
 
-file(GLOB CONSUMER_SOURCES src/*.cpp)
-file(GLOB CONSUMER_HEADERS include/nesci/consumer/*.hpp)
+file(GLOB TESTING_SOURCES src/*.cpp)
+file(GLOB TESTING_HEADERS include/nesci/testing/*.hpp)
 
-rwthvr_add_library(NAME consumer
-  SOURCES ${CONSUMER_SOURCES}
-  HEADERS ${CONSUMER_HEADERS}
-  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/consumer/suppress_warnings.hpp"
+rwthvr_add_library(NAME testing
+  SOURCES ${TESTING_SOURCES}
+  HEADERS ${TESTING_HEADERS}
+  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/testing/suppress_warnings.hpp"
   )
-generate_export_header(consumer
+generate_export_header(testing
   EXPORT_FILE_NAME
-  "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/consumer/export.hpp"
+  "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/testing/export.hpp"
   )
   
-target_include_directories(consumer
+target_include_directories(testing
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
   PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
   )
 
-target_link_libraries(consumer
-  PUBLIC layout
+target_link_libraries(testing
   PUBLIC ${CONAN_OR_CMAKE_conduit}
   )
-
-add_subdirectory(tests)

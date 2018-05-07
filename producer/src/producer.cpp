@@ -19,7 +19,7 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "producer/producer.hpp"
+#include "nesci/producer/producer.hpp"
 
 #include <iostream>
 
