@@ -26,9 +26,11 @@
 
 namespace nesci {
 namespace layout {
+namespace utility {
 
 std::string to_string(double input);
 
+}  // namespace utility
 }  // namespace layout
 }  // namespace nesci
 

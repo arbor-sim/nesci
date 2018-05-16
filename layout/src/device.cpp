@@ -20,6 +20,7 @@
 //------------------------------------------------------------------------------
 
 #include "nesci/layout/device.hpp"
+#include "nesci/layout/utility.hpp"
 
 #include <sstream>
 #include <string>
@@ -38,10 +39,7 @@ std::string Device::SuffixIfNotEmpty(const std::string& suffix) {
 void Device::SetTime(const std::string& time) { time_ = time; }
 
 void Device::SetTime(double time) {
-  std::stringstream str;
-  str.precision(5);
-  str << std::fixed << time;
-  SetTime(str.str());
+  SetTime(utility::to_string(time));
 }
 
 }  // namespace layout

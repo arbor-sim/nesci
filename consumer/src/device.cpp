@@ -41,7 +41,7 @@ std::vector<std::string> Device::GetTimesteps() const {
   layout::Device path(name_);
   std::vector<std::string> retvec;
   for (auto s : GetChildNames(path)) {
-	retvec.push_back(layout::utility::to_string(s));
+	retvec.push_back(s);
   }
   return retvec;
 }

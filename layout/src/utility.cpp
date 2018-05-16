@@ -21,20 +21,14 @@
 
 #include "nesci/layout/utility.hpp"
 
-#include <iostream>
-#include <charconv>
-#include <system_error>
-#include <string_view>
-#include <array>
-
 namespace nesci {
 namespace layout {
-	
+namespace utility {
+
 std::string to_string(double input) {
-	std::array<char, 256> str;
-	std::to_chars_result result = std::to_chars(str.data(), str.data() + str.size(), input);
-    return result.ptr();
+  return std::to_string(input);
 }
 
+}  // namespace utility
 }  // namespace layout
 }  // namespace nesci
