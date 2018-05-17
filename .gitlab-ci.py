@@ -18,28 +18,28 @@ visual_studio_version_year_map = {
 }
 
 
-def execute(command):
-    return_value = subprocess.call(command)
+def execute(command, arguments):
+    return_value = subprocess.call([command].extend(arguments))
     if return_value == 0:
-        print('\033[92m$ ' + command + '\033[0m')
+        print('\033[92m$ ' + command + ' ' + ' '.join(arguments) + '\033[0m')
     else:
-        print('\033[91m$ ' + command + '\033[0m')
+        print('\033[91m$ ' + command + ' ' + ' '.join(arguments) + '\033[0m')
 
 
 def get_conan_flags(compiler, compiler_version):
     conan_flags = []
 
-    conan_flags.append('-s compiler="%s"' % compiler)
-    conan_flags.append('-s compiler.version="%s"' % compiler_version)
-    conan_flags.append('-s arch=x86_64')
-    conan_flags.append('-s build_type=Release')
+    conan_flags.extend(['-s', 'compiler=%s' % compiler])
+    conan_flags.extend(['-s', 'compiler.version="%s"' % compiler_version])
+    conan_flags.extend(['-s', 'arch=x86_64'])
+    conan_flags.extend(['-s', 'build_type=Release'])
 
     if compiler == 'Visual Studio':
-        conan_flags.append('-s compiler.runtime=MT')
+        conan_flags.extend(['-s', 'compiler.runtime=MT'])
     elif compiler == 'gcc':
-        conan_flags.append('-s compiler.libcxx=libstdc++11')
+        conan_flags.extend(['-s', 'compiler.libcxx=libstdc++11'])
     elif compiler == 'apple-clang':
-        conan_flags.append('-s compiler.libcxx=libc++')
+        conan_flags.extend(['-s', 'compiler.libcxx=libc++'])
 
     return conan_flags
 
@@ -69,17 +69,18 @@ def main(argv):
         sys.exit(-1)
 
     if stage == 'conan':
-        execute('mkdir build')
+        execute('mkdir', ['build'])
         os.chdir('build')
         if operating_system == 'Linux':
-            execute('export CC=gcc')
-            execute('export CXX=g++')
-        execute(
-            'conan remote update rwth-vr--bintray https://api.bintray.com/conan/rwth-vr/conan')
-        execute('conan user -p %s -r rwth-vr--bintray %s' %
-                (os.environ['CONAN_PASSWORD'], os.environ['CONAN_LOGIN_USERNAME']))
-        execute('conan install --build=missing %s ..' %
-                ' '.join(get_conan_flags(compiler, compiler_version)))
+            execute('export', ['CC=gcc'])
+            execute('export', ['CXX=g++'])
+        execute('conan',
+                ['remote', 'update', 'rwth-vr--bintray',
+                 'https://api.bintray.com/conan/rwth-vr/conan'])
+        execute('conan', ['user', '-p', os.environ['CONAN_PASSWORD'],
+                          '-r', 'rwth-vr--bintray', os.environ['CONAN_LOGIN_USERNAME']])
+        execute('conan', [
+                'install', '--build=missing'].extend(get_conan_flags(compiler, compiler_version)))
 
     elif stage == 'cmake':
         os.chdir('build')
@@ -87,25 +88,25 @@ def main(argv):
         cmake_flags = []
 
         if compiler == 'Visual Studio':
-            cmake_flags.append('-G "Visual Studio %s %s Win64"' %
-                               (compiler_version, visual_studio_version_year_map[compiler_version]))
+            cmake_flags.extend(['-G', 'Visual Studio %s %s Win64' %
+                                (compiler_version, visual_studio_version_year_map[compiler_version])])
         else:
             cmake_flags.append('-DCMAKE_BUILD_TYPE=Release')
 
-        execute('cmake %s ..' % ' '.join(cmake_flags))
+        execute('cmake', cmake_flags.append('..'))
 
     elif stage == 'build':
         build_flags = []
         if compiler == 'Visual Studio':
-            build_flags.append('--config Release')
+            build_flags.extend(['--config', 'Release'])
         os.chdir('build')
-        execute('cmake --build . %s' % ' '.join(build_flags))
+        execute('cmake', ['--build', '.'].extend(build_flags))
 
     elif stage == 'test':
         os.chdir('build')
         if operating_system == 'OSX':
             os.environ['CTEST_OUTPUT_ON_FAILURE'] = '1'
-        execute('ctest -C Release')
+        execute('cmake', ['-C', 'Release'])
 
     elif stage == 'deliver':
         channel = os.environ['channel']
@@ -115,12 +116,12 @@ def main(argv):
                   (channel, ', '.join(valid_channels)))
             sys.exit(-1)
         conan_flags = ' '.join(get_conan_flags(compiler, compiler_version))
-        execute('conan export-pkg . nesci/%s@RWTH-VR/%s %s -f' %
-                (version, channel, conan_flags))
-        execute('conan test ./test_package nesci/%s@RWTH-VR/%s %s' %
-                (version, channel, conan_flags))
-        execute('conan upload nesci/%s@RWTH-VR/%s --all --force -r=rwth-vr--bintray ' %
-                (version, channel))
+        execute('conan', ['export-pkg', '.', 'nesci/%s@RWTH-VR/%s' %
+                          (version, channel), '-f'].extend(conan_flags))
+        execute('conan', ['test', './test_package', 'nesci/%s@RWTH-VR/%s' %
+                          (version, channel)].extend(conan_flags))
+        execute('conan', ['upload', 'nesci/%s@RWTH-VR/%s' % (version, channel),
+                          '--all', '--force', '-r=rwth-vr--bintray'].extend(conan_flags))
 
 
 if (__name__ == '__main__'):
