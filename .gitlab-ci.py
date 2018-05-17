@@ -22,6 +22,7 @@ def execute(command, arguments):
     call_arguments = [command]
     call_arguments.extend(arguments)
     print('\033[92m$ ' + command + ' ' + ' '.join(arguments) + '\033[0m')
+    sys.stdout.flush()
     return_value = subprocess.call(call_arguments)
     if return_value != 0:
         sys.exit(return_value)
