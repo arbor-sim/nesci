@@ -74,8 +74,8 @@ def main(argv):
         execute('mkdir', ['build'])
         os.chdir('build')
         if operating_system == 'Linux':
-            execute('export', ['CC=gcc'])
-            execute('export', ['CXX=g++'])
+            execute('export', ['CC="gcc"'])
+            execute('export', ['CXX="g++"'])
         execute('conan',
                 ['remote', 'update', 'rwth-vr--bintray',
                  'https://api.bintray.com/conan/rwth-vr/conan'])
