@@ -32,7 +32,7 @@ def get_conan_flags(compiler, compiler_version):
     conan_flags = []
 
     conan_flags.extend(['-s', 'compiler=%s' % compiler])
-    conan_flags.extend(['-s', 'compiler.version="%s"' % compiler_version])
+    conan_flags.extend(['-s', 'compiler.version=%s' % compiler_version])
     conan_flags.extend(['-s', 'arch=x86_64'])
     conan_flags.extend(['-s', 'build_type=Release'])
 
