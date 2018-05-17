@@ -114,7 +114,7 @@ def main(argv):
         os.chdir('build')
         if operating_system == 'OSX':
             os.environ['CTEST_OUTPUT_ON_FAILURE'] = '1'
-        execute('cmake', ['-C', 'Release'])
+        execute('ctest', ['-C', 'Release'])
 
     elif stage == 'deliver':
         channel = os.environ['channel']
