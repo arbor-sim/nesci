@@ -84,6 +84,7 @@ def main(argv):
 
         conan_install_flags = ['install', '--build=missing']
         conan_install_flags.extend(get_conan_flags(compiler, compiler_version))
+        conan_install_flags.append('..')
         execute('conan', conan_install_flags)
 
     elif stage == 'cmake':
