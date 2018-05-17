@@ -21,9 +21,9 @@ visual_studio_version_year_map = {
 def execute(command):
     return_value = subprocess.call(command)
     if return_value == 0:
-        print('$ \033[92m' + command + '\033[0m')
+        print('\033[92m $' + command + '\033[0m')
     else:
-        print('$ \033[91m' + command + '\033[0m')
+        print('\033[91m $' + command + '\033[0m')
 
 
 def get_conan_flags(compiler, compiler_version):
