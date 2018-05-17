@@ -22,9 +22,12 @@
 #ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_CONSUMER_HPP_
 #define CONSUMER_INCLUDE_NESCI_CONSUMER_CONSUMER_HPP_
 
+namespace nesci {
 namespace consumer {
 
 void Greet();
-}
+
+}  // namespace consumer
+}  // namespace nesci
 
 #endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_CONSUMER_HPP_

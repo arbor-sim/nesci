@@ -22,9 +22,12 @@
 #ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_PRODUCER_HPP_
 #define PRODUCER_INCLUDE_NESCI_PRODUCER_PRODUCER_HPP_
 
+namespace nesci {
 namespace producer {
 
 void Greet();
-}
+
+}  // namespace producer
+}  // namespace nesci
 
 #endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_PRODUCER_HPP_

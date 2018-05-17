@@ -28,6 +28,6 @@ SUPPRESS_WARNINGS_END
 
 SCENARIO("call Greet() and check output", "[layout]") {
   test_utilities::CoutCapture capture;
-  layout::Greet();
+  nesci::layout::Greet();
   REQUIRE(capture.ToString() == "\"Hello World!\"");
 }
