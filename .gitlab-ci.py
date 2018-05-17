@@ -82,13 +82,15 @@ def main(argv):
                  'https://api.bintray.com/conan/rwth-vr/conan'])
         execute('conan', ['user', '-p', os.environ['CONAN_PASSWORD'],
                           '-r', 'rwth-vr--bintray', os.environ['CONAN_LOGIN_USERNAME']])
-        execute('conan', [
-                'install', '--build=missing'].extend(get_conan_flags(compiler, compiler_version)))
+
+        conan_install_flags = ['install', '--build=missing']
+        conan_install_flags.extend(get_conan_flags(compiler, compiler_version))
+        execute('conan', conan_install_flags)
 
     elif stage == 'cmake':
         os.chdir('build')
 
-        cmake_flags = []
+        cmake_flags = ['..']
 
         if compiler == 'Visual Studio':
             cmake_flags.extend(['-G', 'Visual Studio %s %s Win64' %
@@ -96,14 +98,16 @@ def main(argv):
         else:
             cmake_flags.append('-DCMAKE_BUILD_TYPE=Release')
 
-        execute('cmake', cmake_flags.append('..'))
+        execute('cmake', cmake_flags)
 
     elif stage == 'build':
-        build_flags = []
-        if compiler == 'Visual Studio':
-            build_flags.extend(['--config', 'Release'])
         os.chdir('build')
-        execute('cmake', ['--build', '.'].extend(build_flags))
+
+        cmake_build_flags = ['--build', '.']
+        if compiler == 'Visual Studio':
+            cmake_build_flags.extend(['--config', 'Release'])
+
+        execute('cmake', cmake_build_flags)
 
     elif stage == 'test':
         os.chdir('build')
@@ -119,12 +123,21 @@ def main(argv):
                   (channel, ', '.join(valid_channels)))
             sys.exit(-1)
         conan_flags = ' '.join(get_conan_flags(compiler, compiler_version))
-        execute('conan', ['export-pkg', '.', 'nesci/%s@RWTH-VR/%s' %
-                          (version, channel), '-f'].extend(conan_flags))
-        execute('conan', ['test', './test_package', 'nesci/%s@RWTH-VR/%s' %
-                          (version, channel)].extend(conan_flags))
-        execute('conan', ['upload', 'nesci/%s@RWTH-VR/%s' % (version, channel),
-                          '--all', '--force', '-r=rwth-vr--bintray'].extend(conan_flags))
+
+        conan_export_flags = ['export-pkg', '.',
+                              'nesci/%s@RWTH-VR/%s' % (version, channel), '-f']
+        conan_export_flags.extend(conan_flags)
+        execute('conan', conan_export_flags)
+
+        conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' %
+                            (version, channel)]
+        conan_test_flags.extend(conan_flags)
+        execute('conan', conan_test_flags)
+
+        conan_upload_flags = ['upload', 'nesci/%s@RWTH-VR/%s' % (version, channel),
+                              '--all', '--force', '-r=rwth-vr--bintray']
+        conan_upload_flags.extend(conan_flags)
+        execute('conan', conan_upload_flags)
 
 
 if (__name__ == '__main__'):
