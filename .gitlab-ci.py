@@ -18,6 +18,14 @@ visual_studio_version_year_map = {
 }
 
 
+def execute(command):
+    return_value = subprocess.call(command)
+    if return_value == 0:
+        print('\033[92m' + command + '\033[0m')
+    else:
+        print('\033[91m' + command + '\033[0m')
+
+
 def get_conan_flags(compiler, compiler_version):
     conan_flags = []
 
@@ -61,17 +69,17 @@ def main(argv):
         sys.exit(-1)
 
     if stage == 'conan':
-        subprocess.check_call('mkdir build')
+        execute('mkdir build')
         os.chdir('build')
         if operating_system == 'Linux':
-            subprocess.check_call('export CC=gcc')
-            subprocess.check_call('export CXX=g++')
-        subprocess.check_call(
+            execute('export CC=gcc')
+            execute('export CXX=g++')
+        execute(
             'conan remote update rwth-vr--bintray https://api.bintray.com/conan/rwth-vr/conan')
-        subprocess.check_call('conan user -p %s -r rwth-vr--bintray %s' %
-                              (os.environ['CONAN_PASSWORD'], os.environ['CONAN_LOGIN_USERNAME']))
-        subprocess.check_call('conan install --build=missing %s ..' %
-                              ' '.join(get_conan_flags(compiler, compiler_version)))
+        execute('conan user -p %s -r rwth-vr--bintray %s' %
+                (os.environ['CONAN_PASSWORD'], os.environ['CONAN_LOGIN_USERNAME']))
+        execute('conan install --build=missing %s ..' %
+                ' '.join(get_conan_flags(compiler, compiler_version)))
 
     elif stage == 'cmake':
         os.chdir('build')
@@ -84,20 +92,20 @@ def main(argv):
         else:
             cmake_flags.append('-DCMAKE_BUILD_TYPE=Release')
 
-        subprocess.check_call('cmake %s ..' % ' '.join(cmake_flags))
+        execute('cmake %s ..' % ' '.join(cmake_flags))
 
     elif stage == 'build':
         build_flags = []
         if compiler == 'Visual Studio':
             build_flags.append('--config Release')
         os.chdir('build')
-        subprocess.check_call('cmake --build . %s' % ' '.join(build_flags))
+        execute('cmake --build . %s' % ' '.join(build_flags))
 
     elif stage == 'test':
         os.chdir('build')
         if operating_system == 'OSX':
             os.environ['CTEST_OUTPUT_ON_FAILURE'] = '1'
-        subprocess.check_call('ctest -C Release')
+        execute('ctest -C Release')
 
     elif stage == 'deliver':
         channel = os.environ['channel']
@@ -107,12 +115,12 @@ def main(argv):
                   (channel, ', '.join(valid_channels)))
             sys.exit(-1)
         conan_flags = ' '.join(get_conan_flags(compiler, compiler_version))
-        subprocess.check_call('conan export-pkg . nesci/%s@RWTH-VR/%s %s -f' %
-                              (version, channel, conan_flags))
-        subprocess.check_call('conan test ./test_package nesci/%s@RWTH-VR/%s %s' %
-                              (version, channel, conan_flags))
-        subprocess.check_call('conan upload nesci/%s@RWTH-VR/%s --all --force -r=rwth-vr--bintray ' %
-                              (version, channel))
+        execute('conan export-pkg . nesci/%s@RWTH-VR/%s %s -f' %
+                (version, channel, conan_flags))
+        execute('conan test ./test_package nesci/%s@RWTH-VR/%s %s' %
+                (version, channel, conan_flags))
+        execute('conan upload nesci/%s@RWTH-VR/%s --all --force -r=rwth-vr--bintray ' %
+                (version, channel))
 
 
 if (__name__ == '__main__'):
