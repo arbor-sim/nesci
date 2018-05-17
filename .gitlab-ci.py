@@ -137,7 +137,6 @@ def main(argv):
 
         conan_upload_flags = ['upload', 'nesci/%s@RWTH-VR/%s' % (version, channel),
                               '--all', '--force', '-r=rwth-vr--bintray']
-        conan_upload_flags.extend(conan_flags)
         execute('conan', conan_upload_flags)
 
 
