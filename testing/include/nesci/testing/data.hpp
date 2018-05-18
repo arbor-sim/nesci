@@ -31,12 +31,14 @@
 
 #include "conduit/conduit_node.hpp"
 #include "nesci/testing/conduit_schema.hpp"
+#include "nesci/layout/utility.hpp"
 
 #if defined(__GNUC__) && !defined(__clang__)
 #define NESCI_UNUSED __attribute__((unused))
 #else
 #define NESCI_UNUSED
 #endif
+#define Stringify nesci::layout::utility::to_string
 
 namespace nesci {
 namespace testing {
@@ -52,14 +54,6 @@ NESCI_UNUSED static const char* NOT_A_MULTIMETER_NAME{"NOT_A_MULTIMETER_NAME"};
 NESCI_UNUSED static const char* ANY_SPIKE_DETECTOR_NAME{"spikes A"};
 NESCI_UNUSED static const char* NOT_A_SPIKE_DETECTOR_NAME{
     "NOT_A_SPIKE_DETECTOR_NAME"};
-
-template <typename T>
-std::string Stringify(T&& value) {
-  std::stringstream ss;
-  ss.precision(5);
-  ss << std::fixed << value;
-  return ss.str();
-}
 
 #define NESCI_TESTING_TRIPLET(type, name, value0, value1, value2, invalid) \
   NESCI_UNUSED static const type ANY_##name{value0};                       \
