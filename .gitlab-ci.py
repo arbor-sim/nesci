@@ -5,11 +5,11 @@ import sys
 import subprocess
 
 valid_stages = ['conan', 'cmake', 'build', 'test', 'deliver']
-valid_os = ['Windows', 'Linux', 'OSX']
+valid_os = ['Windows', 'Linux', 'macOS']
 valid_compilers = {
     'Windows': ['Visual Studio'],
     'Linux': ['gcc'],
-    'OSX': ['apple-clang', 'gcc']
+    'macOS': ['apple-clang', 'gcc']
 }
 valid_channels = ['develop', 'stable']
 
