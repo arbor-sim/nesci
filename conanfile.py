@@ -27,7 +27,7 @@ class nesci(ConanFile):
     license = "Apache License, Version 2.0"
     description = """nesci -- neural simulator conan interface"""
     settings = "os", "compiler", "build_type", "arch"
-    exports_sources = "src/*"
+    exports_sources = "*"
     url = "https://devhub.vr.rwth-aachen.de/VR-Group/nesci"
 
     requires = (("catch/1.12.0@RWTH-VR/thirdparty"),
