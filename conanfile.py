@@ -59,6 +59,11 @@ class nesci(ConanFile):
        self.copy("*.so", dst="producer/tests", src="lib")
        self.copy("*.dylib", dst="producer/tests", src="lib")
 
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure(source_folder = '.')
+        cmake.build()
+
     def package(self):
         self.copy("*.hpp", dst="include", src="layout/include")
         self.copy("*.hpp", dst="include", src="producer/include")
