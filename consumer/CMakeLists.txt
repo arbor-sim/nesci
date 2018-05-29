@@ -42,4 +42,8 @@ target_link_libraries(consumer
   PUBLIC ${CONAN_OR_CMAKE_conduit}
   )
 
+target_compile_options(consumer
+  PRIVATE -fPIC
+  )
+
 add_subdirectory(tests)

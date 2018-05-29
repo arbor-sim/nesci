@@ -37,4 +37,8 @@ target_include_directories(layout
   PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
   )
 
+target_compile_options(layout
+  PRIVATE -fPIC
+  )
+
 add_subdirectory(tests)
