@@ -27,7 +27,7 @@ class nesci(ConanFile):
     license = "Apache License, Version 2.0"
     description = """nesci -- neural simulator conan interface"""
     settings = "os", "compiler", "build_type", "arch"
-    exports_sources = "src/*"
+    exports_sources = "*"
     url = "https://devhub.vr.rwth-aachen.de/VR-Group/nesci"
 
     requires = (("catch/1.12.0@RWTH-VR/thirdparty"),
@@ -59,10 +59,18 @@ class nesci(ConanFile):
        self.copy("*.so", dst="producer/tests", src="lib")
        self.copy("*.dylib", dst="producer/tests", src="lib")
 
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure(source_folder = '.')
+        cmake.build()
+
     def package(self):
         self.copy("*.hpp", dst="include", src="layout/include")
         self.copy("*.hpp", dst="include", src="producer/include")
         self.copy("*.hpp", dst="include", src="consumer/include")
+        self.copy("*.hpp", dst="include", src="build/layout/include")
+        self.copy("*.hpp", dst="include", src="build/producer/include")
+        self.copy("*.hpp", dst="include", src="build/consumer/include")
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.so*", dst="lib", keep_path=False)
