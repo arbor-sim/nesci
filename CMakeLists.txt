@@ -54,10 +54,11 @@ include(cppcheck)
 
 find_package(PythonInterp REQUIRED)
 find_package(PythonLibs REQUIRED)
-conan_or_find_package(boost_python REQUIRED)
 
 include(py.test)
 include(python_module)
+
+conan_or_find_package(boost_python REQUIRED)
 
 add_subdirectory(testing)
 add_subdirectory(consumer)
