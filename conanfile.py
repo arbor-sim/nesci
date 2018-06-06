@@ -39,6 +39,7 @@ class nesci(ConanFile):
     generators = "cmake"
 
     def configure(self):
+        self.options["boost"].header_only = False
         self.options["boost_python"].python_version = 2.7
         self.options["conduit"].shared = False
 
