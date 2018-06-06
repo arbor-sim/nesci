@@ -40,8 +40,7 @@ class nesci(ConanFile):
 
     def configure(self):
         self.options["boost_python"].python_version = 2.7
-        if (self.settings.os == "Windows"):
-            self.options["conduit"].shared = False
+        self.options["conduit"].shared = False
 
     def imports(self):
         self.copy("*.dll", dst="consumer/tests/Debug", src="bin")
