@@ -29,10 +29,10 @@ namespace pynesci {
 namespace consumer {
 
 SUPPRESS_WARNINGS_BEGIN
-boost::python::list GetDeviceTimestamps(nesci::consumer::Device* device) {
+boost::python::list GetDeviceTimesteps(nesci::consumer::Device* device) {
   boost::python::list ret_val;
-  for (const auto& timestamp : device->GetTimesteps()) {
-    ret_val.append(timestamp);
+  for (const auto& timestep : device->GetTimesteps()) {
+    ret_val.append(timestep);
   }
   return ret_val;
 }
@@ -44,7 +44,7 @@ void SetDeviceNode(nesci::consumer::Device* device, const conduit::Node& node) {
 template <>
 void expose<nesci::consumer::Device>() {
   class_<nesci::consumer::Device>("Device", init<const std::string&>())
-      .def("GetTimestamps", &GetDeviceTimestamps)
+      .def("GetTimesteps", &GetDeviceTimesteps)
       .def("SetNode", &SetDeviceNode);
 }
 
