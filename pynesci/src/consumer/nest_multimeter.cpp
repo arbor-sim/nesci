@@ -28,6 +28,8 @@
 namespace pynesci {
 namespace consumer {
 
+SUPPRESS_WARNINGS_BEGIN
+
 boost::python::list GetNestMultimeterTimestepData(
     nesci::consumer::NestMultimeter* nest_multimeter, const std::string& time,
     const std::string& attribute) {
@@ -48,8 +50,6 @@ boost::python::list GetNestTimeSeriesData(
   }
   return ret_val;
 }
-
-SUPPRESS_WARNINGS_BEGIN
 
 template <>
 void expose<nesci::consumer::NestMultimeter>() {

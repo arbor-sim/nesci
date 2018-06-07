@@ -28,6 +28,8 @@
 namespace pynesci {
 namespace consumer {
 
+SUPPRESS_WARNINGS_BEGIN
+
 boost::python::list GetMultimeterAttributes(
     nesci::consumer::Multimeter* multimeter, const std::string& time) {
   boost::python::list ret_val;
@@ -46,8 +48,6 @@ boost::python::list GetMultimeterNeuronIds(
   }
   return ret_val;
 }
-
-SUPPRESS_WARNINGS_BEGIN
 
 template <>
 void expose<nesci::consumer::Multimeter>() {
