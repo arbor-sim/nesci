@@ -19,30 +19,47 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "pyconsumer.hpp"
 #include <string>
+
 #include "nesci/consumer/arbor_multimeter.hpp"
-#include "nesci/consumer/device.hpp"
-#include "nesci/consumer/multimeter.hpp"
-#include "nesci/consumer/nest_multimeter.hpp"
+#include "pyconsumer.hpp"
+#include "pynesci/suppress_warnings.hpp"
 
 namespace pynesci {
 namespace consumer {
 
-namespace {
-std::string Greet() { return "G'day!"; }
-}  // namespace
+boost::python::list GetArborMultimeterTimestepData(
+    nesci::consumer::ArborMultimeter* arbor_multimeter, const std::string& time,
+    const std::string& attribute) {
+  boost::python::list ret_val;
+  for (const auto& data : arbor_multimeter->GetTimestepData(time, attribute)) {
+    ret_val.append(data);
+  }
+  return ret_val;
+}
+
+boost::python::list GetArborTimeSeriesData(
+    nesci::consumer::ArborMultimeter* arbor_multimeter,
+    const std::string& attribute, const std::string& neuron_id) {
+  boost::python::list ret_val;
+  for (const auto& data :
+       arbor_multimeter->GetTimeSeriesData(attribute, neuron_id)) {
+    ret_val.append(data);
+  }
+  return ret_val;
+}
 
 SUPPRESS_WARNINGS_BEGIN
-// cppcheck-suppress unusedFunction
-BOOST_PYTHON_MODULE(_pyconsumer) {
-  def("Greet", &Greet);
-  expose<nesci::consumer::Device>();
-  expose<nesci::consumer::Multimeter>();
-  expose<nesci::consumer::NestMultimeter>();
-  expose<nesci::consumer::ArborMultimeter>();
-  class_<conduit::Node>("Node");
+
+template <>
+void expose<nesci::consumer::ArborMultimeter>() {
+  class_<nesci::consumer::ArborMultimeter, bases<nesci::consumer::Multimeter>>(
+      "ArborMultimeter", init<const std::string&>())
+      .def("GetTimestepData", &GetArborMultimeterTimestepData)
+      .def("GetTimeSeriesData", &GetArborTimeSeriesData)
+      .def("GetDatum", &nesci::consumer::ArborMultimeter::GetDatum);
 }
+
 SUPPRESS_WARNINGS_END
 
 }  // namespace consumer
