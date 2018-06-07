@@ -19,26 +19,44 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "pyconsumer.hpp"
 #include <string>
-#include "nesci/consumer/device.hpp"
+
 #include "nesci/consumer/multimeter.hpp"
+#include "pyconsumer.hpp"
+#include "pynesci/suppress_warnings.hpp"
 
 namespace pynesci {
 namespace consumer {
 
-namespace {
-std::string Greet() { return "G'day!"; }
-}  // namespace
+boost::python::list GetMultimeterAttributes(
+    nesci::consumer::Multimeter* multimeter, const std::string& time) {
+  boost::python::list ret_val;
+  for (const auto& attribute : multimeter->GetAttributes(time)) {
+    ret_val.append(attribute);
+  }
+  return ret_val;
+}
+
+boost::python::list GetMultimeterNeuronIds(
+    nesci::consumer::Multimeter* multimeter, const std::string& time,
+    const std::string& attribute) {
+  boost::python::list ret_val;
+  for (const auto& neuron_id : multimeter->GetNeuronIds(time, attribute)) {
+    ret_val.append(neuron_id);
+  }
+  return ret_val;
+}
 
 SUPPRESS_WARNINGS_BEGIN
-// cppcheck-suppress unusedFunction
-BOOST_PYTHON_MODULE(_pyconsumer) {
-  def("Greet", &Greet);
-  expose<nesci::consumer::Device>();
-  expose<nesci::consumer::Multimeter>();
-  class_<conduit::Node>("Node");
+
+template <>
+void expose<nesci::consumer::Multimeter>() {
+  class_<nesci::consumer::Multimeter, bases<nesci::consumer::Device>>(
+      "Multimeter", init<const std::string&>())
+      .def("GetAttributes", &GetMultimeterAttributes)
+      .def("GetNeuronIds", &GetMultimeterNeuronIds);
 }
+
 SUPPRESS_WARNINGS_END
 
 }  // namespace consumer
