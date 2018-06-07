@@ -91,6 +91,13 @@ def main(argv):
               (operating_system, ', '.join(valid_compilers[operating_system])))
         sys.exit(-1)
 
+    if operating_system == 'Windows':
+        path_list = os.environ['PATH'].split(';')
+        path_list.insert(0, 'C:\\Python27_64\\')
+        path_list.insert(1, 'C:\\Python27_64\\Scripts')
+        os.environ['PATH'] = ';'.join(path_list)
+        print(os.environ['PATH'])
+
     if stage == 'conan':
         execute('mkdir', ['build'])
         os.chdir('build')
