@@ -43,8 +43,7 @@ void SetDeviceNode(nesci::consumer::Device* device, const conduit::Node& node) {
 
 template <>
 void expose<nesci::consumer::Device>() {
-  class_<nesci::consumer::Device, boost::noncopyable>(
-      "Device", init<const std::string&>())
+  class_<nesci::consumer::Device>("Device", init<const std::string&>())
       .def("GetTimestamps", &GetDeviceTimestamps)
       .def("SetNode", &SetDeviceNode);
 }
