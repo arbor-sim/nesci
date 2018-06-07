@@ -40,7 +40,6 @@ boost::python::list GetDeviceTimestamps(nesci::consumer::Device* device) {
 void SetDeviceNode(nesci::consumer::Device* device, const conduit::Node& node) {
   device->SetNode(&const_cast<conduit::Node&>(node));
 }
-SUPPRESS_WARNINGS_END
 
 template <>
 void expose<nesci::consumer::Device>() {
@@ -49,6 +48,8 @@ void expose<nesci::consumer::Device>() {
       .def("GetTimestamps", &GetDeviceTimestamps)
       .def("SetNode", &SetDeviceNode);
 }
+
+SUPPRESS_WARNINGS_END
 
 }  // namespace consumer
 }  // namespace pynesci
