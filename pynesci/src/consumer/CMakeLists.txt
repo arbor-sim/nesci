@@ -19,12 +19,22 @@
 # limitations under the License.
 # -------------------------------------------------------------------------------
 
-import pynesci
+file(GLOB SOURCES *.cpp)
+file(GLOB HEADERS *.hpp)
+file(GLOB PYTHON_SOURCES *.py)
 
+set(PYCONSUMER_OUTPUT_DIR
+  ${CMAKE_CURRENT_BINARY_DIR}/../../pynesci/consumer
+  CACHE PATH "Output path for pynesci python module"
+  )
 
-def test_pynesci_greet():
-    assert pynesci.Greet() == "G'day!"
-
-
-def test_pynesci_consumer_greet():
-    assert pynesci.consumer.Greet() == "G'day!"
+add_python_module(
+  NAME _pyconsumer
+  SOURCES ${SOURCES}
+  HEADERS ${HEADERS}
+  PYTHON_SOURCES ${PYTHON_SOURCES}
+  INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}
+  LINK_LIBRARIES consumer
+    ${CONAN_OR_CMAKE_boost_python}
+  OUTPUT_DIRECTORY ${PYCONSUMER_OUTPUT_DIR}
+  )

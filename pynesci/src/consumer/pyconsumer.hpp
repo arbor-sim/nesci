@@ -19,22 +19,36 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "pynesci.hpp"
-#include <string>
-#include "conduit/conduit_node.hpp"
+#ifndef PYNESCI_SRC_CONSUMER_PYCONSUMER_HPP_
+#define PYNESCI_SRC_CONSUMER_PYCONSUMER_HPP_
 
-namespace pynesci {
-
-namespace {
-std::string Greet() { return "G'day!"; }
-}  // namespace
-
+#include "pynesci/suppress_warnings.hpp"
 SUPPRESS_WARNINGS_BEGIN
-// cppcheck-suppress unusedFunction
-BOOST_PYTHON_MODULE(_pynesci) {
-  def("Greet", &Greet);
-  class_<conduit::Node>("Node");
-}
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#if __GNUC__ >= 7
+#pragma GCC diagnostic ignored "-Wregister"
+#endif
+#include "boost/python.hpp"
 SUPPRESS_WARNINGS_END
 
+using boost::noncopyable;
+using boost::python::args;
+using boost::python::bases;
+using boost::python::class_;
+using boost::python::def;
+using boost::python::init;
+using boost::python::no_init;
+using boost::python::pure_virtual;
+using boost::python::scope;
+using boost::python::wrapper;
+
+namespace pynesci {
+namespace consumer {
+
+template <typename T>
+void expose();
+
+}  // namespace consumer
 }  // namespace pynesci
+
+#endif  // PYNESCI_SRC_CONSUMER_PYCONSUMER_HPP_

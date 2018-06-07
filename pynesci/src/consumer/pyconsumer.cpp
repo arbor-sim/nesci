@@ -19,11 +19,12 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "pynesci.hpp"
+#include "pyconsumer.hpp"
 #include <string>
-#include "conduit/conduit_node.hpp"
+#include "nesci/consumer/device.hpp"
 
 namespace pynesci {
+namespace consumer {
 
 namespace {
 std::string Greet() { return "G'day!"; }
@@ -31,10 +32,12 @@ std::string Greet() { return "G'day!"; }
 
 SUPPRESS_WARNINGS_BEGIN
 // cppcheck-suppress unusedFunction
-BOOST_PYTHON_MODULE(_pynesci) {
+BOOST_PYTHON_MODULE(_pyconsumer) {
   def("Greet", &Greet);
+  expose<nesci::consumer::Device>();
   class_<conduit::Node>("Node");
 }
 SUPPRESS_WARNINGS_END
 
+}  // namespace consumer
 }  // namespace pynesci

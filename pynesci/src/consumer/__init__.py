@@ -19,12 +19,4 @@
 # limitations under the License.
 # -------------------------------------------------------------------------------
 
-import pynesci
-
-
-def test_pynesci_greet():
-    assert pynesci.Greet() == "G'day!"
-
-
-def test_pynesci_consumer_greet():
-    assert pynesci.consumer.Greet() == "G'day!"
+from _pyconsumer import *

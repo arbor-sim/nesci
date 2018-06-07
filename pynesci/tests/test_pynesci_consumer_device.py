@@ -22,9 +22,11 @@
 import pynesci
 
 
-def test_pynesci_greet():
-    assert pynesci.Greet() == "G'day!"
+def test_pynesci_consumer_device():
+    device = pynesci.consumer.Device("SomeDeviceName")
 
 
-def test_pynesci_consumer_greet():
-    assert pynesci.consumer.Greet() == "G'day!"
+def test_pynesci_consumer_device_set_node():
+    device = pynesci.consumer.Device("SomeDeviceName")
+    some_node = pynesci.Node()
+    device.SetNode(some_node)

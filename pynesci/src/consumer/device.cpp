@@ -19,22 +19,36 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "pynesci.hpp"
 #include <string>
-#include "conduit/conduit_node.hpp"
+
+#include "nesci/consumer/device.hpp"
+#include "pyconsumer.hpp"
+#include "pynesci/suppress_warnings.hpp"
 
 namespace pynesci {
-
-namespace {
-std::string Greet() { return "G'day!"; }
-}  // namespace
+namespace consumer {
 
 SUPPRESS_WARNINGS_BEGIN
-// cppcheck-suppress unusedFunction
-BOOST_PYTHON_MODULE(_pynesci) {
-  def("Greet", &Greet);
-  class_<conduit::Node>("Node");
+boost::python::list GetDeviceTimestamps(nesci::consumer::Device* device) {
+  boost::python::list ret_val;
+  for (const auto& timestamp : device->GetTimesteps()) {
+    ret_val.append(timestamp);
+  }
+  return ret_val;
+}
+
+void SetDeviceNode(nesci::consumer::Device* device, const conduit::Node& node) {
+  device->SetNode(&const_cast<conduit::Node&>(node));
 }
 SUPPRESS_WARNINGS_END
 
+template <>
+void expose<nesci::consumer::Device>() {
+  class_<nesci::consumer::Device, boost::noncopyable>(
+      "Device", init<const std::string&>())
+      .def("GetTimestamps", &GetDeviceTimestamps)
+      .def("SetNode", &SetDeviceNode);
+}
+
+}  // namespace consumer
 }  // namespace pynesci
