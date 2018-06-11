@@ -26,8 +26,8 @@
 #include <vector>
 
 #include "nesci/layout/multimeter.hpp"
-#include "nesci/producer/nest_multimeter.hpp"
 #include "nesci/layout/utility.hpp"
+#include "nesci/producer/nest_multimeter.hpp"
 
 namespace nesci {
 namespace producer {
@@ -46,9 +46,7 @@ void NestMultimeter::RecordImplementation(const Datum& datum) {
 }
 
 std::string NestMultimeter::IdString(std::size_t id) {
-  std::stringstream id_stream;
-  id_stream << id;
-  return layout::utility::to_string(static_cast<double>(id));
+  return layout::utility::to_string(id);
 }
 
 layout::Multimeter NestMultimeter::ConstructPath(

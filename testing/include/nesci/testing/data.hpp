@@ -30,15 +30,14 @@
 #include <vector>
 
 #include "conduit/conduit_node.hpp"
-#include "nesci/testing/conduit_schema.hpp"
 #include "nesci/layout/utility.hpp"
+#include "nesci/testing/conduit_schema.hpp"
 
 #if defined(__GNUC__) && !defined(__clang__)
 #define NESCI_UNUSED __attribute__((unused))
 #else
 #define NESCI_UNUSED
 #endif
-#define Stringify nesci::layout::utility::to_string
 
 namespace nesci {
 namespace testing {
@@ -71,8 +70,9 @@ NESCI_UNUSED static const char* NOT_A_SPIKE_DETECTOR_NAME{
   NESCI_TESTING_TRIPLET(char*, name, value0, value1, value2, "NO ##name")
 #define NESCI_TESTING_TRIPLET_VECTOR_STRINGIFIED(name)                         \
   NESCI_UNUSED static const std::vector<std::string> ANY_##name##S_STRING{     \
-      Stringify(ANY_##name), Stringify(ANOTHER_##name),                        \
-      Stringify(THIRD_##name)};                                                \
+      nesci::layout::utility::to_string(ANY_##name),                           \
+      nesci::layout::utility::to_string(ANOTHER_##name),                       \
+      nesci::layout::utility::to_string(THIRD_##name)};                        \
   NESCI_TESTING_TRIPLET(char*, name##_STRING, ANY_##name##S_STRING[0].c_str(), \
                         ANY_##name##S_STRING[1].c_str(),                       \
                         ANY_##name##S_STRING[2].c_str(), "NO ##name STRING")
@@ -143,11 +143,13 @@ inline static const std::string AnyNestDataSchema() {
   s << "{\n";
   s << "  " << conduit_schema::OpenTag(ANY_MULTIMETER_NAME);
   for (auto time : ANY_TIMES) {
-    s << "    " << conduit_schema::OpenTag(time);
+    s << "    "
+      << conduit_schema::OpenTag(nesci::layout::utility::to_string(time));
     for (auto attribute : ANY_ATTRIBUTES) {
       s << "      " << conduit_schema::OpenTag(attribute);
       for (auto id : ANY_IDS) {
-        s << "        " << conduit_schema::OpenTag(id);
+        s << "        "
+          << conduit_schema::OpenTag(nesci::layout::utility::to_string(id));
         s << "          "
           << conduit_schema::DoubleData((offset++) * datum_size);
         s << "        " << conduit_schema::CloseTagNext();
