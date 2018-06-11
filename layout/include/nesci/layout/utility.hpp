@@ -30,7 +30,7 @@ namespace utility {
 
 template <typename T>
 std::string to_string(T&& value) {
-	return std::to_string(value);
+  return std::to_string(value);
 }
 
 }  // namespace utility
