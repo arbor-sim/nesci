@@ -30,29 +30,29 @@
 #include "nesci/testing/data.hpp"
 
 SCENARIO("A spike detector records to a conduit node",
-         "[niv][niv::SpikeDetector]") {
+         "[nesci][nesci::SpikeDetector]") {
   GIVEN("a conduit node and a spike detector") {
     conduit::Node node;
-    niv::producer::SpikeDetector spike_detector(
-        niv::testing::ANY_SPIKE_DETECTOR_NAME, &node);
+    nesci::producer::SpikeDetector spike_detector(
+        nesci::testing::ANY_SPIKE_DETECTOR_NAME, &node);
 
     WHEN("recording") {
-      spike_detector.Record(niv::producer::SpikeDetector::Datum{
-          niv::testing::ANY_TIME, niv::testing::ANY_ID});
+      spike_detector.Record(nesci::producer::SpikeDetector::Datum{
+          nesci::testing::ANY_TIME, nesci::testing::ANY_ID});
       THEN("data is recorded in the node") {
-        const auto recorded_node = node[niv::testing::ANY_SPIKE_DETECTOR_NAME]
-                                       [niv::testing::ANY_TIME_STRING];
-        REQUIRE(recorded_node.as_uint64_array()[0] == niv::testing::ANY_ID);
+        const auto recorded_node = node[nesci::testing::ANY_SPIKE_DETECTOR_NAME]
+                                       [nesci::testing::ANY_TIME_STRING];
+        REQUIRE(recorded_node.as_uint64_array()[0] == nesci::testing::ANY_ID);
       }
       WHEN("recording another spike") {
         spike_detector.Record(
-            {niv::testing::ANY_TIME, niv::testing::ANOTHER_ID});
+            {nesci::testing::ANY_TIME, nesci::testing::ANOTHER_ID});
         THEN("data is recorded in the node") {
-          const auto recorded_node = node[niv::testing::ANY_SPIKE_DETECTOR_NAME]
-                                         [niv::testing::ANY_TIME_STRING];
-          REQUIRE(recorded_node.as_uint64_array()[0] == niv::testing::ANY_ID);
+          const auto recorded_node = node[nesci::testing::ANY_SPIKE_DETECTOR_NAME]
+                                         [nesci::testing::ANY_TIME_STRING];
+          REQUIRE(recorded_node.as_uint64_array()[0] == nesci::testing::ANY_ID);
           REQUIRE(recorded_node.as_uint64_array()[1] ==
-                  niv::testing::ANOTHER_ID);
+                  nesci::testing::ANOTHER_ID);
         }
       }
     }

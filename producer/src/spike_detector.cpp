@@ -25,7 +25,7 @@
 
 #include "nesci/producer/spike_detector.hpp"
 
-namespace niv {
+namespace nesci {
 namespace producer {
 
 SpikeDetector::SpikeDetector(const std::string& name, conduit::Node* node)
@@ -56,4 +56,4 @@ std::vector<std::size_t> SpikeDetector::AsVector(
 }
 
 }  // namespace producer
-}  // namespace niv
+}  // namespace nesci

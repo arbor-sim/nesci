@@ -28,7 +28,7 @@
 
 #include "nesci/producer/device.hpp"
 
-namespace niv {
+namespace nesci {
 namespace producer {
 
 class SpikeDetector final : public Device {
@@ -61,6 +61,6 @@ class SpikeDetector final : public Device {
 };
 
 }  // namespace producer
-}  // namespace niv
+}  // namespace nesci
 
 #endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
