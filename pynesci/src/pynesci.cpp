@@ -31,10 +31,7 @@ std::string Greet() { return "G'day!"; }
 
 SUPPRESS_WARNINGS_BEGIN
 // cppcheck-suppress unusedFunction
-BOOST_PYTHON_MODULE(_pynesci) {
-  def("Greet", &Greet);
-  class_<conduit::Node>("Node");
-}
+BOOST_PYTHON_MODULE(_pynesci) { def("Greet", &Greet); }
 SUPPRESS_WARNINGS_END
 
 }  // namespace pynesci

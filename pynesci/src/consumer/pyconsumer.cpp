@@ -34,6 +34,7 @@ std::string Greet() { return "G'day!"; }
 }  // namespace
 
 SUPPRESS_WARNINGS_BEGIN
+
 // cppcheck-suppress unusedFunction
 BOOST_PYTHON_MODULE(_pyconsumer) {
   def("Greet", &Greet);
@@ -41,7 +42,6 @@ BOOST_PYTHON_MODULE(_pyconsumer) {
   expose<nesci::consumer::Multimeter>();
   expose<nesci::consumer::NestMultimeter>();
   expose<nesci::consumer::ArborMultimeter>();
-  class_<conduit::Node>("Node");
 }
 SUPPRESS_WARNINGS_END
 
