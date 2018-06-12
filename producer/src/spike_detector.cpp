@@ -23,7 +23,7 @@
 #include <string>
 #include <vector>
 
-#include "niv/producer/spike_detector.hpp"
+#include "nesci/producer/spike_detector.hpp"
 
 namespace niv {
 namespace producer {

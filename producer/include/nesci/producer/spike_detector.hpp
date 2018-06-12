@@ -19,14 +19,14 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef NIV_INCLUDE_NIV_PRODUCER_SPIKE_DETECTOR_HPP_
-#define NIV_INCLUDE_NIV_PRODUCER_SPIKE_DETECTOR_HPP_
+#ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
+#define PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
 
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "niv/producer/device.hpp"
+#include "nesci/producer/device.hpp"
 
 namespace niv {
 namespace producer {
@@ -63,4 +63,4 @@ class SpikeDetector final : public Device {
 }  // namespace producer
 }  // namespace niv
 
-#endif  // NIV_INCLUDE_NIV_PRODUCER_SPIKE_DETECTOR_HPP_
+#endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
