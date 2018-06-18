@@ -32,7 +32,7 @@ SpikeDetector::SpikeDetector(const std::string& name, conduit::Node* node)
     : Device{name}, node_{node} {}
 
 void SpikeDetector::Record(const Datum& datum) {
-  auto& recording_node = node_->fetch(ConstructPath(datum));
+  auto& recording_node = node_->fetch(ConstructPath(datum).GetPath());
 
   std::vector<std::size_t> data{GetData(recording_node)};
   data.push_back(datum.neuron_id);
