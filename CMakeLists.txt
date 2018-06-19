@@ -60,7 +60,7 @@ include(python_module)
 
 conan_or_find_package(boost_python REQUIRED)
 
-add_subdirectory(testing)
+# add_subdirectory(testing)
 add_subdirectory(consumer)
 add_subdirectory(producer)
 add_subdirectory(layout)
