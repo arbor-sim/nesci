@@ -132,10 +132,10 @@ def main(argv):
 
         execute('pip', ['install', '--user', 'pytest'])
 
-        if compiler == 'Visual Studio':
+        if operating_system == 'Windows':
             pytest_dir = subprocess.Popen('pip show pytest', stdout=subprocess.PIPE).communicate()[
                 0].splitlines()[7].replace('Location: ', '')
-        elif compiler == 'apple-clang':
+        elif operating_system == 'macOS':
             pytest_dir = (
                 '/Users/gitlabci/Library/Python/2.7/lib/python/site-packages')
         else:
