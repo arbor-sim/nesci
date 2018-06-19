@@ -22,8 +22,19 @@
 #ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_SPIKE_DETECTOR_HPP_
 #define CONSUMER_INCLUDE_NESCI_CONSUMER_SPIKE_DETECTOR_HPP_
 
+#include "nesci/consumer/device.hpp"
+
 namespace nesci {
 namespace consumer {
+
+	class SpikeDetector final : public Device {
+	public:
+
+	private:
+
+	};
+
+
 }  // namespace consumer
 }  // namespace nesci
 
