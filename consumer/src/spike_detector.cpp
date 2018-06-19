@@ -24,5 +24,8 @@
 namespace nesci {
 namespace consumer {
 
+	SpikeDetector::SpikeDetector(const std::string& name)
+		: Device{ name } {}
+
 }  // namespace consumer
 }  // namespace nesci

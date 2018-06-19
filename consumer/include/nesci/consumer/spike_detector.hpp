@@ -30,6 +30,12 @@ namespace consumer {
 	class SpikeDetector final : public Device {
 	public:
 
+		SpikeDetector() = delete;
+		SpikeDetector(const std::string& name);
+		SpikeDetector(const SpikeDetector&) = default;
+		SpikeDetector(SpikeDetector&&) = default;
+		~SpikeDetector() override = default;
+
 	private:
 
 	};
