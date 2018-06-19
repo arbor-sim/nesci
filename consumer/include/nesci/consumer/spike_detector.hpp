@@ -21,4 +21,10 @@
 
 #ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_SPIKE_DETECTOR_HPP_
 #define CONSUMER_INCLUDE_NESCI_CONSUMER_SPIKE_DETECTOR_HPP_
+
+namespace nesci {
+namespace consumer {
+}  // namespace consumer
+}  // namespace nesci
+
 #endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
