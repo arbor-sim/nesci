@@ -18,3 +18,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //------------------------------------------------------------------------------
+
+#include "catch/catch.hpp"
+
+#include "conduit/conduit_node.hpp"
+
+#include "nesci/consumer/spike_detector.hpp"
+#include "nesci/testing/data.hpp"
+
+#include "utilities/vector_all_nan_or_empty.hpp"
+
+SCENARIO("Empty test",
+	"[nesci][nesci::consumer][nesci::consumer::SpikeDetector]") {
+	REQUIRE(1 == 1);
+}
