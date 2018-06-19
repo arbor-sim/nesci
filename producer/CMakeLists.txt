@@ -22,27 +22,27 @@
 file(GLOB PRODUCER_SOURCES src/*.cpp)
 file(GLOB PRODUCER_HEADERS include/nesci/producer/*.hpp)
 
-rwthvr_add_library(NAME producer
+rwthvr_add_library(NAME nesci_producer
   SOURCES ${PRODUCER_SOURCES}
   HEADERS ${PRODUCER_HEADERS}
   SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/producer/suppress_warnings.hpp"
   )
-generate_export_header(producer
+generate_export_header(nesci_producer
   EXPORT_FILE_NAME
   "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/producer/export.hpp"
   )
   
-target_include_directories(producer
+target_include_directories(nesci_producer
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
   PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
   )
 
-target_link_libraries(producer
-  PUBLIC layout
+target_link_libraries(nesci_producer
+  PUBLIC nesci_layout
   PUBLIC ${CONAN_OR_CMAKE_conduit}
   )
 
-target_compile_options(producer
+target_compile_options(nesci_producer
   PRIVATE -fPIC
   )
 

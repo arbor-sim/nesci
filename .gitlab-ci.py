@@ -26,11 +26,11 @@ import sys
 import subprocess
 
 valid_stages = ['conan', 'cmake', 'build', 'test', 'deliver']
-valid_os = ['Windows', 'Linux', 'OSX']
+valid_os = ['Windows', 'Linux', 'macOS']
 valid_compilers = {
     'Windows': ['Visual Studio'],
     'Linux': ['gcc'],
-    'OSX': ['apple-clang', 'gcc']
+    'macOS': ['apple-clang', 'gcc']
 }
 valid_channels = ['develop', 'stable']
 
@@ -96,14 +96,23 @@ def main(argv):
         path_list.insert(0, 'C:\\Python27_64\\')
         path_list.insert(1, 'C:\\Python27_64\\Scripts')
         os.environ['PATH'] = ';'.join(path_list)
-        print(os.environ['PATH'])
+    elif operating_system == 'Linux':
+        os.environ['CC'] = 'gcc'
+        os.environ['CXX'] = 'g++'
+    elif operating_system == 'macOS' and compiler == 'gcc':
+        if compiler_version == '5':
+            os.environ['CC'] = 'gcc-5'
+            os.environ['CXX'] = 'g++-5'
+        elif compiler_version == '6':
+            os.environ['CC'] = 'gcc-6'
+            os.environ['CXX'] = 'g++-6'
+        elif compiler_version == '7':
+            os.environ['CC'] = 'gcc-7'
+            os.environ['CXX'] = 'g++-7'
 
     if stage == 'conan':
         execute('mkdir', ['build'])
         os.chdir('build')
-        if operating_system == 'Linux':
-            os.environ['CC'] = 'gcc'
-            os.environ['CXX'] = 'g++'
 
         execute('conan',
                 ['remote', 'update', 'rwth-vr--bintray',
@@ -175,7 +184,7 @@ def main(argv):
         conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' %
                             (version, channel)]
         conan_test_flags.extend(conan_flags)
-        execute('conan', conan_test_flags)
+        # execute('conan', conan_test_flags)
 
         conan_upload_flags = ['upload', 'nesci/%s@RWTH-VR/%s' % (version, channel),
                               '--all', '--force', '-r=rwth-vr--bintray']

@@ -22,27 +22,27 @@
 file(GLOB CONSUMER_SOURCES src/*.cpp)
 file(GLOB CONSUMER_HEADERS include/nesci/consumer/*.hpp)
 
-rwthvr_add_library(NAME consumer
+rwthvr_add_library(NAME nesci_consumer
   SOURCES ${CONSUMER_SOURCES}
   HEADERS ${CONSUMER_HEADERS}
   SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/consumer/suppress_warnings.hpp"
   )
-generate_export_header(consumer
+generate_export_header(nesci_consumer
   EXPORT_FILE_NAME
   "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/consumer/export.hpp"
   )
   
-target_include_directories(consumer
+target_include_directories(nesci_consumer
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
   PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
   )
 
-target_link_libraries(consumer
-  PUBLIC layout
+target_link_libraries(nesci_consumer
+  PUBLIC nesci_layout
   PUBLIC ${CONAN_OR_CMAKE_conduit}
   )
 
-target_compile_options(consumer
+target_compile_options(nesci_consumer
   PRIVATE -fPIC
   )
 

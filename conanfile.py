@@ -40,6 +40,7 @@ class nesci(ConanFile):
 
     def configure(self):
         self.options["boost"].header_only = False
+        self.options["boost"].shared = True
         self.options["boost_python"].python_version = 2.7
         self.options["boost_python"].shared = True
         self.options["conduit"].shared = False
@@ -82,4 +83,5 @@ class nesci(ConanFile):
         self.copy("*.dylib", dst="lib", keep_path=False, symlinks=True)
 
     def package_info(self):
-        self.cpp_info.libs = ["layout", "consumer", "producer"]
+        self.cpp_info.libs = ["nesci_layout",
+                              "nesci_consumer", "nesci_producer"]
