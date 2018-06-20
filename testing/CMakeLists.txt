@@ -42,6 +42,6 @@ target_link_libraries(testing
   )
 
 target_link_libraries(testing
-  PUBLIC layout
+  PUBLIC nesci_layout
   PUBLIC ${CONAN_OR_CMAKE_conduit}
   )
