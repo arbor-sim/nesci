@@ -40,3 +40,8 @@ target_include_directories(testing
 target_link_libraries(testing
   PUBLIC ${CONAN_OR_CMAKE_conduit}
   )
+
+target_link_libraries(testing
+  PUBLIC layout
+  PUBLIC ${CONAN_OR_CMAKE_conduit}
+  )
