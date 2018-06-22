@@ -123,7 +123,7 @@ def main(argv):
 
     elif stage == 'test':
         os.chdir('build')
-        if operating_system == 'OSX':
+        if operating_system == 'macOS':
             os.environ['CTEST_OUTPUT_ON_FAILURE'] = '1'
         execute('ctest', ['-C', 'Release'])
 
@@ -144,7 +144,7 @@ def main(argv):
         conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' %
                             (version, channel)]
         conan_test_flags.extend(conan_flags)
-        # execute('conan', conan_test_flags)
+        execute('conan', conan_test_flags)
 
         conan_upload_flags = ['upload', 'nesci/%s@RWTH-VR/%s' % (version, channel),
                               '--all', '--force', '-r=rwth-vr--bintray']
