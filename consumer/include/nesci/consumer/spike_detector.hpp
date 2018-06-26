@@ -27,7 +27,7 @@
 namespace nesci {
 namespace consumer {
 
-	class SpikeDetector final : public Device {
+	class SpikeDetector : public nesci::consumer::Device {
 	public:
 
 		SpikeDetector() = delete;

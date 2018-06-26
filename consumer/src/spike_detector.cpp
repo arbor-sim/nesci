@@ -21,6 +21,8 @@
 
 #include "nesci/consumer/spike_detector.hpp"
 
+#include "nesci/layout/spike_detector.hpp"
+
 namespace nesci {
 namespace consumer {
 
