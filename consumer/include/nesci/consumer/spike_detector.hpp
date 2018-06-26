@@ -29,13 +29,13 @@ namespace consumer {
 
 	class SpikeDetector : public nesci::consumer::Device {
 	public:
-
 		SpikeDetector() = delete;
 		SpikeDetector(const std::string& name);
 		SpikeDetector(const SpikeDetector&) = default;
 		SpikeDetector(SpikeDetector&&) = default;
 		~SpikeDetector() override = default;
 
+		std::vector<std::string> GetNeuronIds(const std::string& time);
 	private:
 
 	};

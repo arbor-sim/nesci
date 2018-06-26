@@ -29,5 +29,12 @@ namespace consumer {
 	SpikeDetector::SpikeDetector(const std::string& name)
 		: Device{ name } {}
 
+	std::vector<std::string> SpikeDetector::GetNeuronIds(const std::string& time) {
+		layout::SpikeDetector path(GetName());
+		path.SetTime(time);
+
+		return GetChildNames(path);
+	}
+
 }  // namespace consumer
 }  // namespace nesci
