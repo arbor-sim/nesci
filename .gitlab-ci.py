@@ -134,7 +134,7 @@ def main(argv):
             print('Invalid channel: %s possible values: %s' %
                   (channel, ', '.join(valid_channels)))
             sys.exit(-1)
-        conan_flags = get_conan_flags(compiler, compiler_version)
+        conan_flags = get_conan_flags(compiler, compiler_version, '-e CXX=/opt/rh/devtoolset-4/root/usr/bin/c++ -e CC=/opt/rh/devtoolset-4/root/usr/bin/cc')
 
         conan_export_flags = ['export-pkg', '.',
                               'nesci/%s@RWTH-VR/%s' % (version, channel), '-f']
