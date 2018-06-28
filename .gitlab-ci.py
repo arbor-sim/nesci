@@ -75,7 +75,7 @@ def main(argv):
             os.environ['CXX'] = 'g++-7'
 
     if stage == 'conan':
-        execute('mkdir', ['build'])
+        os.system('mkdir build')
         os.chdir('build')
 
         os.system(
