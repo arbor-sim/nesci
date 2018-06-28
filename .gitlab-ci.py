@@ -18,7 +18,7 @@ visual_studio_version_year_map = {
 }
 
 
-def execute(command, arguments):
+def execute(command, arguments, operating_system):
     call_arguments = [command]
     call_arguments.extend(arguments)
     print('\033[92m$ ' + command + ' ' + ' '.join(arguments) + '\033[0m')
@@ -96,19 +96,19 @@ def main(argv):
             os.environ['CXX'] = 'g++-7'
 
     if stage == 'conan':
-        execute('mkdir', ['build'])
+        execute('mkdir', ['build'], operating_system)
         os.chdir('build')
 
         execute('conan',
                 ['remote', 'update', 'rwth-vr--bintray',
-                 'https://api.bintray.com/conan/rwth-vr/conan'])
+                 'https://api.bintray.com/conan/rwth-vr/conan'], operating_system)
         execute('conan', ['user', '-p', os.environ['CONAN_PASSWORD'],
-                          '-r', 'rwth-vr--bintray', os.environ['CONAN_LOGIN_USERNAME']])
+                          '-r', 'rwth-vr--bintray', os.environ['CONAN_LOGIN_USERNAME']], operating_system)
 
         conan_install_flags = ['install', '--build=missing']
         conan_install_flags.extend(get_conan_flags(compiler, compiler_version))
         conan_install_flags.append('..')
-        execute('conan', conan_install_flags)
+        execute('conan', conan_install_flags, operating_system)
 
     elif stage == 'cmake':
         os.chdir('build')
@@ -121,7 +121,7 @@ def main(argv):
         else:
             cmake_flags.append('-DCMAKE_BUILD_TYPE=Release')
 
-        execute('cmake', cmake_flags)
+        execute('cmake', cmake_flags, operating_system)
 
     elif stage == 'build':
         os.chdir('build')
@@ -130,13 +130,13 @@ def main(argv):
         if compiler == 'Visual Studio':
             cmake_build_flags.extend(['--config', 'Release'])
 
-        execute('cmake', cmake_build_flags)
+        execute('cmake', cmake_build_flags, operating_system)
 
     elif stage == 'test':
         os.chdir('build')
         if operating_system == 'macOS':
             os.environ['CTEST_OUTPUT_ON_FAILURE'] = '1'
-        execute('ctest', ['-C', 'Release'])
+        execute('ctest', ['-C', 'Release'], operating_system)
 
     elif stage == 'deliver':
         channel = os.environ['channel']
@@ -150,17 +150,17 @@ def main(argv):
         conan_export_flags = ['export-pkg', '.',
                               'nesci/%s@RWTH-VR/%s' % (version, channel), '-f']
         conan_export_flags.extend(conan_flags)
-        execute('conan', conan_export_flags)
+        execute('conan', conan_export_flags, operating_system)
 
         conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel), 
                             '-e', 'CXX=/opt/rh/devtoolset-%s/root/usr/bin/c++' % (compiler_version[:1]),
                             '-e', 'CC=/opt/rh/devtoolset-%s/root/usr/bin/cc' % (compiler_version[:1])]
         conan_test_flags.extend(conan_flags)
-        execute('conan', conan_test_flags)
+        execute('conan', conan_test_flags, operating_system)
 
         conan_upload_flags = ['upload', 'nesci/%s@RWTH-VR/%s' % (version, channel),
                               '--all', '--force', '-r=rwth-vr--bintray']
-        execute('conan', conan_upload_flags)
+        execute('conan', conan_upload_flags, operating_system)
 
 
 if (__name__ == '__main__'):
