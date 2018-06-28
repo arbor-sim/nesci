@@ -141,8 +141,12 @@ def main(argv):
         conan_export_flags.extend(conan_flags)
         execute('conan', conan_export_flags)
 
-        conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s -e CXX=/opt/rh/devtoolset-6/root/usr/bin/c++ -e CC=/opt/rh/devtoolset-6/root/usr/bin/cc' % (version, channel)]
+        conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' %
+                            (version, channel)]
         conan_test_flags.extend(conan_flags)
+        
+        os.system('export PATH=/opt/rh/devtoolset-%s/root/usr/bin:$PATH' %
+                  (compiler_version))
         execute('conan', conan_test_flags)
 
         conan_upload_flags = ['upload', 'nesci/%s@RWTH-VR/%s' % (version, channel),
