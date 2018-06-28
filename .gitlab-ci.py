@@ -23,7 +23,13 @@ def execute(command, arguments):
     call_arguments.extend(arguments)
     print('\033[92m$ ' + command + ' ' + ' '.join(arguments) + '\033[0m')
     sys.stdout.flush()
-    return_value = subprocess.call(call_arguments)
+    
+    #custom_env = os.environ.copy()
+    #custom_env["PATH"] = additional_path + my_env["PATH"]
+    
+    return_value = subprocess.call(call_arguments, env={'CC': 'gcc',
+                                          'CXX': 'g++',
+                                          'PATH': os.environ['PATH']})
     if return_value != 0:
         sys.exit(return_value)
 
