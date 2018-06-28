@@ -118,13 +118,13 @@ def main(argv):
             print('Invalid channel: %s possible values: %s' %
                   (channel, ', '.join(valid_channels)))
             sys.exit(-1)
-      conan_flags = ' '.join(get_conan_flags(compiler, compiler_version))
-      os.system('conan export-pkg . contra/%s@RWTH-VR/%s %s -f' %
-                (version, channel, conan_flags))
-      os.system('conan test ./test_package contra/%s@RWTH-VR/%s %s' %
-                (version, channel, conan_flags))
-      os.system('conan upload contra/%s@RWTH-VR/%s --all --force -r=rwth-vr--bintray ' %
-                (version, channel))
+        conan_flags = ' '.join(get_conan_flags(compiler, compiler_version))
+        os.system('conan export-pkg . contra/%s@RWTH-VR/%s %s -f' %
+                  (version, channel, conan_flags))
+        os.system('conan test ./test_package contra/%s@RWTH-VR/%s %s' %
+                  (version, channel, conan_flags))
+        os.system('conan upload contra/%s@RWTH-VR/%s --all --force -r=rwth-vr--bintray ' %
+                  (version, channel))
 
 
 if (__name__ == '__main__'):
