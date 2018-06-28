@@ -109,7 +109,7 @@ def main(argv):
         os.chdir('build')
         if operating_system == 'macOS':
             os.environ['CTEST_OUTPUT_ON_FAILURE'] = '1'
-        execute('ctest', ['-C', 'Release'])
+        os.system('ctest -C Release')
 
     elif stage == 'deliver':
         channel = os.environ['channel']
@@ -121,8 +121,18 @@ def main(argv):
         conan_flags = ' '.join(get_conan_flags(compiler, compiler_version))
         os.system('conan export-pkg . contra/%s@RWTH-VR/%s %s -f' %
                   (version, channel, conan_flags))
-        os.system('conan test ./test_package contra/%s@RWTH-VR/%s %s' %
-                  (version, channel, conan_flags))
+        if operating_system == 'Linux':
+            if compiler_version == '5':
+                os.system('conan test ./test_package contra/%s@RWTH-VR/%s %s' %
+                          (version, channel, conan_flags))
+            elif compiler_version == '6':
+                os.system('conan test ./test_package contra/%s@RWTH-VR/%s -e CXX=/opt/rh/devtoolset-6/root/usr/bin/c++ -e CC=/opt/rh/devtoolset-6/root/usr/bin/cc -s compiler="gcc" -s compiler.version="6.3" -s compiler.libcxx="libstdc++11" -s build_type=Release' %
+                          (version, channel))
+                print('_________________________________________GCC&__________________________________________')
+            elif compiler_version == '7':
+                os.system('conan test ./test_package contra/%s@RWTH-VR/%s %s' %
+                          (version, channel, conan_flags))
+                      
         os.system('conan upload contra/%s@RWTH-VR/%s --all --force -r=rwth-vr--bintray ' %
                   (version, channel))
 
