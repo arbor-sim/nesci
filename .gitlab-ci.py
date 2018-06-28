@@ -27,9 +27,14 @@ def execute(command, arguments):
     #custom_env = os.environ.copy()
     #custom_env["PATH"] = additional_path + my_env["PATH"]
     
-    return_value = subprocess.call(call_arguments, env={'CC': 'gcc',
-                                          'CXX': 'g++',
-                                          'PATH': os.environ['PATH']})
+    if operating_system == 'Linux':
+        return_value = subprocess.call(call_arguments, env={'CC': 'gcc',
+                                              'CXX': 'g++',
+                                              'PATH': os.environ['PATH']})
+    else:
+        return_value = subprocess.call(call_arguments)
+      
+                                              
     if return_value != 0:
         sys.exit(return_value)
 
