@@ -18,21 +18,12 @@ visual_studio_version_year_map = {
 }
 
 
-def execute(command, arguments, operating_system):
+def execute(command, arguments):
     call_arguments = [command]
     call_arguments.extend(arguments)
     print('\033[92m$ ' + command + ' ' + ' '.join(arguments) + '\033[0m')
     sys.stdout.flush()
-    
-    custom_env = os.environ.copy()
-    custom_env["PATH"] = '/opt/rh/devtoolset-4/root/usr/bin:' + custom_env["PATH"]
-    
-    if operating_system == 'Linux':
-        return_value = subprocess.call(call_arguments, env=custom_env)
-    else:
-        return_value = subprocess.call(call_arguments)
-      
-                                              
+    return_value = subprocess.call(call_arguments)
     if return_value != 0:
         sys.exit(return_value)
 
@@ -94,19 +85,19 @@ def main(argv):
             os.environ['CXX'] = 'g++-7'
 
     if stage == 'conan':
-        execute('mkdir', ['build'], operating_system)
+        execute('mkdir', ['build'])
         os.chdir('build')
 
         execute('conan',
                 ['remote', 'update', 'rwth-vr--bintray',
-                 'https://api.bintray.com/conan/rwth-vr/conan'], operating_system)
+                 'https://api.bintray.com/conan/rwth-vr/conan'])
         execute('conan', ['user', '-p', os.environ['CONAN_PASSWORD'],
-                          '-r', 'rwth-vr--bintray', os.environ['CONAN_LOGIN_USERNAME']], operating_system)
+                          '-r', 'rwth-vr--bintray', os.environ['CONAN_LOGIN_USERNAME']])
 
         conan_install_flags = ['install', '--build=missing']
         conan_install_flags.extend(get_conan_flags(compiler, compiler_version))
         conan_install_flags.append('..')
-        execute('conan', conan_install_flags, operating_system)
+        execute('conan', conan_install_flags)
 
     elif stage == 'cmake':
         os.chdir('build')
@@ -119,7 +110,7 @@ def main(argv):
         else:
             cmake_flags.append('-DCMAKE_BUILD_TYPE=Release')
 
-        execute('cmake', cmake_flags, operating_system)
+        execute('cmake', cmake_flags)
 
     elif stage == 'build':
         os.chdir('build')
@@ -128,13 +119,13 @@ def main(argv):
         if compiler == 'Visual Studio':
             cmake_build_flags.extend(['--config', 'Release'])
 
-        execute('cmake', cmake_build_flags, operating_system)
+        execute('cmake', cmake_build_flags)
 
     elif stage == 'test':
         os.chdir('build')
         if operating_system == 'macOS':
             os.environ['CTEST_OUTPUT_ON_FAILURE'] = '1'
-        execute('ctest', ['-C', 'Release'], operating_system)
+        execute('ctest', ['-C', 'Release'])
 
     elif stage == 'deliver':
         channel = os.environ['channel']
@@ -148,15 +139,28 @@ def main(argv):
         conan_export_flags = ['export-pkg', '.',
                               'nesci/%s@RWTH-VR/%s' % (version, channel), '-f']
         conan_export_flags.extend(conan_flags)
-        execute('conan', conan_export_flags, operating_system)
+        execute('conan', conan_export_flags)
 
-        conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel)]
+        if operating_system == 'Linux':
+            if compiler_version[:1] == '5':
+                conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel), 
+                                    '-e', 'CXX=/opt/rh/devtoolset-4/root/usr/bin/c++',
+                                    '-e', 'CC=/opt/rh/devtoolset-4/root/usr/bin/cc']
+            elif compiler_version[:1] == '6':
+                conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel), 
+                                    '-e', 'CXX=/opt/rh/devtoolset-6/root/usr/bin/c++',
+                                    '-e', 'CC=/opt/rh/devtoolset-6/root/usr/bin/cc']
+        
+        else:
+            conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel)]
+          
+                                    
         conan_test_flags.extend(conan_flags)
-        execute('conan', conan_test_flags, operating_system)
+        execute('conan', conan_test_flags)
 
         conan_upload_flags = ['upload', 'nesci/%s@RWTH-VR/%s' % (version, channel),
                               '--all', '--force', '-r=rwth-vr--bintray']
-        execute('conan', conan_upload_flags, operating_system)
+        execute('conan', conan_upload_flags)
 
 
 if (__name__ == '__main__'):
