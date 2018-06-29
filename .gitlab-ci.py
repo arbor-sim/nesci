@@ -25,7 +25,7 @@ def execute(command, arguments, operating_system):
     sys.stdout.flush()
     
     custom_env = os.environ.copy()
-    custom_env["PATH"] = '/opt/rh/devtoolset-4/root/usr/bin:' + my_env["PATH"]
+    custom_env["PATH"] = '/opt/rh/devtoolset-4/root/usr/bin:' + custom_env["PATH"]
     
     if operating_system == 'Linux':
         return_value = subprocess.call(call_arguments, env=custom_env)
