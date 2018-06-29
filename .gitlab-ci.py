@@ -24,13 +24,11 @@ def execute(command, arguments, operating_system):
     print('\033[92m$ ' + command + ' ' + ' '.join(arguments) + '\033[0m')
     sys.stdout.flush()
     
-    #custom_env = os.environ.copy()
-    #custom_env["PATH"] = additional_path + my_env["PATH"]
+    custom_env = os.environ.copy()
+    custom_env["PATH"] = '/opt/rh/devtoolset-4/root/usr/bin:' + my_env["PATH"]
     
     if operating_system == 'Linux':
-        return_value = subprocess.call(call_arguments, env={'CC': 'gcc',
-                                              'CXX': 'g++',
-                                              'PATH': os.environ['PATH']})
+        return_value = subprocess.call(call_arguments, env=custom_env)
     else:
         return_value = subprocess.call(call_arguments)
       
@@ -152,9 +150,7 @@ def main(argv):
         conan_export_flags.extend(conan_flags)
         execute('conan', conan_export_flags, operating_system)
 
-        conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel), 
-                            '-e', 'CXX=/opt/rh/devtoolset-%s/root/usr/bin/c++' % (compiler_version[:1]),
-                            '-e', 'CC=/opt/rh/devtoolset-%s/root/usr/bin/cc' % (compiler_version[:1])]
+        conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel)]
         conan_test_flags.extend(conan_flags)
         execute('conan', conan_test_flags, operating_system)
 
