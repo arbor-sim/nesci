@@ -27,8 +27,17 @@
 #include "nesci/testing/data.hpp"
 
 #include "utilities/vector_all_nan_or_empty.hpp"
+#include <iostream>
 
-SCENARIO("Empty test",
-	"[nesci][nesci::consumer][nesci::consumer::SpikeDetector]") {
-	REQUIRE(1 == 1);
+SCENARIO("Test GetNeuronIds",
+	"[nesci][nesci::SpikeDetector]") {
+  GIVEN("a conduit node and a spike detector") {
+    nesci::consumer::SpikeDetector spike_detector(
+      nesci::testing::ANY_SPIKE_DETECTOR_NAME);
+
+    std::vector<std::string> output =
+      spike_detector.GetNeuronIds(nesci::testing::ANY_TIME_STRING);
+     
+	  REQUIRE(1 == 1);
+  }
 }
