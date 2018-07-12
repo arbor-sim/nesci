@@ -35,7 +35,8 @@ namespace consumer {
 		SpikeDetector(SpikeDetector&&) = default;
 		~SpikeDetector() override = default;
 
-		std::vector<std::string> GetNeuronIds(const std::string& time);
+		std::vector<std::uint64_t> GetNeuronIds(
+                    const std::string& time);
 	private:
 
 	};

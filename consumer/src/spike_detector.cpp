@@ -29,11 +29,11 @@ namespace consumer {
 	SpikeDetector::SpikeDetector(const std::string& name)
 		: Device{ name } {}
 
-	std::vector<std::string> SpikeDetector::GetNeuronIds(const std::string& time) {
+	std::vector<std::uint64_t> SpikeDetector::GetNeuronIds(const std::string& time) {
 		layout::SpikeDetector path(GetName());
 		path.SetTime(time);
 
-		return GetChildNames(path);
+		return GetUint64Values(path);
 	}
 
 }  // namespace consumer
