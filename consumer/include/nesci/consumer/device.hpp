@@ -53,6 +53,7 @@ class Device {
   std::vector<std::string> GetChildNames(const layout::Device& path) const;
 
   double GetValue(const layout::Device& path) const;
+  std::vector<std::uint64_t> GetUint64Values(const layout::Device& path) const;
 
  private:
   const conduit::Node* GetNode(const layout::Device& path) const;

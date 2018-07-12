@@ -61,6 +61,19 @@ double Device::GetValue(const layout::Device& path) const {
   return (node != nullptr) ? node->as_double() : std::nan("");
 }
 
+std::vector<std::uint64_t> Device::GetUint64Values(
+    const layout::Device& path) const {
+  const conduit::Node* node{GetNode(path)};
+  if (node != nullptr) {
+    const auto data_array = node->as_uint64_array();
+    return std::vector<std::uint64_t> {
+      &data_array[0], &data_array[0] + data_array.number_of_elements()
+    };
+  } else {
+    return std::vector<std::uint64_t>{};
+  }
+}
+
 const conduit::Node* Device::GetNode(const layout::Device& path) const {
   const conduit::Node* node{nullptr};
   try {
