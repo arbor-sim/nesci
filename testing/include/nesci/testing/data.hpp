@@ -175,7 +175,7 @@ inline static const std::string AnyNestSpikeDataSchema() {
   std::size_t offset = 0;
   const std::size_t datum_size = 8;
   s << "{\n";
-  s << "  " << conduit_schema::OpenTag(ANY_MULTIMETER_NAME);
+  s << "  " << conduit_schema::OpenTag(ANY_SPIKE_DETECTOR_NAME);
   for (auto time : ANY_TIMES) {
     s << "    " << conduit_schema::OpenTag(time);
     for (auto id : ANY_IDS) {
