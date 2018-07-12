@@ -35,11 +35,20 @@ SCENARIO("Test GetNeuronIds",
     nesci::consumer::SpikeDetector spike_detector(
       nesci::testing::ANY_SPIKE_DETECTOR_NAME);
 
-    spike_detector.SetNode(&nesci::testing::ANY_SPIKE_DATA);
+    std::string path;
+    path += nesci::testing::ANY_SPIKE_DETECTOR_NAME;
+    path += "/";
+    path += nesci::testing::ANY_TIME_STRING; 
+    conduit::Node node;
+    node[path] = nesci::testing::ANY_IDS;
 
-    std::vector<std::string> output =
+    spike_detector.SetNode(&node);
+
+    std::vector<std::uint64_t> output =
       spike_detector.GetNeuronIds(nesci::testing::ANY_TIME_STRING);
 
-	  REQUIRE(1 == 1);
+    for (uint64_t i = 0; i < output.size(); ++i) {
+      REQUIRE(output.at(i) == nesci::testing::ANY_IDS.at(i));
+    }
   }
 }
