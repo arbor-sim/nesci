@@ -31,17 +31,9 @@ SpikeDetector::SpikeDetector(const Device& device) : Device(device) {}
 SpikeDetector::SpikeDetector(Device&& device) : Device(device) {}
 
 std::string SpikeDetector::GetPath() const {
-	return Device::GetPath() + SuffixIfNotEmpty(attribute_) +
-		SuffixIfNotEmpty(neuron_id_);
+	return Device::GetPath();
 }
 
-void SpikeDetector::SetAttribute(const std::string& attribute) {
-	attribute_ = attribute;
-}
-
-void SpikeDetector::SetNeuronId(const std::string& neuron_id) {
-	neuron_id_ = neuron_id;
-}
 
 }  // namespace layout
 }  // namespace nesci

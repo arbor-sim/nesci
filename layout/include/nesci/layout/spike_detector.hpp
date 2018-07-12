@@ -44,12 +44,6 @@ namespace layout {
 
 		std::string GetPath() const override;
 
-		void SetAttribute(const std::string& attribute);
-		void SetNeuronId(const std::string& neuron_id);
-
-	private:
-		std::string attribute_{ "" };
-		std::string neuron_id_{ "" };
 	};
 
 }  // namespace layout
