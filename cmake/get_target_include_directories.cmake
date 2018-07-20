@@ -38,9 +38,7 @@ function(get_target_include_directories VAR)
 
       foreach(LIB ${LINK_LIBRARIES})
         get_target_include_directories(LIB_INCLUDE_DIRECTORIES TARGET ${LIB})
-        if (${LIB_INCLUDE_DIRECTORIES})
-          set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} ${LIB_INCLUDE_DIRECTORIES})
-        endif (${LIB_INCLUDE_DIRECTORIES})
+        set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} ${LIB_INCLUDE_DIRECTORIES})
       endforeach(LIB ${LINK_LIBRARIES})
     endif(${IS_IMPORTED})
 
@@ -48,8 +46,6 @@ function(get_target_include_directories VAR)
     set(INCLUDE_DIRECTORIES "")
   endif (TARGET ${ARGS_TARGET})
 
-  if (${INCLUDE_DIRECTORIES})
-    set(${VAR} ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
-  endif (${INCLUDE_DIRECTORIES})
+  set(${VAR} ${INCLUDE_DIRECTORIES} PARENT_SCOPE)
 
 endfunction(get_target_include_directories)

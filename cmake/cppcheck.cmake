@@ -19,8 +19,6 @@
 # limitations under the License.
 #-------------------------------------------------------------------------------
 
-include(get_target_include_directories)
-
 set(CPPCHECK_COMMAND NOTFOUND)
 find_program(CPPCHECK_COMMAND NAMES cppcheck cppcheck.exe 
     PATHS ${CONAN_BIN_DIRS_CPPCHECK} ${CONAN_BIN_DIRS_CPPCHECK_RELEASE} 
@@ -37,7 +35,7 @@ else()
   message(STATUS "Use cppcheck from: ${CPPCHECK_COMMAND}")
 endif()
 
-set(CPPCHECK_ARGUMENTS --enable=warning,performance,portability,missingInclude,style --suppress=missingIncludeSystem --error-exitcode=1)
+set(CPPCHECK_ARGUMENTS --enable=warning,performance,portability,missingInclude,style --suppress=missingIncludeSystem --error-exitcode=1 --verbose)
 if(MSVC)
   list(APPEND CPPCHECK_ARGUMENTS --template=vs)
 elseif(CLANG)
@@ -48,21 +46,17 @@ endif()
 
 function(ADD_TEST_CPPCHECK)
   set(options)
-  set(oneValueArgs TARGET)
-  set(multiValueArgs)
+  set(oneValueArgs NAME)
+  set(multiValueArgs SOURCES INCLUDE_DIRECTORIES)
   cmake_parse_arguments(ARGS
     "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-    get_target_property(SOURCES ${ARGS_TARGET} SOURCES)
-    get_target_include_directories(INCLUDE_DIRECTORIES TARGET ${ARGS_TARGET})
-    message("SOURCES ${SOURCES}")
 
-    set(INCLUDE_DIRECTORIES_PARAMETERS "")
-    foreach(VAL ${INCLUDE_DIRECTORIES})
-      set(INCLUDE_DIRECTORIES_PARAMETERS ${INCLUDE_DIRECTORIES_PARAMETERS};-I;${VAL})
-    endforeach(VAL ${INCLUDE_DIRECTORIES})
-    message("INCLUDE_DIRECTORIES_PARAMETERS ${INCLUDE_DIRECTORIES_PARAMETERS}")
+    set(INCLUDE_DIRECTORIES "")
+    foreach(INCLUDE_DIRECTORY ${ARGS_INCLUDE_DIRECTORIES})
+      set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES};-I;${INCLUDE_DIRECTORY})
+    endforeach(INCLUDE_DIRECTORY ${ARGS_INCLUDE_DIRECTORIES})
 
-  add_test(NAME "${ARGS_TARGET}--cppcheck"
-    COMMAND "${CPPCHECK_COMMAND}" ${CPPCHECK_ARGUMENTS} ${SOURCES} ${INCLUDE_DIRECTORIES_PARAMETERS})
-  set_tests_properties(${ARGS_NAME} PROPERTIES TIMEOUT 20.0)
+  add_test(NAME "${ARGS_NAME}"
+    COMMAND "${CPPCHECK_COMMAND}" ${CPPCHECK_ARGUMENTS} ${ARGS_SOURCES} ${INCLUDE_DIRECTORIES})
+  set_tests_properties(${ARGS_NAME} PROPERTIES TIMEOUT 60.0)
 endfunction()
