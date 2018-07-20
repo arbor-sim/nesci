@@ -59,10 +59,6 @@ add_subdirectory(layout)
 
 get_property(ALL_SOURCES GLOBAL PROPERTY RWTHVR_ALL_SOURCES)
 get_property(ALL_HEADERS GLOBAL PROPERTY RWTHVR_ALL_HEADERS)
-
-add_test_cppcheck(NAME "nesci-tests--cppcheck"
-    ${ALL_SOURCES}
-  )
   
 add_test_cpplint(NAME "nesci-tests--cpplint"
     ${ALL_SOURCES} ${ALL_HEADERS}
