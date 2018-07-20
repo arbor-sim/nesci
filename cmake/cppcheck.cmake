@@ -58,5 +58,5 @@ function(ADD_TEST_CPPCHECK)
 
   add_test(NAME "${ARGS_NAME}"
     COMMAND "${CPPCHECK_COMMAND}" ${CPPCHECK_ARGUMENTS} ${ARGS_SOURCES} ${INCLUDE_DIRECTORIES})
-  set_tests_properties(${ARGS_NAME} PROPERTIES TIMEOUT 60.0)
+  set_tests_properties(${ARGS_NAME} PROPERTIES TIMEOUT 20.0)
 endfunction()
