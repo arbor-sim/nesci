@@ -12,7 +12,7 @@ if (MSVC)
 endif (MSVC)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-CONAN_BASIC_SETUP(TARGETS)
+CONAN_BASIC_SETUP(TARGETS KEEP_RPATHS)
 
 add_executable(nesci-test-package main.cpp)
 target_link_libraries(nesci-test-package CONAN_PKG::nesci)
