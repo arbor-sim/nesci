@@ -40,6 +40,7 @@ include(ConanHelpers)
 include(CTest)
 include(GenerateExportHeader)
 include(rwthvr)
+include(get_target_include_directories)
 
 enable_testing()
 
@@ -59,12 +60,21 @@ add_subdirectory(layout)
 
 get_property(ALL_SOURCES GLOBAL PROPERTY RWTHVR_ALL_SOURCES)
 get_property(ALL_HEADERS GLOBAL PROPERTY RWTHVR_ALL_HEADERS)
-
-add_test_cppcheck(NAME "nesci-tests--cppcheck"
-    ${ALL_SOURCES}
-  )
+get_property(ALL_TARGETS GLOBAL PROPERTY RWTHVR_ALL_TARGETS)
   
 add_test_cpplint(NAME "nesci-tests--cpplint"
-    ${ALL_SOURCES} ${ALL_HEADERS}
-  )
+  ${ALL_SOURCES} ${ALL_HEADERS}
+)
+
+foreach(TARGET ${ALL_TARGETS})
+  message(${TARGET})
+  get_target_include_directories(TARGET_INCLUDE_DIRECTORIES TARGET ${TARGET})
+  set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES};${TARGET_INCLUDE_DIRECTORIES})
+endforeach(TARGET ${ALL_TARGETS})
+list(REMOVE_DUPLICATES INCLUDE_DIRECTORIES)
+  
+add_test_cppcheck(NAME "nesci-tests--cppcheck"
+  SOURCES ${ALL_SOURCES}
+  INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES}
+)
   
