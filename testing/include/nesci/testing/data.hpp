@@ -170,34 +170,20 @@ inline static const std::string AnyNestDataSchema() {
   return s.str();
 }
 
-inline static const std::string AnyNestSpikeDataSchema() {
-  std::stringstream s;
-  std::size_t offset = 0;
-  const std::size_t datum_size = 8;
-  s << "{\n";
-  s << "  " << conduit_schema::OpenTag(ANY_SPIKE_DETECTOR_NAME);
-  for (auto time : ANY_TIMES) {
-    s << "    " << conduit_schema::OpenTag(time);
-    for (auto id : ANY_IDS) {
-      s << "        " << conduit_schema::OpenTag(id);
-      s << "          "
-        << conduit_schema::DoubleData((offset++) * datum_size);
-      s << "        " << conduit_schema::CloseTagNext();
-    }
-    conduit_schema::RemoveNextIndicator(&s);
-    s << "    " << conduit_schema::CloseTagNext();
-  }
-  conduit_schema::RemoveNextIndicator(&s);
-  s << "  " << conduit_schema::CloseTag();
-  s << "}";
-  return s.str();
+inline static const conduit::Node AnyNestSpikeData() {
+  std::string path;
+  path += nesci::testing::ANY_SPIKE_DETECTOR_NAME;
+  path += "/";
+  path += nesci::testing::ANY_TIME_STRING;
+  conduit::Node node;
+  node[path] = nesci::testing::ANY_IDS;
+  return node;
 }
 
 NESCI_UNUSED static conduit::Node ANY_NEST_DATA{
     AnyNestDataSchema(), const_cast<double*>(ANY_DATA_VALUES.data()), false};
 
-NESCI_UNUSED static conduit::Node ANY_SPIKE_DATA{
-  AnyNestSpikeDataSchema(), const_cast<double*>(ANY_DATA_VALUES.data()), false };
+NESCI_UNUSED static conduit::Node ANY_SPIKE_DATA = AnyNestSpikeData();
 
 }  // namespace testing
 }  // namespace nesci
