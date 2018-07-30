@@ -29,22 +29,21 @@
 namespace nesci {
 namespace layout {
 
-	class SpikeDetector : public Device {
-	public:
-		SpikeDetector() = delete;
-		explicit SpikeDetector(const std::string& name);
-		SpikeDetector(const SpikeDetector&) = default;
-		explicit SpikeDetector(const Device& device);
-		SpikeDetector(SpikeDetector&&) = default;
-		explicit SpikeDetector(Device&& device);
-		~SpikeDetector() override = default;
+class SpikeDetector : public Device {
+ public:
+  SpikeDetector() = delete;
+  explicit SpikeDetector(const std::string& name);
+  SpikeDetector(const SpikeDetector&) = default;
+  explicit SpikeDetector(const Device& device);
+  SpikeDetector(SpikeDetector&&) = default;
+  explicit SpikeDetector(Device&& device);
+  ~SpikeDetector() override = default;
 
-		SpikeDetector& operator=(const SpikeDetector&) = default;
-		SpikeDetector& operator=(SpikeDetector&&) = default;
+  SpikeDetector& operator=(const SpikeDetector&) = default;
+  SpikeDetector& operator=(SpikeDetector&&) = default;
 
-		std::string GetPath() const override;
-
-	};
+  std::string GetPath() const override;
+};
 
 }  // namespace layout
 }  // namespace nesci

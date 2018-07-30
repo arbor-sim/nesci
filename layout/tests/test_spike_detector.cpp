@@ -27,7 +27,7 @@
 #include "nesci/testing/data.hpp"
 
 SCENARIO("Data layout for spike detectors",
-  "[nesci][nesci::layout][nesci::layout::SpikeDetector]") {
+         "[nesci][nesci::layout][nesci::layout::SpikeDetector]") {
   GIVEN("a layout for a multimeter") {
     nesci::layout::SpikeDetector path(nesci::testing::ANY_SPIKE_DETECTOR_NAME);
 
@@ -35,8 +35,8 @@ SCENARIO("Data layout for spike detectors",
       path.SetTime(nesci::testing::ANY_TIME_STRING);
       THEN("the spike detector reports the correct paths") {
         REQUIRE(path.GetPath() == nesci::testing::ANY_SPIKE_DETECTOR_NAME +
-          std::string("/") +
-          nesci::testing::ANY_TIME_STRING);
+                                      std::string("/") +
+                                      nesci::testing::ANY_TIME_STRING);
       }
     }
   }
