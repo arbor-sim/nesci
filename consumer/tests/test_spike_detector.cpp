@@ -24,6 +24,7 @@
 #include "conduit/conduit_node.hpp"
 
 #include "nesci/consumer/spike_detector.hpp"
+#include "nesci/producer/spike_detector.hpp"
 #include "nesci/testing/data.hpp"
 
 #include <iostream>
@@ -41,6 +42,31 @@ SCENARIO("Test GetNeuronIds", "[nesci][nesci::SpikeDetector]") {
 
     for (uint64_t i = 0; i < output.size(); ++i) {
       REQUIRE(output.at(i) == nesci::testing::ANY_IDS.at(i));
+    }
+  }
+}
+
+SCENARIO("Test consumer with producer output",
+         "[nesci][nesci::SpikeDetector]") {
+  GIVEN("a conduit node created by a producer") {
+    nesci::producer::SpikeDetector spike_detector_producer(
+        nesci::testing::ANY_SPIKE_DETECTOR_NAME);
+
+    spike_detector_producer.Record(nesci::producer::SpikeDetector::Datum{
+        nesci::testing::ANY_TIME, nesci::testing::ANY_ID});
+
+    WHEN("querying") {
+      nesci::consumer::SpikeDetector spike_detector_consumer(
+          nesci::testing::ANY_SPIKE_DETECTOR_NAME);
+
+      const auto node = spike_detector_producer.node();
+      spike_detector_consumer.SetNode(&node);
+
+      auto neuron_ids =
+          spike_detector_consumer.GetNeuronIds(nesci::testing::ANY_TIME_STRING);
+
+      REQUIRE(neuron_ids.size() == 1);
+      REQUIRE(neuron_ids[0] == nesci::testing::ANY_ID);
     }
   }
 }
