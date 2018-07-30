@@ -21,20 +21,22 @@
 
 #include "nesci/consumer/spike_detector.hpp"
 
+#include <string>
+#include <vector>
 #include "nesci/layout/spike_detector.hpp"
 
 namespace nesci {
 namespace consumer {
 
-	SpikeDetector::SpikeDetector(const std::string& name)
-		: Device{ name } {}
+SpikeDetector::SpikeDetector(const std::string& name) : Device{name} {}
 
-	std::vector<std::uint64_t> SpikeDetector::GetNeuronIds(const std::string& time) {
-		layout::SpikeDetector path(GetName());
-		path.SetTime(time);
+std::vector<std::uint64_t> SpikeDetector::GetNeuronIds(
+    const std::string& time) {
+  layout::SpikeDetector path(GetName());
+  path.SetTime(time);
 
-		return GetUint64Values(path);
-	}
+  return GetUint64Values(path);
+}
 
 }  // namespace consumer
 }  // namespace nesci

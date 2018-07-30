@@ -22,27 +22,27 @@
 #ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_SPIKE_DETECTOR_HPP_
 #define CONSUMER_INCLUDE_NESCI_CONSUMER_SPIKE_DETECTOR_HPP_
 
+#include <string>
+#include <vector>
 #include "nesci/consumer/device.hpp"
 
 namespace nesci {
 namespace consumer {
 
-	class SpikeDetector : public nesci::consumer::Device {
-	public:
-		SpikeDetector() = delete;
-		SpikeDetector(const std::string& name);
-		SpikeDetector(const SpikeDetector&) = default;
-		SpikeDetector(SpikeDetector&&) = default;
-		~SpikeDetector() override = default;
+class SpikeDetector : public nesci::consumer::Device {
+ public:
+  SpikeDetector() = delete;
+  explicit SpikeDetector(const std::string& name);
+  SpikeDetector(const SpikeDetector&) = default;
+  SpikeDetector(SpikeDetector&&) = default;
+  ~SpikeDetector() override = default;
 
-		std::vector<std::uint64_t> GetNeuronIds(
-                    const std::string& time);
-	private:
+  std::vector<std::uint64_t> GetNeuronIds(const std::string& time);
 
-	};
-
+ private:
+};
 
 }  // namespace consumer
 }  // namespace nesci
 
-#endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
+#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_SPIKE_DETECTOR_HPP_

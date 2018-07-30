@@ -20,6 +20,7 @@
 //------------------------------------------------------------------------------
 
 #include "nesci/layout/spike_detector.hpp"
+#include <string>
 
 namespace nesci {
 namespace layout {
@@ -30,10 +31,7 @@ SpikeDetector::SpikeDetector(const Device& device) : Device(device) {}
 
 SpikeDetector::SpikeDetector(Device&& device) : Device(device) {}
 
-std::string SpikeDetector::GetPath() const {
-	return Device::GetPath();
-}
-
+std::string SpikeDetector::GetPath() const { return Device::GetPath(); }
 
 }  // namespace layout
 }  // namespace nesci

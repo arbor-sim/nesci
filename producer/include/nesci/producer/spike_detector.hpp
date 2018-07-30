@@ -43,7 +43,7 @@ class SpikeDetector final : public Device {
   };
 
   SpikeDetector() = delete;
-  SpikeDetector(const std::string& name);
+  explicit SpikeDetector(const std::string& name);
   SpikeDetector(const SpikeDetector&) = default;
   SpikeDetector(SpikeDetector&&) = default;
   ~SpikeDetector() override = default;
@@ -56,7 +56,6 @@ class SpikeDetector final : public Device {
  private:
   std::vector<std::size_t> GetData(const conduit::Node& node);
   std::vector<std::size_t> AsVector(const conduit::uint64_array& array);
-
 };
 
 }  // namespace producer

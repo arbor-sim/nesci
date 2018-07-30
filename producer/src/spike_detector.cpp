@@ -28,8 +28,7 @@
 namespace nesci {
 namespace producer {
 
-SpikeDetector::SpikeDetector(const std::string& name)
-    : Device{name}{}
+SpikeDetector::SpikeDetector(const std::string& name) : Device{name} {}
 
 void SpikeDetector::Record(const Datum& datum) {
   auto& recording_node = node().fetch(ConstructPath(datum).GetPath());
