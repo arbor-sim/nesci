@@ -38,7 +38,8 @@ class NestMultimeter final : public Device {
   struct Datum : public Device::Datum {
     using Device_t = NestMultimeter;
 
-    Datum(double time, std::string neuron_id, const std::vector<double>& values)
+    Datum(double time, const std::string& neuron_id,
+          const std::vector<double>& values)
         : Device::Datum{time}, neuron_id{neuron_id}, values{values} {}
     Datum(double time, std::size_t neuron_id, const std::vector<double>& values)
         : Datum{time, NestMultimeter::IdString(neuron_id), values} {}
