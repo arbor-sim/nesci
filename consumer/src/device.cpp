@@ -30,6 +30,7 @@
 #include <vector>
 
 #include "nesci/layout/device.hpp"
+#include "nesci/layout/utility.hpp"
 
 namespace nesci {
 namespace consumer {
@@ -40,10 +41,7 @@ std::vector<std::string> Device::GetTimesteps() const {
   layout::Device path(name_);
   std::vector<std::string> retvec;
   for (auto s : GetChildNames(path)) {
-    std::stringstream ss;
-    ss.precision(5);
-    ss << std::fixed << std::stod(s);
-    retvec.push_back(ss.str());
+    retvec.push_back(s);
   }
   return retvec;
 }

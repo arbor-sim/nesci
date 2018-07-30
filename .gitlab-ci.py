@@ -163,7 +163,7 @@ def main(argv):
 
     elif stage == 'test':
         os.chdir('build')
-        if operating_system == 'OSX':
+        if operating_system == 'macOS':
             os.environ['CTEST_OUTPUT_ON_FAILURE'] = '1'
         execute('ctest', ['-C', 'Release'])
 
@@ -181,10 +181,22 @@ def main(argv):
         conan_export_flags.extend(conan_flags)
         execute('conan', conan_export_flags)
 
-        conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' %
-                            (version, channel)]
+        if operating_system == 'Linux':
+            if compiler_version[:1] == '5':
+                conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel), 
+                                    '-e', 'CXX=/opt/rh/devtoolset-4/root/usr/bin/c++',
+                                    '-e', 'CC=/opt/rh/devtoolset-4/root/usr/bin/cc']
+            elif compiler_version[:1] == '6':
+                conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel), 
+                                    '-e', 'CXX=/opt/rh/devtoolset-6/root/usr/bin/c++',
+                                    '-e', 'CC=/opt/rh/devtoolset-6/root/usr/bin/cc']
+        
+        else:
+            conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel)]
+          
+                                    
         conan_test_flags.extend(conan_flags)
-        # execute('conan', conan_test_flags)
+        execute('conan', conan_test_flags)
 
         conan_upload_flags = ['upload', 'nesci/%s@RWTH-VR/%s' % (version, channel),
                               '--all', '--force', '-r=rwth-vr--bintray']

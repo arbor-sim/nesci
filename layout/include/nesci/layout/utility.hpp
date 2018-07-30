@@ -19,25 +19,22 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "nesci/layout/device.hpp"
-#include <sstream>
+#ifndef LAYOUT_INCLUDE_NESCI_LAYOUT_UTILITY_HPP_
+#define LAYOUT_INCLUDE_NESCI_LAYOUT_UTILITY_HPP_
+
 #include <string>
-#include "nesci/layout/utility.hpp"
 
 namespace nesci {
 namespace layout {
+namespace utility {
 
-Device::Device(const std::string& name) : name_(name) {}
-
-std::string Device::GetPath() const { return name_ + SuffixIfNotEmpty(time_); }
-
-std::string Device::SuffixIfNotEmpty(const std::string& suffix) {
-  return suffix != "" ? "/" + suffix : "";
+template <typename T>
+std::string to_string(T&& value) {
+  return std::to_string(value);
 }
 
-void Device::SetTime(const std::string& time) { time_ = time; }
-
-void Device::SetTime(double time) { SetTime(utility::to_string(time)); }
-
+}  // namespace utility
 }  // namespace layout
 }  // namespace nesci
+
+#endif  // LAYOUT_INCLUDE_NESCI_LAYOUT_UTILITY_HPP_

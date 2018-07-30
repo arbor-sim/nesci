@@ -35,7 +35,8 @@ class ArborMultimeter final : public Device {
   struct Datum : public Device::Datum {
     using Device_t = ArborMultimeter;
 
-    Datum(double time, std::string attribute, std::string id, double value)
+    Datum(double time, const std::string& attribute, const std::string& id,
+          double value)
         : Device::Datum{ConstructTimestep(time)},
           exact_time{time},
           attribute{attribute},
