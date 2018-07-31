@@ -1,0 +1,269 @@
+# -------------------------------------------------------------------------------
+# nesci -- neural simulator conan interface
+#
+# Copyright (c) 2018 RWTH Aachen University, Germany,
+# Virtual Reality & Immersive Visualization Group.
+# -------------------------------------------------------------------------------
+#                                  License
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# -------------------------------------------------------------------------------
+
+variables:
+  version: "18.07"
+  channel: "stable"
+
+stages:
+  - conan
+  - cmake
+  - build
+  - test
+  - deliver
+
+.artifacts_template: &artifacts_definition
+  artifacts:
+    paths:
+      - build
+    expire_in: 1 week
+
+.delivery_branches_template: 
+  only: &delivery_branches
+    - master
+    - stable
+  
+#-------------------------------------------------------------------------------
+#  Windows
+#-------------------------------------------------------------------------------
+
+conan:windows:msvc++14.1:
+  stage: conan
+  tags:
+    - msvc++14.1
+    - opengl
+  script:
+    - python .gitlab-ci.py conan Windows "Visual Studio" 15
+  <<: *artifacts_definition
+    
+cmake:windows:msvc++14.1:
+  stage: cmake
+  tags:
+    - msvc++14.1
+    - opengl
+  dependencies:
+    - conan:windows:msvc++14.1
+  script:
+    - python .gitlab-ci.py cmake Windows "Visual Studio" 15
+  <<: *artifacts_definition
+
+build:windows:msvc++14.1:
+  stage: build
+  tags:
+    - msvc++14.1
+    - opengl
+  dependencies:
+    - cmake:windows:msvc++14.1
+  script:
+    - python .gitlab-ci.py build Windows "Visual Studio" 15
+  <<: *artifacts_definition
+
+test:windows:msvc++14.1:
+  stage: test
+  tags:
+    - msvc++14.1
+    - opengl
+  dependencies:
+    - build:windows:msvc++14.1
+  script:
+    - python .gitlab-ci.py test Windows "Visual Studio" 15
+  <<: *artifacts_definition
+
+deliver:windows:msvc++14.1:
+  stage: deliver
+  tags:
+    - msvc++14.1
+    - opengl
+  dependencies:
+    - test:windows:msvc++14.1
+  script:
+    - python .gitlab-ci.py deliver Windows "Visual Studio" 15
+  <<: *artifacts_definition
+  only:
+    *delivery_branches
+
+#-------------------------------------------------------------------------------
+#  Linux
+#-------------------------------------------------------------------------------
+
+# conan:linux:gcc5.3.1:
+#   stage: conan
+#   tags:
+#     - gcc5.3.1
+#     - opengl
+#   script:
+#     - python .gitlab-ci.py conan Linux gcc 5.3
+#   <<: *artifacts_definition
+    
+conan:linux:gcc6.3.1:
+  stage: conan
+  tags:
+    - gcc6.3.1
+    - opengl
+  script:
+    - python .gitlab-ci.py conan Linux gcc 6.3
+  <<: *artifacts_definition
+
+# cmake:linux:gcc5.3.1:
+#   stage: cmake
+#   tags:
+#     - gcc5.3.1
+#     - opengl
+#   dependencies:
+#     - conan:linux:gcc5.3.1
+#   script:
+#     - python .gitlab-ci.py cmake Linux gcc 5.3
+#   <<: *artifacts_definition
+
+cmake:linux:gcc6.3.1:
+  stage: cmake
+  tags:
+    - gcc6.3.1
+    - opengl
+  dependencies:
+    - conan:linux:gcc6.3.1
+  script:
+    - python .gitlab-ci.py cmake Linux gcc 6.3
+  <<: *artifacts_definition
+
+# build:linux:gcc5.3.1:
+#   stage: build
+#   tags:
+#     - gcc5.3.1
+#     - opengl
+#   dependencies:
+#     - cmake:linux:gcc5.3.1
+#   script:
+#     - python .gitlab-ci.py build Linux gcc 5.3
+#   <<: *artifacts_definition
+
+build:linux:gcc6.3.1:
+  stage: build
+  tags:
+    - gcc6.3.1
+    - opengl
+  dependencies:
+    - cmake:linux:gcc6.3.1
+  script:
+    - python .gitlab-ci.py build Linux gcc 6.3
+  <<: *artifacts_definition
+
+# test:linux:gcc5.3.1:
+#   stage: test
+#   tags:
+#     - gcc5.3.1
+#     - opengl
+#   dependencies:
+#     - build:linux:gcc5.3.1
+#   script:
+#     - python .gitlab-ci.py test Linux gcc 5.3
+#   <<: *artifacts_definition
+
+test:linux:gcc6.3.1:
+  stage: test
+  tags:
+    - gcc6.3.1
+    - opengl
+  dependencies:
+    - build:linux:gcc6.3.1
+  script:
+    - python .gitlab-ci.py test Linux gcc 6.3
+  <<: *artifacts_definition
+
+# deliver:linux:gcc5.3.1:
+#   stage: deliver
+#   tags:
+#     - gcc5.3.1
+#     - opengl
+#   dependencies:
+#     - test:linux:gcc5.3.1
+#   script:
+#     - python .gitlab-ci.py deliver Linux gcc 5.3
+#   <<: *artifacts_definition
+#   only:
+#     *delivery_branches
+
+deliver:linux:gcc6.3.1:
+  stage: deliver
+  tags:
+    - gcc6.3.1
+    - opengl
+  dependencies:
+    - test:linux:gcc6.3.1
+  script:
+    - python .gitlab-ci.py deliver Linux gcc 6.3
+  <<: *artifacts_definition
+  only:
+    *delivery_branches
+
+#-------------------------------------------------------------------------------
+#  MacOS
+#-------------------------------------------------------------------------------
+
+conan:mac:clang9.1:
+  stage: conan
+  tags:
+    - osx
+  script:
+    - python .gitlab-ci.py conan macOS apple-clang 9.1
+  <<: *artifacts_definition
+
+cmake:mac:clang9.1:
+  stage: cmake
+  tags:
+    - osx
+  dependencies:
+    - conan:mac:clang9.1
+  script:
+    - python .gitlab-ci.py cmake macOS apple-clang 9.1
+  <<: *artifacts_definition
+
+build:mac:clang9.1:
+  stage: build
+  tags:
+    - osx
+  dependencies:
+    - cmake:mac:clang9.1
+  script:
+    - python .gitlab-ci.py build macOS apple-clang 9.1
+  <<: *artifacts_definition
+
+test:mac:clang9.1:
+  stage: test
+  tags:
+    - osx
+  dependencies:
+    - build:mac:clang9.1
+  script:
+    - python .gitlab-ci.py test macOS apple-clang 9.1
+  <<: *artifacts_definition
+
+deliver:mac:clang9.1:
+  stage: deliver
+  tags:
+    - osx
+  dependencies:
+    - test:mac:clang9.1
+  script:
+    - python .gitlab-ci.py deliver macOS apple-clang 9.1
+  <<: *artifacts_definition
+  only:
+    *delivery_branches
