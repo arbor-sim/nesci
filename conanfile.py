@@ -24,7 +24,7 @@ from conans import ConanFile, CMake
 
 class nesci(ConanFile):
     name = "nesci"
-    version = "18.05"
+    version = "18.07"
     license = "Apache License, Version 2.0"
     description = """nesci -- neural simulator conan interface"""
     settings = "os", "compiler", "build_type", "arch"
