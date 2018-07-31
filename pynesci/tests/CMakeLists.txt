@@ -19,8 +19,6 @@
 # limitations under the License.
 # -------------------------------------------------------------------------------
 
-file(GLOB PYNESCI_TEST_SOURCES **/*.py)
-
 add_test_py_test(NAME test_pynesci
   ${CMAKE_CURRENT_SOURCE_DIR}
   PYTHONPATH "${PYNESCI_OUTPUT_DIR}/.."
