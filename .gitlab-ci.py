@@ -5,11 +5,11 @@ import sys
 import subprocess
 
 valid_stages = ['conan', 'cmake', 'build', 'test', 'deliver']
-valid_os = ['Windows', 'Linux', 'OSX']
+valid_os = ['Windows', 'Linux', 'macOS']
 valid_compilers = {
     'Windows': ['Visual Studio'],
     'Linux': ['gcc'],
-    'OSX': ['apple-clang', 'gcc']
+    'macOS': ['apple-clang', 'gcc']
 }
 valid_channels = ['develop', 'stable']
 
@@ -70,12 +70,23 @@ def main(argv):
               (operating_system, ', '.join(valid_compilers[operating_system])))
         sys.exit(-1)
 
+    if operating_system == 'Linux':
+        os.environ['CC'] = 'gcc'
+        os.environ['CXX'] = 'g++'
+    elif operating_system == 'macOS' and compiler == 'gcc':
+        if compiler_version == '5':
+            os.environ['CC'] = 'gcc-5'
+            os.environ['CXX'] = 'g++-5'
+        elif compiler_version == '6':
+            os.environ['CC'] = 'gcc-6'
+            os.environ['CXX'] = 'g++-6'
+        elif compiler_version == '7':
+            os.environ['CC'] = 'gcc-7'
+            os.environ['CXX'] = 'g++-7'
+
     if stage == 'conan':
         execute('mkdir', ['build'])
         os.chdir('build')
-        if operating_system == 'Linux':
-            os.environ['CC'] = 'gcc'
-            os.environ['CXX'] = 'g++'
 
         execute('conan',
                 ['remote', 'update', 'rwth-vr--bintray',
@@ -112,7 +123,7 @@ def main(argv):
 
     elif stage == 'test':
         os.chdir('build')
-        if operating_system == 'OSX':
+        if operating_system == 'macOS':
             os.environ['CTEST_OUTPUT_ON_FAILURE'] = '1'
         execute('ctest', ['-C', 'Release'])
 
@@ -130,8 +141,20 @@ def main(argv):
         conan_export_flags.extend(conan_flags)
         execute('conan', conan_export_flags)
 
-        conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' %
-                            (version, channel)]
+        if operating_system == 'Linux':
+            if compiler_version[:1] == '5':
+                conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel), 
+                                    '-e', 'CXX=/opt/rh/devtoolset-4/root/usr/bin/c++',
+                                    '-e', 'CC=/opt/rh/devtoolset-4/root/usr/bin/cc']
+            elif compiler_version[:1] == '6':
+                conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel), 
+                                    '-e', 'CXX=/opt/rh/devtoolset-6/root/usr/bin/c++',
+                                    '-e', 'CC=/opt/rh/devtoolset-6/root/usr/bin/cc']
+        
+        else:
+            conan_test_flags = ['test', './test_package', 'nesci/%s@RWTH-VR/%s' % (version, channel)]
+          
+                                    
         conan_test_flags.extend(conan_flags)
         execute('conan', conan_test_flags)
 
