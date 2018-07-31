@@ -38,6 +38,7 @@ SUPPRESS_WARNINGS_BEGIN
 // cppcheck-suppress unusedFunction
 BOOST_PYTHON_MODULE(_pyconsumer) {
   def("Greet", &Greet);
+  class_<conduit::Node>("Node");
   expose<nesci::consumer::Device>();
   expose<nesci::consumer::Multimeter>();
   expose<nesci::consumer::NestMultimeter>();
