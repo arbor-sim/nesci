@@ -32,6 +32,8 @@
 #include "nesci/layout/device.hpp"
 #include "nesci/layout/utility.hpp"
 
+#include "nesci/layout/suppress_warnings.hpp"
+
 namespace nesci {
 namespace consumer {
 
@@ -57,6 +59,20 @@ std::vector<std::string> Device::GetChildNames(
 double Device::GetValue(const layout::Device& path) const {
   const conduit::Node* node{GetNode(path)};
   return (node != nullptr) ? node->as_double() : std::nan("");
+}
+
+std::vector<std::uint64_t> Device::GetUint64Values(
+    const layout::Device& path) const {
+  const conduit::Node* node{GetNode(path)};
+  if (node != nullptr) {
+    SUPPRESS_WARNINGS_BEGIN
+    const auto data_array = node->as_uint64_array();
+    SUPPRESS_WARNINGS_END
+    return std::vector<std::uint64_t>{
+        &data_array[0], &data_array[0] + data_array.number_of_elements()};
+  } else {
+    return std::vector<std::uint64_t>{};
+  }
 }
 
 const conduit::Node* Device::GetNode(const layout::Device& path) const {

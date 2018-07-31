@@ -19,50 +19,46 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_DEVICE_HPP_
-#define CONSUMER_INCLUDE_NESCI_CONSUMER_DEVICE_HPP_
+#ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
+#define PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
 
+#include <memory>
 #include <string>
 #include <vector>
 
-#include "conduit/conduit_node.hpp"
-
-#include "nesci/layout/device.hpp"
+#include "nesci/producer/device.hpp"
 
 namespace nesci {
-namespace consumer {
+namespace producer {
 
-class Device {
+class SpikeDetector final : public Device {
  public:
-  Device() = delete;
-  explicit Device(const std::string& name);
-  Device(const Device&) = default;
-  Device(Device&&) = default;
-  virtual ~Device() = default;
+  struct Datum : public Device::Datum {
+    using Device_t = SpikeDetector;
 
-  Device& operator=(const Device&) = default;
-  Device& operator=(Device&&) = default;
+    Datum(double time, std::size_t neuron_id)
+        : Device::Datum{time}, neuron_id{neuron_id} {}
 
-  std::vector<std::string> GetTimesteps() const;
+    std::size_t neuron_id;
+  };
 
-  void SetNode(const conduit::Node* node) { node_ = node; }
+  SpikeDetector() = delete;
+  explicit SpikeDetector(const std::string& name);
+  SpikeDetector(const SpikeDetector&) = default;
+  SpikeDetector(SpikeDetector&&) = default;
+  ~SpikeDetector() override = default;
 
- protected:
-  std::string GetName() const;
+  SpikeDetector& operator=(const SpikeDetector&) = default;
+  SpikeDetector& operator=(SpikeDetector&&) = default;
 
-  std::vector<std::string> GetChildNames(const layout::Device& path) const;
-
-  double GetValue(const layout::Device& path) const;
-  std::vector<std::uint64_t> GetUint64Values(const layout::Device& path) const;
+  void Record(const Datum& datum);
 
  private:
-  const conduit::Node* GetNode(const layout::Device& path) const;
-
-  const conduit::Node* node_{nullptr};
-  std::string name_{""};
+  std::vector<std::size_t> GetData(const conduit::Node& node);
+  std::vector<std::size_t> AsVector(const conduit::uint64_array& array);
 };
 
-}  // namespace consumer
+}  // namespace producer
 }  // namespace nesci
 
-#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_DEVICE_HPP_
+#endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
