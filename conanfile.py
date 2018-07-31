@@ -86,5 +86,5 @@ class nesci(ConanFile):
         self.copy("*.dylib", dst="lib", keep_path=False, symlinks=True)
 
     def package_info(self):
-        self.cpp_info.libs = ["nesci_layout",
-                              "nesci_consumer", "nesci_producer"]
+        self.cpp_info.libs = ["nesci_consumer",
+                              "nesci_producer", "nesci_layout"]

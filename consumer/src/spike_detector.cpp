@@ -19,50 +19,24 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_DEVICE_HPP_
-#define CONSUMER_INCLUDE_NESCI_CONSUMER_DEVICE_HPP_
+#include "nesci/consumer/spike_detector.hpp"
 
 #include <string>
 #include <vector>
-
-#include "conduit/conduit_node.hpp"
-
-#include "nesci/layout/device.hpp"
+#include "nesci/layout/spike_detector.hpp"
 
 namespace nesci {
 namespace consumer {
 
-class Device {
- public:
-  Device() = delete;
-  explicit Device(const std::string& name);
-  Device(const Device&) = default;
-  Device(Device&&) = default;
-  virtual ~Device() = default;
+SpikeDetector::SpikeDetector(const std::string& name) : Device{name} {}
 
-  Device& operator=(const Device&) = default;
-  Device& operator=(Device&&) = default;
+std::vector<std::uint64_t> SpikeDetector::GetNeuronIds(
+    const std::string& time) {
+  layout::SpikeDetector path(GetName());
+  path.SetTime(time);
 
-  std::vector<std::string> GetTimesteps() const;
-
-  void SetNode(const conduit::Node* node) { node_ = node; }
-
- protected:
-  std::string GetName() const;
-
-  std::vector<std::string> GetChildNames(const layout::Device& path) const;
-
-  double GetValue(const layout::Device& path) const;
-  std::vector<std::uint64_t> GetUint64Values(const layout::Device& path) const;
-
- private:
-  const conduit::Node* GetNode(const layout::Device& path) const;
-
-  const conduit::Node* node_{nullptr};
-  std::string name_{""};
-};
+  return GetUint64Values(path);
+}
 
 }  // namespace consumer
 }  // namespace nesci
-
-#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_DEVICE_HPP_

@@ -166,8 +166,20 @@ inline static const std::string AnyNestDataSchema() {
   return s.str();
 }
 
+inline static const conduit::Node AnyNestSpikeData() {
+  std::string path;
+  path += nesci::testing::ANY_SPIKE_DETECTOR_NAME;
+  path += "/";
+  path += nesci::testing::ANY_TIME_STRING;
+  conduit::Node node;
+  node[path] = nesci::testing::ANY_IDS;
+  return node;
+}
+
 NESCI_UNUSED static conduit::Node ANY_NEST_DATA{
     AnyNestDataSchema(), const_cast<double*>(ANY_DATA_VALUES.data()), false};
+
+NESCI_UNUSED static conduit::Node ANY_SPIKE_DATA = AnyNestSpikeData();
 
 }  // namespace testing
 }  // namespace nesci
