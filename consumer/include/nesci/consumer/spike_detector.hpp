@@ -38,8 +38,6 @@ class SpikeDetector : public nesci::consumer::Device {
   ~SpikeDetector() override = default;
 
   std::vector<std::uint64_t> GetNeuronIds(const std::string& time);
-
- private:
 };
 
 }  // namespace consumer
