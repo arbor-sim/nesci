@@ -25,6 +25,7 @@
 #include "nesci/consumer/device.hpp"
 #include "nesci/consumer/multimeter.hpp"
 #include "nesci/consumer/nest_multimeter.hpp"
+#include "nesci/consumer/spike_detector.hpp"
 
 namespace pynesci {
 namespace consumer {
@@ -42,6 +43,7 @@ BOOST_PYTHON_MODULE(_pyconsumer) {
   expose<nesci::consumer::Device>();
   expose<nesci::consumer::Multimeter>();
   expose<nesci::consumer::NestMultimeter>();
+  expose<nesci::consumer::SpikeDetector>();
   expose<nesci::consumer::ArborMultimeter>();
 }
 SUPPRESS_WARNINGS_END
