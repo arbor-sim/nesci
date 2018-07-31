@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------
 // nesci -- neural simulator conan interface
 //
-// Copyright (c) 2017-2018 RWTH Aachen University, Germany,
-// Virtual Reality & Immersive Visualisation Group.
+// Copyright (c) 2018 RWTH Aachen University, Germany,
+// Virtual Reality & Immersive Visualization Group.
 //------------------------------------------------------------------------------
-//                                 License
+//                                  License
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,32 +19,25 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "pyconsumer.hpp"
 #include <string>
-#include "nesci/consumer/arbor_multimeter.hpp"
-#include "nesci/consumer/device.hpp"
-#include "nesci/consumer/multimeter.hpp"
-#include "nesci/consumer/nest_multimeter.hpp"
 
-namespace pynesci {
-namespace consumer {
+#include "catch/catch.hpp"
 
-namespace {
-std::string Greet() { return "G'day!"; }
-}  // namespace
+#include "nesci/layout/spike_detector.hpp"
+#include "nesci/testing/data.hpp"
 
-SUPPRESS_WARNINGS_BEGIN
+SCENARIO("Data layout for spike detectors",
+         "[nesci][nesci::layout][nesci::layout::SpikeDetector]") {
+  GIVEN("a layout for a multimeter") {
+    nesci::layout::SpikeDetector path(nesci::testing::ANY_SPIKE_DETECTOR_NAME);
 
-// cppcheck-suppress unusedFunction
-BOOST_PYTHON_MODULE(_pyconsumer) {
-  def("Greet", &Greet);
-  class_<conduit::Node>("Node");
-  expose<nesci::consumer::Device>();
-  expose<nesci::consumer::Multimeter>();
-  expose<nesci::consumer::NestMultimeter>();
-  expose<nesci::consumer::ArborMultimeter>();
+    WHEN("setting a time") {
+      path.SetTime(nesci::testing::ANY_TIME_STRING);
+      THEN("the spike detector reports the correct paths") {
+        REQUIRE(path.GetPath() == nesci::testing::ANY_SPIKE_DETECTOR_NAME +
+                                      std::string("/") +
+                                      nesci::testing::ANY_TIME_STRING);
+      }
+    }
+  }
 }
-SUPPRESS_WARNINGS_END
-
-}  // namespace consumer
-}  // namespace pynesci

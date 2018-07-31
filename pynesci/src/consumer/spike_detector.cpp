@@ -19,31 +19,33 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "pyconsumer.hpp"
 #include <string>
-#include "nesci/consumer/arbor_multimeter.hpp"
-#include "nesci/consumer/device.hpp"
-#include "nesci/consumer/multimeter.hpp"
-#include "nesci/consumer/nest_multimeter.hpp"
+
+#include "nesci/consumer/spike_detector.hpp"
+#include "pyconsumer.hpp"
+#include "pynesci/suppress_warnings.hpp"
 
 namespace pynesci {
 namespace consumer {
 
-namespace {
-std::string Greet() { return "G'day!"; }
-}  // namespace
-
 SUPPRESS_WARNINGS_BEGIN
 
-// cppcheck-suppress unusedFunction
-BOOST_PYTHON_MODULE(_pyconsumer) {
-  def("Greet", &Greet);
-  class_<conduit::Node>("Node");
-  expose<nesci::consumer::Device>();
-  expose<nesci::consumer::Multimeter>();
-  expose<nesci::consumer::NestMultimeter>();
-  expose<nesci::consumer::ArborMultimeter>();
+boost::python::list GetSpikeDetectorNeuronIds(
+    nesci::consumer::SpikeDetector* nest_multimeter, const std::string& time) {
+  boost::python::list ret_val;
+  for (const auto& data : nest_multimeter->GetNeuronIds(time)) {
+    ret_val.append(data);
+  }
+  return ret_val;
 }
+
+template <>
+void expose<nesci::consumer::SpikeDetector>() {
+  class_<nesci::consumer::SpikeDetector, bases<nesci::consumer::Device>>(
+      "SpikeDetector", init<const std::string&>())
+      .def("GetNeuronIds", &GetSpikeDetectorNeuronIds);
+}
+
 SUPPRESS_WARNINGS_END
 
 }  // namespace consumer

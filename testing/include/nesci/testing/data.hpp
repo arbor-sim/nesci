@@ -30,6 +30,7 @@
 #include <vector>
 
 #include "conduit/conduit_node.hpp"
+#include "nesci/layout/utility.hpp"
 #include "nesci/testing/conduit_schema.hpp"
 
 #if defined(__GNUC__) && !defined(__clang__)
@@ -53,14 +54,6 @@ NESCI_UNUSED static const char* ANY_SPIKE_DETECTOR_NAME{"spikes A"};
 NESCI_UNUSED static const char* NOT_A_SPIKE_DETECTOR_NAME{
     "NOT_A_SPIKE_DETECTOR_NAME"};
 
-template <typename T>
-std::string Stringify(T&& value) {
-  std::stringstream ss;
-  ss.precision(5);
-  ss << std::fixed << value;
-  return ss.str();
-}
-
 #define NESCI_TESTING_TRIPLET(type, name, value0, value1, value2, invalid) \
   NESCI_UNUSED static const type ANY_##name{value0};                       \
   NESCI_UNUSED static const type ANOTHER_##name{value1};                   \
@@ -77,8 +70,9 @@ std::string Stringify(T&& value) {
   NESCI_TESTING_TRIPLET(char*, name, value0, value1, value2, "NO ##name")
 #define NESCI_TESTING_TRIPLET_VECTOR_STRINGIFIED(name)                         \
   NESCI_UNUSED static const std::vector<std::string> ANY_##name##S_STRING{     \
-      Stringify(ANY_##name), Stringify(ANOTHER_##name),                        \
-      Stringify(THIRD_##name)};                                                \
+      nesci::layout::utility::to_string(ANY_##name),                           \
+      nesci::layout::utility::to_string(ANOTHER_##name),                       \
+      nesci::layout::utility::to_string(THIRD_##name)};                        \
   NESCI_TESTING_TRIPLET(char*, name##_STRING, ANY_##name##S_STRING[0].c_str(), \
                         ANY_##name##S_STRING[1].c_str(),                       \
                         ANY_##name##S_STRING[2].c_str(), "NO ##name STRING")
@@ -149,11 +143,13 @@ inline static const std::string AnyNestDataSchema() {
   s << "{\n";
   s << "  " << conduit_schema::OpenTag(ANY_MULTIMETER_NAME);
   for (auto time : ANY_TIMES) {
-    s << "    " << conduit_schema::OpenTag(time);
+    s << "    "
+      << conduit_schema::OpenTag(nesci::layout::utility::to_string(time));
     for (auto attribute : ANY_ATTRIBUTES) {
       s << "      " << conduit_schema::OpenTag(attribute);
       for (auto id : ANY_IDS) {
-        s << "        " << conduit_schema::OpenTag(id);
+        s << "        "
+          << conduit_schema::OpenTag(nesci::layout::utility::to_string(id));
         s << "          "
           << conduit_schema::DoubleData((offset++) * datum_size);
         s << "        " << conduit_schema::CloseTagNext();
@@ -170,8 +166,20 @@ inline static const std::string AnyNestDataSchema() {
   return s.str();
 }
 
+inline static const conduit::Node AnyNestSpikeData() {
+  std::string path;
+  path += nesci::testing::ANY_SPIKE_DETECTOR_NAME;
+  path += "/";
+  path += nesci::testing::ANY_TIME_STRING;
+  conduit::Node node;
+  node[path] = nesci::testing::ANY_IDS;
+  return node;
+}
+
 NESCI_UNUSED static conduit::Node ANY_NEST_DATA{
     AnyNestDataSchema(), const_cast<double*>(ANY_DATA_VALUES.data()), false};
+
+NESCI_UNUSED static conduit::Node ANY_SPIKE_DATA = AnyNestSpikeData();
 
 }  // namespace testing
 }  // namespace nesci

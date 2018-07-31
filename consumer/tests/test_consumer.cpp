@@ -24,6 +24,7 @@ SUPPRESS_WARNINGS_BEGIN
 #include "catch/catch.hpp"
 SUPPRESS_WARNINGS_END
 #include "nesci/consumer/consumer.hpp"
+#include "nesci/layout/utility.hpp"
 #include "utilities/cout_capture.hpp"
 
 SCENARIO("call Greet() and check output", "[consumer]") {

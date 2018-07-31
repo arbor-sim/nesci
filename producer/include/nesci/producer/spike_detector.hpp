@@ -19,43 +19,46 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include <cassert>
+#ifndef PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
+#define PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_
 
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "nesci/layout/multimeter.hpp"
-#include "nesci/layout/utility.hpp"
-#include "nesci/producer/nest_multimeter.hpp"
+#include "nesci/producer/device.hpp"
 
 namespace nesci {
 namespace producer {
 
-NestMultimeter::NestMultimeter(const std::string& name,
-                               const std::vector<std::string>& value_names)
-    : Device{name}, value_names_{value_names} {}
+class SpikeDetector final : public Device {
+ public:
+  struct Datum : public Device::Datum {
+    using Device_t = SpikeDetector;
 
-void NestMultimeter::RecordImplementation(const Datum& datum) {
-  assert(datum.values.size() == value_names_.size());
+    Datum(double time, std::size_t neuron_id)
+        : Device::Datum{time}, neuron_id{neuron_id} {}
 
-  for (std::size_t i = 0u; i < datum.values.size(); ++i) {
-    const layout::Multimeter path{ConstructPath(datum, i)};
-    node().fetch(path.GetPath()) = datum.values[i];
-  }
-}
+    std::size_t neuron_id;
+  };
 
-std::string NestMultimeter::IdString(std::size_t id) {
-  return layout::utility::to_string(id);
-}
+  SpikeDetector() = delete;
+  explicit SpikeDetector(const std::string& name);
+  SpikeDetector(const SpikeDetector&) = default;
+  SpikeDetector(SpikeDetector&&) = default;
+  ~SpikeDetector() override = default;
 
-layout::Multimeter NestMultimeter::ConstructPath(
-    const NestMultimeter::Datum& datum, std::size_t attribute_index) {
-  layout::Multimeter path{Device::ConstructPath(datum)};
-  path.SetAttribute(value_names_[attribute_index]);
-  path.SetNeuronId(datum.neuron_id);
-  return path;
-}
+  SpikeDetector& operator=(const SpikeDetector&) = default;
+  SpikeDetector& operator=(SpikeDetector&&) = default;
+
+  void Record(const Datum& datum);
+
+ private:
+  std::vector<std::size_t> GetData(const conduit::Node& node);
+  std::vector<std::size_t> AsVector(const conduit::uint64_array& array);
+};
 
 }  // namespace producer
 }  // namespace nesci
+
+#endif  // PRODUCER_INCLUDE_NESCI_PRODUCER_SPIKE_DETECTOR_HPP_

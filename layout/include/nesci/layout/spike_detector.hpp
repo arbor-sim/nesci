@@ -19,25 +19,33 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "nesci/layout/device.hpp"
-#include <sstream>
+#ifndef LAYOUT_INCLUDE_NESCI_LAYOUT_SPIKE_DETECTOR_HPP_
+#define LAYOUT_INCLUDE_NESCI_LAYOUT_SPIKE_DETECTOR_HPP_
+
 #include <string>
-#include "nesci/layout/utility.hpp"
+
+#include "nesci/layout/device.hpp"
 
 namespace nesci {
 namespace layout {
 
-Device::Device(const std::string& name) : name_(name) {}
+class SpikeDetector : public Device {
+ public:
+  SpikeDetector() = delete;
+  explicit SpikeDetector(const std::string& name);
+  SpikeDetector(const SpikeDetector&) = default;
+  explicit SpikeDetector(const Device& device);
+  SpikeDetector(SpikeDetector&&) = default;
+  explicit SpikeDetector(Device&& device);
+  ~SpikeDetector() override = default;
 
-std::string Device::GetPath() const { return name_ + SuffixIfNotEmpty(time_); }
+  SpikeDetector& operator=(const SpikeDetector&) = default;
+  SpikeDetector& operator=(SpikeDetector&&) = default;
 
-std::string Device::SuffixIfNotEmpty(const std::string& suffix) {
-  return suffix != "" ? "/" + suffix : "";
-}
-
-void Device::SetTime(const std::string& time) { time_ = time; }
-
-void Device::SetTime(double time) { SetTime(utility::to_string(time)); }
+  std::string GetPath() const override;
+};
 
 }  // namespace layout
 }  // namespace nesci
+
+#endif  // LAYOUT_INCLUDE_NESCI_LAYOUT_SPIKE_DETECTOR_HPP_

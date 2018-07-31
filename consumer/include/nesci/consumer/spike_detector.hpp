@@ -19,32 +19,28 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "pyconsumer.hpp"
-#include <string>
-#include "nesci/consumer/arbor_multimeter.hpp"
-#include "nesci/consumer/device.hpp"
-#include "nesci/consumer/multimeter.hpp"
-#include "nesci/consumer/nest_multimeter.hpp"
+#ifndef CONSUMER_INCLUDE_NESCI_CONSUMER_SPIKE_DETECTOR_HPP_
+#define CONSUMER_INCLUDE_NESCI_CONSUMER_SPIKE_DETECTOR_HPP_
 
-namespace pynesci {
+#include <string>
+#include <vector>
+#include "nesci/consumer/device.hpp"
+
+namespace nesci {
 namespace consumer {
 
-namespace {
-std::string Greet() { return "G'day!"; }
-}  // namespace
+class SpikeDetector : public nesci::consumer::Device {
+ public:
+  SpikeDetector() = delete;
+  explicit SpikeDetector(const std::string& name);
+  SpikeDetector(const SpikeDetector&) = default;
+  SpikeDetector(SpikeDetector&&) = default;
+  ~SpikeDetector() override = default;
 
-SUPPRESS_WARNINGS_BEGIN
-
-// cppcheck-suppress unusedFunction
-BOOST_PYTHON_MODULE(_pyconsumer) {
-  def("Greet", &Greet);
-  class_<conduit::Node>("Node");
-  expose<nesci::consumer::Device>();
-  expose<nesci::consumer::Multimeter>();
-  expose<nesci::consumer::NestMultimeter>();
-  expose<nesci::consumer::ArborMultimeter>();
-}
-SUPPRESS_WARNINGS_END
+  std::vector<std::uint64_t> GetNeuronIds(const std::string& time);
+};
 
 }  // namespace consumer
-}  // namespace pynesci
+}  // namespace nesci
+
+#endif  // CONSUMER_INCLUDE_NESCI_CONSUMER_SPIKE_DETECTOR_HPP_

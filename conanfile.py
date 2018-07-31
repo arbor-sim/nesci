@@ -33,7 +33,7 @@ class nesci(ConanFile):
 
     requires = (("catch/1.12.0@RWTH-VR/thirdparty"),
                 ("cpplint/e8ffd7c@RWTH-VR/thirdparty"),
-                ("cppcheck/1.82@RWTH-VR/thirdparty"),
+                ("cppcheck/1.84@RWTH-VR/thirdparty"),
                 ("conduit/0.3.1@RWTH-VR/thirdparty"),
                 ("boost_python/1.66.0@bincrafters/testing"))
     generators = "cmake"
@@ -86,5 +86,5 @@ class nesci(ConanFile):
         self.copy("*.dylib", dst="lib", keep_path=False, symlinks=True)
 
     def package_info(self):
-        self.cpp_info.libs = ["nesci_layout",
-                              "nesci_consumer", "nesci_producer"]
+        self.cpp_info.libs = ["nesci_consumer",
+                              "nesci_producer", "nesci_layout"]
