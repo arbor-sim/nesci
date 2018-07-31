@@ -1,5 +1,26 @@
 #!/usr/bin/env python
 
+# -------------------------------------------------------------------------------
+# nesci -- neural simulator conan interface
+#
+# Copyright (c) 2018 RWTH Aachen University, Germany,
+# Virtual Reality & Immersive Visualization Group.
+# -------------------------------------------------------------------------------
+#                                  License
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# -------------------------------------------------------------------------------
+
 import os
 import sys
 import subprocess
@@ -70,7 +91,12 @@ def main(argv):
               (operating_system, ', '.join(valid_compilers[operating_system])))
         sys.exit(-1)
 
-    if operating_system == 'Linux':
+    if operating_system == 'Windows':
+        path_list = os.environ['PATH'].split(';')
+        path_list.insert(0, 'C:\\Python27_64\\')
+        path_list.insert(1, 'C:\\Python27_64\\Scripts')
+        os.environ['PATH'] = ';'.join(path_list)
+    elif operating_system == 'Linux':
         os.environ['CC'] = 'gcc'
         os.environ['CXX'] = 'g++'
     elif operating_system == 'macOS' and compiler == 'gcc':
@@ -103,6 +129,20 @@ def main(argv):
         os.chdir('build')
 
         cmake_flags = ['..']
+
+        execute('pip', ['install', '--user', 'pytest'])
+
+        if operating_system == 'Windows':
+            pytest_dir = subprocess.Popen('pip show pytest', stdout=subprocess.PIPE).communicate()[
+                0].splitlines()[7].replace('Location: ', '')
+        elif operating_system == 'macOS':
+            pytest_dir = (
+                '/Users/gitlabci/Library/Python/2.7/lib/python/site-packages')
+        else:
+            pytest_dir = subprocess.Popen(
+                'which pytest', stdout=subprocess.PIPE, shell=True).communicate()[0][:-1]
+
+        os.environ['PY_TEST_DIR'] = pytest_dir
 
         if compiler == 'Visual Studio':
             cmake_flags.extend(['-G', 'Visual Studio %s %s Win64' %
