@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------------------
-# nesci -- neural simulator conan interface
+# nesci -- neuronal simulator conan interface
 #
 # Copyright (c) 2018 RWTH Aachen University, Germany,
 # Virtual Reality & Immersive Visualization Group.
