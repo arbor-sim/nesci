@@ -115,4 +115,7 @@ add_test_cppcheck(NAME "nesci-tests--cppcheck"
   SOURCES ${ALL_SOURCES}
   INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES}
 )
-  
+
+install(
+  FILES ${CMAKE_SOURCE_DIR}/cmake/nesci-config.cmake
+  DESTINATION lib/nesci/cmake)

@@ -31,11 +31,12 @@ generate_export_header(nesci_consumer
   EXPORT_FILE_NAME
   "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/consumer/export.hpp"
   )
-  
-target_include_directories(nesci_consumer
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-  PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
-  )
+
+target_include_directories(nesci_consumer PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 
 target_link_libraries(nesci_consumer
   PUBLIC nesci_layout
@@ -45,5 +46,19 @@ target_link_libraries(nesci_consumer
 target_compile_options(nesci_consumer
   PRIVATE -fPIC
   )
+
+install(
+  TARGETS nesci_consumer
+  EXPORT nesci_consumer
+  ARCHIVE DESTINATION lib
+  COMPONENT zmq)
+
+install(
+  EXPORT nesci_consumer
+  DESTINATION lib/nesci/cmake)
+
+install(
+  FILES ${PRODUCER_HEADERS} "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/consumer/export.hpp" "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/consumer/suppress_warnings.hpp"
+  DESTINATION "include/nesci/consumer")
 
 add_subdirectory(tests)
