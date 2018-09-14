@@ -21,7 +21,7 @@
 
 #include "consumer_tests/suppress_warnings.hpp"
 SUPPRESS_WARNINGS_BEGIN
-#include "catch/catch.hpp"
+#include "catch2/catch.hpp"
 SUPPRESS_WARNINGS_END
 #include "nesci/consumer/consumer.hpp"
 #include "nesci/layout/utility.hpp"

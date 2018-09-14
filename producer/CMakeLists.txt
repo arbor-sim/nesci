@@ -39,7 +39,7 @@ target_include_directories(nesci_producer
 
 target_link_libraries(nesci_producer
   PUBLIC nesci_layout
-  PUBLIC ${CONAN_OR_CMAKE_conduit}
+  PUBLIC ${conduit_target}
   )
 
 target_compile_options(nesci_producer

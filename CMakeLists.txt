@@ -23,7 +23,7 @@ cmake_minimum_required(VERSION 3.6.0)
 
 project(nesci)
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_STANDARD 14)
 
 if (MSVC)
@@ -48,13 +48,32 @@ include(get_target_include_directories)
 
 enable_testing()
 
-conan_or_find_package(catch REQUIRED)
-conan_or_find_package(conduit REQUIRED)
+conan_find_package(catch2_target Catch2)
+if(NOT catch2_target)
+  find_package(Catch2 REQUIRED)
+  set(catch2_target Catch2::Catch2)
+endif()
 
-conan_or_find_package(cpplint REQUIRED)
-include(cpplint)
+conan_find_package(conduit_target conduit)
+if(NOT conduit_target)
+  find_package(conduit REQUIRED)
+  set(conduit_target conduit)
+endif()
 
-conan_or_find_package(cppcheck REQUIRED)
+conan_find_package(cpplint_target cpplint)
+if (NOT cpplint_target)
+  find_package(cpplint QUIET)
+  if(cpplint_FOUND)
+    set(cpplint_target cpplint)
+  endif()
+endif()
+if (NOT cpplint_target)
+  message(WARNING "cpplint package not found: disabling cpplint tests")
+else()
+  include(cpplint)
+endif()
+
+conan_find_package(cppcheck_target cppcheck)
 include(cppcheck)
 
 find_package(PythonInterp REQUIRED)
@@ -63,7 +82,11 @@ find_package(PythonLibs REQUIRED)
 include(py.test)
 include(python_module)
 
-conan_or_find_package(boost_python REQUIRED)
+conan_find_package(boost_python_target boost_python)
+if (NOT boost_python_target)
+  find_package(Boost REQUIRED COMPONENTS python)
+  set(boost_python_target Boost::python)
+endif()
 
 add_subdirectory(testing)
 add_subdirectory(consumer)
@@ -74,10 +97,12 @@ add_subdirectory(pynesci)
 get_property(ALL_SOURCES GLOBAL PROPERTY RWTHVR_ALL_SOURCES)
 get_property(ALL_HEADERS GLOBAL PROPERTY RWTHVR_ALL_HEADERS)
 get_property(ALL_TARGETS GLOBAL PROPERTY RWTHVR_ALL_TARGETS)
-  
-add_test_cpplint(NAME "nesci-tests--cpplint"
-  ${ALL_SOURCES} ${ALL_HEADERS}
-)
+
+if (cpplint_target)
+  add_test_cpplint(NAME "nesci-tests--cpplint"
+    ${ALL_SOURCES} ${ALL_HEADERS}
+  )
+endif()
 
 foreach(TARGET ${ALL_TARGETS})
   message(${TARGET})
@@ -85,7 +110,7 @@ foreach(TARGET ${ALL_TARGETS})
   set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES};${TARGET_INCLUDE_DIRECTORIES})
 endforeach(TARGET ${ALL_TARGETS})
 list(REMOVE_DUPLICATES INCLUDE_DIRECTORIES)
-  
+
 add_test_cppcheck(NAME "nesci-tests--cppcheck"
   SOURCES ${ALL_SOURCES}
   INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES}

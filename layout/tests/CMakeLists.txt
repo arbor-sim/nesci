@@ -44,5 +44,5 @@ add_test(NAME layout_tests
 target_link_libraries(layout_tests
   PRIVATE nesci_layout
   PRIVATE testing
-  PRIVATE ${CONAN_OR_CMAKE_catch}
+  PRIVATE ${catch_target}
   )

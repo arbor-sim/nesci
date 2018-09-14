@@ -38,6 +38,6 @@ target_include_directories(testing
   )
 
 target_link_libraries(testing
-  PUBLIC ${CONAN_OR_CMAKE_conduit}
+  PUBLIC ${conduit_target}
   PUBLIC nesci_layout
   )
