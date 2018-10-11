@@ -31,19 +31,34 @@ generate_export_header(nesci_producer
   EXPORT_FILE_NAME
   "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/producer/export.hpp"
   )
-  
-target_include_directories(nesci_producer
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-  PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
-  )
+
+target_include_directories(nesci_producer PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 
 target_link_libraries(nesci_producer
   PUBLIC nesci_layout
-  PUBLIC ${CONAN_OR_CMAKE_conduit}
+  PUBLIC ${conduit_target}
   )
 
 target_compile_options(nesci_producer
   PRIVATE -fPIC
   )
+
+install(
+  TARGETS nesci_producer
+  EXPORT nesci_producer
+  ARCHIVE DESTINATION lib
+  COMPONENT zmq)
+
+install(
+  EXPORT nesci_producer
+  DESTINATION lib/nesci/cmake)
+
+install(
+  FILES ${PRODUCER_HEADERS} "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/producer/export.hpp" "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/producer/suppress_warnings.hpp"
+  DESTINATION "include/nesci/producer")
 
 add_subdirectory(tests)

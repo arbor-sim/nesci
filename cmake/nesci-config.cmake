@@ -19,30 +19,23 @@
 # limitations under the License.
 #-------------------------------------------------------------------------------
 
-file(GLOB LAYOUT_TEST_SOURCES *.cpp)
-file(GLOB LAYOUT_TEST_HEADERS *.hpp)
+get_filename_component(CURRENT_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 
-rwthvr_add_executable(
-  NAME layout_tests
-  SOURCES ${LAYOUT_TEST_SOURCES} 
-  HEADERS ${LAYOUT_TEST_HEADERS}
-  SUPPRESS_WARNINGS_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/layout_tests/suppress_warnings.hpp"
-  )
-  
-target_include_directories(layout_tests
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-  PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
-  )
-set(LAYOUT_TESTS_ARGUMENTS ""
-  CACHE STRING
-  "Arguments, e.g., tags, that are passed to layout_tests executable."
-  )
-add_test(NAME layout_tests
-  COMMAND layout_tests ${LAYOUT_TESTS_ARGUMENTS}
-  )
+foreach(COMPONENT ${nesci_FIND_COMPONENTS})
+    set(COMPONENT_CONFIG_FILE ${CURRENT_DIR}/nesci_${COMPONENT}.cmake)
 
-target_link_libraries(layout_tests
-  PRIVATE nesci_layout
-  PRIVATE testing
-  PRIVATE ${catch_target}
-  )
+    if(EXISTS ${COMPONENT_CONFIG_FILE})
+        include(${COMPONENT_CONFIG_FILE})
+        if(NOT ${nesci_FIND_QUIETLY})
+            message(STATUS "Found nesci component: ${COMPONENT}")
+        endif(NOT ${nesci_FIND_QUIETLY})
+    else()
+        if(nesci_FIND_REQUIRED_${COMPONENT})
+            set(nesci_FOUND FALSE)
+        endif()
+
+        if(NOT ${nesci_FIND_QUIETLY})
+            message(STATUS "Cannot find nesci component: ${COMPONENT}")
+        endif(NOT ${nesci_FIND_QUIETLY})
+    endif()
+endforeach()

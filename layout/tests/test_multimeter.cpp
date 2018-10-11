@@ -21,7 +21,7 @@
 
 #include <string>
 
-#include "catch/catch.hpp"
+#include "catch2/catch.hpp"
 
 #include "nesci/layout/multimeter.hpp"
 #include "nesci/testing/data.hpp"

@@ -31,14 +31,29 @@ generate_export_header(nesci_layout
   EXPORT_FILE_NAME
   "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/layout/export.hpp"
   )
-  
-target_include_directories(nesci_layout
-  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-  PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
-  )
+
+target_include_directories(nesci_layout PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 
 target_compile_options(nesci_layout
   PRIVATE -fPIC
   )
+
+install(
+  TARGETS nesci_layout
+  EXPORT nesci_layout
+  ARCHIVE DESTINATION lib
+  COMPONENT zmq)
+
+install(
+  EXPORT nesci_layout
+  DESTINATION lib/nesci/cmake)
+
+install(
+  FILES ${LAYOUT_HEADERS} "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/layout/export.hpp" "${CMAKE_CURRENT_BINARY_DIR}/include/nesci/layout/suppress_warnings.hpp"
+  DESTINATION "include/nesci/layout")
 
 add_subdirectory(tests)

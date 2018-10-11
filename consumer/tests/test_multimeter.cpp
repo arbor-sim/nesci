@@ -19,7 +19,7 @@
 // limitations under the License.
 //------------------------------------------------------------------------------
 
-#include "catch/catch.hpp"
+#include "catch2/catch.hpp"
 
 #include "nesci/consumer/multimeter.hpp"
 #include "nesci/testing/data.hpp"

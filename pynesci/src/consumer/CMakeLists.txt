@@ -35,6 +35,6 @@ add_python_module(
   PYTHON_SOURCES ${PYTHON_SOURCES}
   INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}
   LINK_LIBRARIES nesci_consumer
-    ${CONAN_OR_CMAKE_boost_python}
+    ${boost_python_target}
   OUTPUT_DIRECTORY ${PYCONSUMER_OUTPUT_DIR}
   )

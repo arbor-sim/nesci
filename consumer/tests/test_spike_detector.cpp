@@ -21,7 +21,7 @@
 
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "catch2/catch.hpp"
 
 #include "conduit/conduit_node.hpp"
 
