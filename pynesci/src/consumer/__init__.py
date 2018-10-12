@@ -19,4 +19,4 @@
 # limitations under the License.
 # -------------------------------------------------------------------------------
 
-from _pyconsumer import *
+from ._pyconsumer import *

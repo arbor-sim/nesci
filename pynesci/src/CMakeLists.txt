@@ -38,4 +38,7 @@ add_python_module(
   OUTPUT_DIRECTORY ${PYNESCI_OUTPUT_DIR}
   )
 
+include(install_python_module_files)
+install_python_module_files(${PYNESCI_OUTPUT_DIR})
+
 add_subdirectory(consumer)

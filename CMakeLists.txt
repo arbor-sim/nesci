@@ -84,8 +84,8 @@ include(python_module)
 
 conan_find_package(boost_python_target boost_python)
 if (NOT boost_python_target)
-  find_package(Boost REQUIRED COMPONENTS python)
-  set(boost_python_target Boost::python)
+  find_package(Boost REQUIRED COMPONENTS python37)
+  set(boost_python_target Boost::python37)
 endif()
 
 add_subdirectory(testing)

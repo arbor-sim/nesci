@@ -19,5 +19,5 @@
 # limitations under the License.
 # -------------------------------------------------------------------------------
 
-from _pynesci import *
-from consumer import *
+from ._pynesci import *
+from .consumer import *
